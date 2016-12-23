@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="DynatraceLoadRunner:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f280ffc3-fb6b-4bb5-a774-b2b6f8d00ca5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/DirectoryBrowser.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/FilterType.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileList.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileState.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFile.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/ScriptFile.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,18 +38,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="43" lean-forward="false" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CFilePatcher.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3264">
-              <caret line="201" column="43" lean-forward="false" selection-start-line="201" selection-start-column="34" selection-end-line="201" selection-end-column="43" />
+            <state relative-caret-position="228">
+              <caret line="40" column="36" lean-forward="false" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -43,10 +47,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CFilePatcher.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="339">
+              <caret line="55" column="31" lean-forward="false" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
+            <state relative-caret-position="8">
               <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
             </state>
@@ -66,7 +82,7 @@
       <file leaf-file-name="LoadrunnerScriptConverterTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
+            <state relative-caret-position="285">
               <caret line="100" column="30" lean-forward="false" selection-start-line="100" selection-start-column="30" selection-end-line="100" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -78,8 +94,8 @@
       <file leaf-file-name="LoadRunnerConverter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="50" column="41" lean-forward="false" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+            <state relative-caret-position="2754">
+              <caret line="162" column="7" lean-forward="false" selection-start-line="162" selection-start-column="7" selection-end-line="162" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -87,24 +103,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FilterType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/FilterType.java">
+      <file leaf-file-name="ScriptFile.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/ScriptFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="12" lean-forward="false" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+            <state relative-caret-position="68">
+              <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DirectoryBrowser.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/DirectoryBrowser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="30" column="74" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="74" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -137,13 +141,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/BaseConstants.java" />
-        <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java" />
-        <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFile.java" />
         <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileList.java" />
         <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java" />
         <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/Constants.java" />
         <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFile.java" />
         <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java" />
+        <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java" />
+        <option value="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/ScriptFile.java" />
       </list>
     </option>
   </component>
@@ -188,7 +193,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="Downloaded.Files.Path.Enabled" value="true" />
@@ -533,7 +538,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25264272" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25264272" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -558,14 +563,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java</url>
-          <line>55</line>
-          <properties />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
@@ -579,7 +576,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="34" column="43" lean-forward="true" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -641,6 +640,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -651,15 +658,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -673,10 +674,28 @@
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/ui/table/IScriptFileViewer.java" />
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/ui/table/ScriptTableContentProvider.java" />
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/ui/Constants.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileState.java">
+    <entry file="file://$PROJECT_DIR$/testresources.properties" />
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/BaseConstants.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFileScanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        <state relative-caret-position="170">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DynatraceLoadRunner.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="9" lean-forward="false" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/DirectoryBrowser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="30" column="74" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="74" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -684,6 +703,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -695,41 +715,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testresources.properties" />
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/BaseConstants.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFileScanner.java">
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="119">
+          <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DynatraceLoadRunner.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="9" lean-forward="false" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
+        <state relative-caret-position="285">
           <caret line="100" column="30" lean-forward="false" selection-start-line="100" selection-start-column="30" selection-end-line="100" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -739,16 +735,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="43" lean-forward="false" selection-start-line="34" selection-start-column="43" selection-end-line="34" selection-end-column="43" />
-          <folding />
+        <state relative-caret-position="228">
+          <caret line="40" column="36" lean-forward="false" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="50" column="41" lean-forward="false" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+        <state relative-caret-position="2754">
+          <caret line="162" column="7" lean-forward="false" selection-start-line="162" selection-start-column="7" selection-end-line="162" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -757,21 +755,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3264">
-          <caret line="201" column="43" lean-forward="false" selection-start-line="201" selection-start-column="34" selection-end-line="201" selection-end-column="43" />
+        <state relative-caret-position="339">
+          <caret line="55" column="31" lean-forward="false" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/DirectoryBrowser.java">
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/ScriptFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="30" column="74" lean-forward="false" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="74" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -781,10 +785,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>DynatraceLoadRunner:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>

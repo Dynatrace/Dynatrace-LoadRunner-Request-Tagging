@@ -15,7 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.dynatrace.loadrunner.data.ScriptFile;
+import com.dynatrace.loadrunner.logic.ScriptFile;
 import com.dynatrace.loadrunner.logic.LoadRunnerConverter;
 
 /**

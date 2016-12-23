@@ -1,6 +1,6 @@
 package com.dynatrace.loadrunner;
 
-import com.dynatrace.loadrunner.data.ScriptFile;
+import com.dynatrace.loadrunner.logic.ScriptFile;
 import com.dynatrace.loadrunner.logic.LoadRunnerConverter;
 
 import java.io.File;

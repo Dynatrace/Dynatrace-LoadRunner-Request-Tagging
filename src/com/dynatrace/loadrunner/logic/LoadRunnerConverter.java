@@ -9,9 +9,6 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import com.dynatrace.loadrunner.data.ScriptFile;
-import com.dynatrace.loadrunner.data.ScriptFileState;
-
 /**
  *
  * @author ardeshir.arfaian
@@ -133,7 +130,6 @@ public class LoadRunnerConverter {
 		try {
 			File sourceFile = scriptFile.getFile();
 			File targetFile = new File(sourceFile.getAbsolutePath()+".tmp");
-			scriptFile.setState(ScriptFileState.Running);
 			try {
 				if (mode)
 				{
@@ -150,11 +146,9 @@ public class LoadRunnerConverter {
 
 			if (success)
 				replaceOriginalFile(sourceFile, targetFile);
-			scriptFile.setState(ScriptFileState.Handled);
 
 		} catch (IOException e) {
 			System.out.println("Error: " + scriptFile.getFileName() + " " + e.getMessage());
-			scriptFile.setState(ScriptFileState.Error);
 		}
 	}
 

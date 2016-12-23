@@ -8,9 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedList;
 
-import com.dynatrace.loadrunner.data.ScriptFile;
-import com.dynatrace.loadrunner.data.ScriptFileState;
-
 public class CFilePatcher {
 	private static final String DYNATRACE_HEADER_REPLACING_PATTERN = Constants.ADD_HEADER_FUNCTION+"\\(\"\\S*\"\\);$";
 	private static final String LR_END_TRANSACTION = "lr_end_transaction";
@@ -50,11 +47,8 @@ public class CFilePatcher {
 			writer=new BufferedWriter(new FileWriter(targetFile));
 			scanner=new CFileScanner(sourceFile);
 			scanner.init();
-			scriptFile.setState(ScriptFileState.Running);
 			parseFile();
-			scriptFile.setState(ScriptFileState.Handled);
 		} catch (IOException e) {
-			scriptFile.setState(ScriptFileState.Error);
 			throw e;
 		} 
 		finally{
