@@ -6,18 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f280ffc3-fb6b-4bb5-a774-b2b6f8d00ca5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/DirectoryBrowser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/FilterType.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileList.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFileState.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/data/ScriptFile.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/ScriptFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/LoadrunnerScriptConverterTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/CFilePatcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java" afterPath="$PROJECT_DIR$/src/com/dynatrace/loadrunner/logic/LoadRunnerConverter.java" />
-    </list>
+    <list default="true" id="f280ffc3-fb6b-4bb5-a774-b2b6f8d00ca5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
