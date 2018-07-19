@@ -7,45 +7,37 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 
-public class CFilePatcher {
-	private static final String DYNATRACE_HEADER_REPLACING_PATTERN = Constants.ADD_HEADER_FUNCTION_TEST+"\\s*\\(\\s*([\"']).*\\1\\s*\\);";
-	private static final String LR_END_TRANSACTION = "lr_end_transaction";
-	private static final String LR_START_TRANSACTION = "lr_start_transaction";
+public class JsFilePatcher {
+	
+	private static final String DYNATRACE_HEADER_REPLACING_PATTERN = Constants.ADD_HEADER_FUNCTION_TEST+"\\(\".*\"\\);";
+	private static final String LR_END_TRANSACTION = "lr.endTransaction";
+	private static final String LR_START_TRANSACTION = "lr.startTransaction";
 	private static final char EOF = (char) -1;
 
 	private File sourceFile;
 	private File targetFile;
 	private BufferedWriter writer;
-	private CFileScanner scanner;
+	private JsFileScanner scanner;
 
 	private LinkedList<String> transactionNames;
 	private boolean insertCalls;
 	private String scriptName;
-
-	public CFilePatcher(File sourceFile, File targetFile, ScriptFile scriptFile)
+	
+	public JsFilePatcher(File sourceFile, File targetFile, ScriptFile scriptFile)
 	{
 		writer=null;
 		transactionNames=new LinkedList<String>();
 		this.targetFile=targetFile;
 		this.sourceFile=sourceFile;
 	}
-
-	/**
-	 * Parses the sourceFile and writes it to targetFile.
-	 *
-	 * @param insertCalls if true is passed, it will add calls to the dynaTraceAddHeader method,
-	 * 		if false is passed, it will remove those calls
-	 * @throws IOException
-	 * @author simon.schatka
-	 */
+	
 	public void generateFile(boolean insertCalls,String scriptName) throws IOException
 	{
 		try {
 			this.insertCalls=insertCalls;
 			this.scriptName = scriptName;
-	
 			writer=new BufferedWriter(new FileWriter(targetFile));
-			scanner=new CFileScanner(sourceFile);
+			scanner=new JsFileScanner(sourceFile);
 			scanner.init();
 			parseFile();
 		} catch (IOException e) {
@@ -65,14 +57,7 @@ public class CFilePatcher {
 		while (scanner.readInstruction())
 			handleInstruction(scanner.getInstruction().toString(), scanner.getCommentedInstruction().toString());
 	}
-
-	/**
-	 * Inserts the addDynaTraceHeader Instruction and extracts the Transaction Name
-	 *
-	 * @param instruction
-	 * @param commentedInstruction
-	 * @throws IOException
-	 */
+	
 	private void handleInstruction(String instruction, String commentedInstruction) throws IOException {
 		String write=commentedInstruction;
 		if (write==null)
@@ -86,13 +71,13 @@ public class CFilePatcher {
 				transactionNames.remove(getFirstStringParameter(write));
 			else
 			{
-				//Does the current instruction contain one of the keywords?
-				for (String keyword: Constants.KEYWORDS)
+				for (String keyword: Constants.JS_KEYWORDS)
 				{
 					if (instruction.contains(keyword))
 					{
 						if (insertCalls)
 						{
+							
 							String pageContext=getFirstStringParameter(instruction);
 							write=insertMethodCall(keyword, write, pageContext);
 						}
@@ -102,7 +87,6 @@ public class CFilePatcher {
 			}
 			writer.write(write);
 		}
-		//Remove our Instructions to add headers and WhiteSpaces to retain the correct Code Format
 		else
 		{
 			writer.write(write.replaceAll(DYNATRACE_HEADER_REPLACING_PATTERN, ""));
@@ -110,42 +94,25 @@ public class CFilePatcher {
 		}
 	}
 
-	/**
-	 * Inserts a call to addDynaTraceHeader in front of the function call
-	 *
-	 * @param keyword
-	 * @param commentedInstruction
-	 * @param pageContext
-	 * @return a String containing comments, a call to addDynaTraceHeader and the real function call
-	 * @throws UnsupportedEncodingException
-	 */
 	private String insertMethodCall(String keyword, String commentedInstruction, String pageContext) throws UnsupportedEncodingException {
-		//We need to parse the Instruction again and find the last occurrence of the keyword,
-		//that is NOT in a comment
 		int insertPosition=0;
 		int keywordIndex=0;
 		char aktChar;
 		for (int i=0;i<commentedInstruction.length();i++)
 		{
 			aktChar=commentedInstruction.charAt(i);
-			//Found the next char of our keyword
 			if (aktChar==keyword.charAt(keywordIndex))
 			{
 				keywordIndex++;
-				//Found the keyword
 				if (keywordIndex==keyword.length())
 				{
 					insertPosition=i-keywordIndex+1;
 					break;
 				}
 			}
-			//next char of our keyword not found-->start over
 			else
 			{
 				keywordIndex=0;
-				//maybe the current char is the start of the keyword.
-				//Since all of our keywords are more than 1 chars long, we do not
-				//need to worry that we found our insertPosition
 				if (aktChar==keyword.charAt(keywordIndex))
 				{
 					keywordIndex++;
@@ -163,25 +130,20 @@ public class CFilePatcher {
 			}
 		}
 
-		//Split the String right in front of the Instruction
 		String start=commentedInstruction.substring(0, insertPosition);
 		String end=commentedInstruction.substring(insertPosition);
 
-		//String urlEncodedPageContext=URLEncoder.encode(pageContext, "UTF-8");
-
-		//Insert the call to the addDynaTraceHeader function right in front of the call-->
-		//no Comments between the call to our function and the call of the web_* function
-		String TSN = createTimerName();
 		String parameter="\"";
+		String TSN = createTimerName();
 		if(!TSN.isEmpty()) {
-			parameter+="TSN="+createTimerName()+";";
+			parameter+="TSN="+TSN+";";
 		}
 		if (!isClickAndScriptKeyword(keyword)) {
-			parameter+="PC=" + pageContext;
-			parameter+=";SI=LoadRunner";
+			parameter+="PC=" + pageContext+";";
+			parameter+="SI=LoadRunner;";
 			if(!scriptName.isEmpty()) {
-				parameter+=";LSN="+scriptName;
-			};
+				parameter+="LSN="+scriptName+";";
+			}
 		}
 		parameter+="\"";
 		String instruction=start+Constants.ADD_HEADER_FUNCTION_TEST+"("+parameter+");"+ Constants.CRLF_OS_INDEPENDENT+scanner.getIndention()+end;
@@ -191,7 +153,7 @@ public class CFilePatcher {
 
 	private boolean isClickAndScriptKeyword(String keyword)
 	{
-		for (String word: Constants.CLICK_AND_SCRIPT_KEYWORDS)
+		for (String word: Constants.JS_CLICK_AND_SCRIPT_KEYWORDS)
 		{
 			if (word.equals(keyword))
 				return true;
@@ -199,11 +161,6 @@ public class CFilePatcher {
 		return false;
 	}
 
-	/**
-	 * @return a string containing an appended list of all started instructions
-	 * @author simon.schatka
-	 * @throws UnsupportedEncodingException
-	 */
 	private String createTimerName() throws UnsupportedEncodingException
 	{
 		StringBuilder builder=new StringBuilder();
@@ -216,19 +173,8 @@ public class CFilePatcher {
 			builder.append(transactionName);
 		}
 		return builder.toString();
-		//return URLEncoder.encode(builder.toString(), "UTF-8");
 	}
 
-	/**
-	 *
-	 * Skips a line(if it contains \ at the end-->next line too)
-	 *
-	 * @param commentedInstruction
-	 * @param aktCh
-	 * @param i
-	 * @return the offset that indicates where the line ends
-	 * @author simon.schatka
-	 */
 	private int skipLine(String commentedInstruction, char aktCh, int i) {
 		char oldChar='/', olderChar, aktChar=aktCh;
 		int index=i;
@@ -243,14 +189,6 @@ public class CFilePatcher {
 		return index;
 	}
 
-	/**
-	 * Skips a Blockcomment
-	 *
-	 * @param commentedInstruction
-	 * @param i
-	 * @return the offset that indicates, where the blockcomment ends
-	 * @author simon.schatka
-	 */
 	private int skipBlockComment(String commentedInstruction, int i) {
 		char aktChar;
 		int index = i;
@@ -268,20 +206,16 @@ public class CFilePatcher {
 		} 
 		return index;
 	}
-		
-	/**
-	 * @param instruction
-	 * @return the first Parameter of an instruction(First word that is enclosed in "")
-	 */
+	
 	private String getFirstStringParameter(String instruction) {
 		StringBuilder builder=new StringBuilder();
-		int i=instruction.indexOf('"')+1;
-		if (i == 0)	//instruction.indexOf('"') is -1, no '"' found
+		int i=instruction.indexOf('\'')+1;
+		if (i == 0)
 			return "";
-		char ch=instruction.charAt(i++), old='"';
+		char ch=instruction.charAt(i++), old='\'';
 		while (i<instruction.length())
 		{
-			if (ch=='"' && old!='\\')
+			if (ch=='\'' && old!='\\')
 				break;
 			builder.append(ch);
 			old=ch;
@@ -289,15 +223,13 @@ public class CFilePatcher {
 		}
 		return builder.toString();
 	}
-
-	/**
-	 * @param instruction
-	 * @return Returns the instruction Parameter without a trailing EOF character
-	 */
+	
 	private String removeEOF(String instruction) {
 		String write=instruction;
 		if (instruction.length()>0 && instruction.charAt(instruction.length()-1)==EOF)
 			write=instruction.substring(0, instruction.length()-1);
 		return write;
 	}
+
+
 }

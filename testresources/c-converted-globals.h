@@ -7,31 +7,36 @@
 #include "web_api.h"
 #include "lrw_custom_body.h"
 
-void addDynaTraceHeader(char* header){
+void addDynatraceHeaderTest(char* header){
 	char* headerValue;
 	int headerValueLength;
 	int vuserid, scid;
 	char *groupid, *timestamp;
 	char* vuserstring=(char*) malloc(sizeof(char) * 10);
+	char* ltnString=(char*) malloc(sizeof(char) * 10);
 
-	web_save_timestamp_param("TimeStamp", LAST);
-	timestamp=lr_eval_string("{TimeStamp}");
-
+	if(lr_get_attrib_string("DynatraceLTN")!=NULL){
+		strcpy(ltnString,lr_get_attrib_string("DynatraceLTN"));
+	}
 	lr_whoami(&vuserid, &groupid, &scid);
 	itoa(vuserid,vuserstring,10);
 
-	headerValueLength = strlen(header) + 4 + strlen(vuserstring) + 4 + strlen(timestamp) + 1;
+	headerValueLength = strlen(header) + 4 + strlen(vuserstring) + 4 + strlen(ltnString) + 4;
 	headerValue = (char*) malloc(sizeof(char) * headerValueLength);
 	strcpy(headerValue, header);
+	if(lr_get_attrib_string("DynatraceLTN")!=NULL){
+		strcat(headerValue,";LTN=");
+		strcat(headerValue,ltnString);
+	}
 	strcat(headerValue,";VU=");
 	strcat(headerValue,vuserstring);
-	strcat(headerValue,";ID=");
-	strcat(headerValue,timestamp);
+	strcat(headerValue,";");
 
-	web_add_header("X-dynaTrace", headerValue);
+	web_add_header("X-dynaTrace-Test", headerValue);
 	free(headerValue);
 	free(vuserstring);
 }
+
 
 //--------------------------------------------------------------------
 // Global Variables
