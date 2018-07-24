@@ -25,10 +25,11 @@ void addDynatraceHeaderTest(char* header){
 	headerValue = (char*) malloc(sizeof(char) * headerValueLength);
 	strcpy(headerValue, header);
 	if(lr_get_attrib_string("DynatraceLTN")!=NULL){
-		strcat(headerValue,";LTN=");
+		strcat(headerValue,"LTN=");
 		strcat(headerValue,ltnString);
+		strcat(headerValue,";");
 	}
-	strcat(headerValue,";VU=");
+	strcat(headerValue,"VU=");
 	strcat(headerValue,vuserstring);
 	strcat(headerValue,";");
 

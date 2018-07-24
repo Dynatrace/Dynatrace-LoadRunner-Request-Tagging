@@ -11,7 +11,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536081459|1530534276697; DOMAIN=localhost");
 	
-	addDynatraceHeaderTest("PC=localhost:8079;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=localhost:8079;SI=LoadRunner;LSN=script name;");
 	web_url("localhost:8079", 
 		"URL=http://localhost:8079/", 
 		"Resource=0", 
@@ -55,7 +55,7 @@ Action()
 
 	web_set_sockets_option("SSL_VERSION", "2&3");
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js", 
 		"URL=http://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -65,7 +65,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_2;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_2", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -75,7 +75,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -88,7 +88,7 @@ Action()
 	web_add_header("Faces-Request", 
 		"partial/ajax");
 
-	addDynatraceHeaderTest("PC=orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280;SI=LoadRunner;LSN=script name;");
 	web_submit_data("orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280", 
 		"Action=http://localhost:8079/orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280", 
 		"Method=POST", 
@@ -130,7 +130,7 @@ Action()
 		"Name=javax.faces.partial.ajax", "Value=true", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -140,7 +140,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -154,7 +154,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536086774|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2F&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -171,7 +171,7 @@ Action()
 		"331%29%5Ep%20%20%20at%20onclick%20%28http%3A%2F%2Flocalhost%3A8079%2F%3A64%3A213%29%7C_stack_%7C-%7C1530534281460%7C1530534281460%7C-1%2C3%7C5%7C4837%7C_ts_%7C-%7C1530534281461%7C1530534281461%7C-1%2C3%7C6%7CC%5EpLogin%7C_useraction_%7C-%7C1530534281461%7C1530534281461%7C-1$PV=1$rId=RID_2418$rpId=1914199235$url=http%3A%2F%2Flocalhost%3A8079%2F$title=easyTravel%20-%20One%20step%20to%20happiness$visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN$fId=534276621_895$v=10150180628221724$time=1530534286774", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php;SI=LoadRunner;LSN=script name;");
 	web_url("like.php", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df190f22b0574fe9%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ffa68c3fb208807%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -183,7 +183,7 @@ Action()
 
 	/*Possible OAUTH authorization was detected. It is recommended to correlate the authorization parameters.*/
 
-	addDynatraceHeaderTest("PC=postmessageRelay;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -193,7 +193,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com", 
 		"URL=https://log.pinterest.com/?guid=9HPC4azgtdJ1&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2F&callback=PIN_1530534283557.f.callback[0]", 
 		"Resource=0", 
@@ -209,7 +209,7 @@ Action()
 	web_add_header("Origin", 
 		"https://platform.twitter.com");
 
-	addDynatraceHeaderTest("PC=settings;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=settings;SI=LoadRunner;LSN=script name;");
 	web_url("settings", 
 		"URL=https://syndication.twitter.com/settings", 
 		"Resource=0", 
@@ -222,7 +222,7 @@ Action()
 	web_add_header("Faces-Request", 
 		"partial/ajax");
 
-	addDynatraceHeaderTest("PC=orange.jsf;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange.jsf;SI=LoadRunner;LSN=script name;");
 	web_submit_data("orange.jsf", 
 		"Action=http://localhost:8079/orange.jsf", 
 		"Method=POST", 
@@ -262,7 +262,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536095351|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_2;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_2", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2F&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -286,7 +286,7 @@ Action()
 	web_add_auto_header("X-Requested-With", 
 		"XMLHttpRequest");
 
-	addDynatraceHeaderTest("PC=CalculateRecommendations;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=CalculateRecommendations;SI=LoadRunner;LSN=script name;");
 	web_custom_request("CalculateRecommendations", 
 		"URL=http://localhost:8079/CalculateRecommendations?_=1530534300070", 
 		"Method=GET", 
@@ -300,7 +300,7 @@ Action()
 
 	web_revert_auto_header("X-Requested-With");
 
-	addDynatraceHeaderTest("PC=CalculateRecommendations_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=CalculateRecommendations_2;SI=LoadRunner;LSN=script name;");
 	web_custom_request("CalculateRecommendations_2", 
 		"URL=http://localhost:8079/CalculateRecommendations?_=1530534300072", 
 		"Method=GET", 
@@ -316,7 +316,7 @@ Action()
 
 	web_add_cookie("dtSa=true%7CC%7C-1%7CBook%20Now%7C-%7C1530534301830%7C534276621_895%7Chttp%3A%2F%2Flocalhost%3A8079%2F%7CeasyTravel%20-%20One%20step%20to%20happiness%7C1530534295353%7C; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=BookNow;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=BookNow;SI=LoadRunner;LSN=script name;");
 	web_link("Book Now", 
 		"Text=Book Now", 
 		"Ordinal=1", 
@@ -329,7 +329,7 @@ Action()
 
 	web_add_cookie("dtLatC=37; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_3;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_3", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2F&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -355,7 +355,7 @@ Action()
 		"Url=/img/gradient/Verlauf_Grau_Button_1.png", "Referer=http://localhost:8079/orange-booking-review.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_2;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_2", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -365,7 +365,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_2;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_2", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -375,7 +375,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_2;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_2", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -387,7 +387,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.14202571753375087", "Referer=http://localhost:8079/orange-booking-review.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_3;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_3", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -397,7 +397,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_2;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_2", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -407,7 +407,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_2;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_2", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df316dfbb4fc305%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ffcc19db8c7ed06%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -417,7 +417,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=jot;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=jot;SI=LoadRunner;LSN=script name;");
 	web_submit_data("jot", 
 		"Action=https://syndication.twitter.com/i/jot", 
 		"Method=POST", 
@@ -432,7 +432,7 @@ Action()
 		"Name=l", "Value={\"widget_origin\":\"http://localhost:8079/orange-booking-review.jsf?journeyId=9449\",\"widget_frame\":null,\"duration_ms\":396.67223849993274,\"_category_\":\"tfw_client_event\",\"triggered_on\":1530534303102,\"dnt\":false,\"client_version\":\"910cbce:1530167310832\",\"format_version\":1,\"event_namespace\":{\"client\":\"tfw\",\"action\":\"render\",\"page\":\"page\",\"component\":\"performance\"}}", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com_2;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com_2", 
 		"URL=https://log.pinterest.com/?guid=iW6oinQMeQzY&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-review.jsf%3FjourneyId%3D9449&callback=PIN_1530534302668.f.callback[0]", 
 		"Resource=0", 
@@ -445,7 +445,7 @@ Action()
 
 	web_add_cookie("dtSa=true%7CC%7C-1%7CNext%7C-%7C1530534305045%7C534302214_201%7Chttp%3A%2F%2Flocalhost%3A8079%2Forange-booking-review.jsf%3FjourneyId%3D9449%7CeasyTravel%20-%20Booking%20-%20Your%20Journey%7C1530534295353%7C; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=orange-booking-payment.jsf;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange-booking-payment.jsf;SI=LoadRunner;LSN=script name;");
 	web_url("orange-booking-payment.jsf", 
 		"URL=http://localhost:8079/orange-booking-payment.jsf?journeyId=9449", 
 		"Resource=0", 
@@ -461,7 +461,7 @@ Action()
 
 	web_add_cookie("dtLatC=39; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_4;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_4", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-review.jsf%3FjourneyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -481,7 +481,7 @@ Action()
 		"Url=/img/booking/Booking_transaction_textbox_medium2_page_3.png", "Referer=http://localhost:8079/orange-booking-payment.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_3;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_3", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -491,7 +491,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_3;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_3", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -501,7 +501,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_3;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_3", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -513,7 +513,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.17254513468103805", "Referer=http://localhost:8079/orange-booking-payment.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_3;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_3", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -523,7 +523,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_4;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_4", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -533,7 +533,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_3;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_3", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df1715feb5ee6ba%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ff3ac65e10671c38%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -543,7 +543,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com_3;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com_3", 
 		"URL=https://log.pinterest.com/?guid=oT55CHQX324F&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-payment.jsf%3FjourneyId%3D9449&callback=PIN_1530534305917.f.callback[0]", 
 		"Resource=0", 
@@ -552,7 +552,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=jot_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=jot_2;SI=LoadRunner;LSN=script name;");
 	web_submit_data("jot_2", 
 		"Action=https://syndication.twitter.com/i/jot", 
 		"Method=POST", 
@@ -569,7 +569,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536108515|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_5;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_5", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-payment.jsf%3FjourneyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -589,7 +589,7 @@ Action()
 
 	web_add_cookie("dtLatC=1; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_6;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_6", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-payment.jsf%3FjourneyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -624,7 +624,7 @@ Action()
 	web_add_auto_header("Faces-Request", 
 		"partial/ajax");
 
-	addDynatraceHeaderTest("PC=orange-booking-payment.jsf_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange-booking-payment.jsf_2;SI=LoadRunner;LSN=script name;");
 	web_submit_data("orange-booking-payment.jsf_2", 
 		"Action=http://localhost:8079/orange-booking-payment.jsf", 
 		"Method=POST", 
@@ -673,7 +673,7 @@ Action()
 		"Url=/img/header3.jpg", "Referer=http://localhost:8079/orange-booking-payment.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=orange-booking-payment.jsf_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange-booking-payment.jsf_3;SI=LoadRunner;LSN=script name;");
 	web_submit_data("orange-booking-payment.jsf_3", 
 		"Action=http://localhost:8079/orange-booking-payment.jsf", 
 		"Method=POST", 
@@ -729,7 +729,7 @@ Action()
 
 	web_add_cookie("dtLatC=17; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=orange-booking-finish.jsf;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange-booking-finish.jsf;SI=LoadRunner;LSN=script name;");
 	web_url("orange-booking-finish.jsf", 
 		"URL=http://localhost:8079/orange-booking-finish.jsf?journeyId=9449", 
 		"Resource=0", 
@@ -742,7 +742,7 @@ Action()
 		"Url=/img/booking/stepindicator_4_active.png", "Referer=http://localhost:8079/orange-booking-finish.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_4;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_4", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -752,7 +752,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_4;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_4", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -762,7 +762,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_4;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_4", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -774,7 +774,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.5688087694051419", "Referer=http://localhost:8079/orange-booking-finish.jsf?journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_5;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_5", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -784,7 +784,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_4;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_4", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -794,7 +794,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_4;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_4", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Dfd9a51bbf694d4%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ff7fd594af1cd0c%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -804,7 +804,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=jot_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=jot_3;SI=LoadRunner;LSN=script name;");
 	web_submit_data("jot_3", 
 		"Action=https://syndication.twitter.com/i/jot", 
 		"Method=POST", 
@@ -819,7 +819,7 @@ Action()
 		"Name=l", "Value={\"widget_origin\":\"http://localhost:8079/orange-booking-finish.jsf?journeyId=9449\",\"widget_frame\":null,\"duration_ms\":256.30794153024794,\"_category_\":\"tfw_client_event\",\"triggered_on\":1530534325130,\"dnt\":false,\"client_version\":\"910cbce:1530167310832\",\"format_version\":1,\"event_namespace\":{\"client\":\"tfw\",\"action\":\"render\",\"page\":\"page\",\"component\":\"performance\"}}", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com_4;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com_4", 
 		"URL=https://log.pinterest.com/?guid=sirnaakLrme1&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3FjourneyId%3D9449&callback=PIN_1530534324843.f.callback[0]", 
 		"Resource=0", 
@@ -830,7 +830,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536127564|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_7;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_7", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3FjourneyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -849,7 +849,7 @@ Action()
 	web_add_header("Faces-Request", 
 		"partial/ajax");
 
-	addDynatraceHeaderTest("PC=orange-booking-finish.jsf_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange-booking-finish.jsf_2;SI=LoadRunner;LSN=script name;");
 	web_submit_data("orange-booking-finish.jsf_2", 
 		"Action=http://localhost:8079/orange-booking-finish.jsf", 
 		"Method=POST", 
@@ -896,7 +896,7 @@ Action()
 
 	web_add_cookie("dtLatC=2; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_8;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_8", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3FjourneyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -931,7 +931,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536129545|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=orange-booking-finish.jsf_3;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange-booking-finish.jsf_3;SI=LoadRunner;LSN=script name;");
 	web_url("orange-booking-finish.jsf_3", 
 		"URL=http://localhost:8079/orange-booking-finish.jsf?success=1&journeyId=9449", 
 		"Resource=0", 
@@ -943,7 +943,7 @@ Action()
 		"Url=/img/gradient/Verlauf_Orange_Button_2.png", "Referer=http://localhost:8079/orange-booking-finish.jsf?success=1&journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_5;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_5", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -953,7 +953,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_5;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_5", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -963,7 +963,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_5;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_5", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -975,7 +975,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.034845580390163", "Referer=http://localhost:8079/orange-booking-finish.jsf?success=1&journeyId=9449", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_6;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_6", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -985,7 +985,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_5;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_5", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -995,7 +995,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_5;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_5", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df3ecbbcb781a1d8%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ff3db9a69f04b4b%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -1005,7 +1005,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=jot_4;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=jot_4;SI=LoadRunner;LSN=script name;");
 	web_submit_data("jot_4", 
 		"Action=https://syndication.twitter.com/i/jot", 
 		"Method=POST", 
@@ -1020,7 +1020,7 @@ Action()
 		"Name=l", "Value={\"widget_origin\":\"http://localhost:8079/orange-booking-finish.jsf?success=1&journeyId=9449\",\"widget_frame\":null,\"duration_ms\":329.4270629159096,\"_category_\":\"tfw_client_event\",\"triggered_on\":1530534330338,\"dnt\":false,\"client_version\":\"910cbce:1530167310832\",\"format_version\":1,\"event_namespace\":{\"client\":\"tfw\",\"action\":\"render\",\"page\":\"page\",\"component\":\"performance\"}}", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com_5;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com_5", 
 		"URL=https://log.pinterest.com/?guid=uS1fyx8kc1ZY&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3Fsuccess%3D1%26journeyId%3D9449&callback=PIN_1530534329988.f.callback[0]", 
 		"Resource=0", 
@@ -1031,7 +1031,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536132575|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_9;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_9;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_9", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3Fsuccess%3D1%26journeyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -1051,7 +1051,7 @@ Action()
 
 	web_add_cookie("dtSa=true%7CC%7C-1%7CNew%20Search%7C-%7C1530534333959%7C534329542_11%7Chttp%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3Fsuccess%3D1%26journeyId%3D9449%7CeasyTravel%20-%20Booking%20-%20Finish%7C1530534332576%7C; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=orange.jsf_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=orange.jsf_2;SI=LoadRunner;LSN=script name;");
 	web_url("orange.jsf_2", 
 		"URL=http://localhost:8079/orange.jsf", 
 		"Resource=0", 
@@ -1063,7 +1063,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.3874888186402181", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=rb_1_10;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_10;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_10", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange-booking-finish.jsf%3Fsuccess%3D1%26journeyId%3D9449&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -1094,7 +1094,7 @@ Action()
 		"=10150180628221724$vID=1530534276673RGLPOKT459A1LMBFO13616TBAI7S5Q2Q$time=1530534334011", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_6;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_6", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -1104,7 +1104,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_6;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_6", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -1114,7 +1114,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_6;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_6", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -1124,7 +1124,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_6;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_6", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -1134,7 +1134,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_7;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_7", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -1144,7 +1144,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_6;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_6", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df38bb36ed573204%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ff3153c0432816b%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -1154,7 +1154,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com_6;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com_6", 
 		"URL=https://log.pinterest.com/?guid=hZDcZ7TYKvsQ&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2Forange.jsf&callback=PIN_1530534334961.f.callback[0]", 
 		"Resource=0", 
@@ -1171,7 +1171,7 @@ Action()
 
 	web_add_cookie("dtLatC=38; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=j_invalidate_session;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=j_invalidate_session;SI=LoadRunner;LSN=script name;");
 	web_url("j_invalidate_session", 
 		"URL=http://localhost:8079/j_invalidate_session", 
 		"Resource=0", 
@@ -1183,7 +1183,7 @@ Action()
 
 	web_add_cookie("JSESSIONID=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_11;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_11;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_11", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Forange.jsf&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -1197,7 +1197,7 @@ Action()
 		"a0b1530534334015e45f45g45h45i45k76l79m81n79o554p554q606$V=3968|f$S=501$fd=j1.8.1^so1.7^six$url=http%3A%2F%2Flocalhost%3A8079%2Forange.jsf$title=easyTravel%20-%20One%20step%20to%20happiness$vd=5511$isUnload=true$latC=38$visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN$fId=534334382_303$v=10150180628221724$vID=1530534276673RGLPOKT459A1LMBFO13616TBAI7S5Q2Q$time=1530534338088", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=jot_5;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=jot_5;SI=LoadRunner;LSN=script name;");
 	web_submit_data("jot_5", 
 		"Action=https://syndication.twitter.com/i/jot", 
 		"Method=POST", 
@@ -1212,7 +1212,7 @@ Action()
 		"Name=l", "Value={\"widget_origin\":\"http://localhost:8079/orange.jsf\",\"widget_frame\":null,\"duration_ms\":209.37995274728064,\"_category_\":\"tfw_client_event\",\"triggered_on\":1530534335137,\"dnt\":false,\"client_version\":\"910cbce:1530167310832\",\"format_version\":1,\"event_namespace\":{\"client\":\"tfw\",\"action\":\"render\",\"page\":\"page\",\"component\":\"performance\"}}", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=j_invalidate_session_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=j_invalidate_session_2;SI=LoadRunner;LSN=script name;");
 	web_url("j_invalidate_session_2", 
 		"URL=http://localhost:8079/j_invalidate_session", 
 		"Resource=0", 
@@ -1224,7 +1224,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.0728040569722922", "Referer=http://localhost:8079/logout.jsf", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_7;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_7", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -1234,7 +1234,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_7;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_7", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -1244,7 +1244,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_7;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_7", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -1260,7 +1260,7 @@ Action()
 
 	web_add_cookie("dtLatC=53; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1_12;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_12;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_12", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Flogout.jsf&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -1273,7 +1273,7 @@ Action()
 		"Body=$a=1%7C2%7Cvisit%20end%7C_endVisit_%7C-%7C1530534339057%7C1530534339057%7C-1$rId=RID_-838773383$rpId=-1669656246$fd=j1.8.1^so1.7^six$url=http%3A%2F%2Flocalhost%3A8079%2Flogout.jsf$title=easyTravel%20-%20Logout$vd=6483$latC=53$visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN$fId=534338958_59$v=10150180628221724$vID=1530534276673RGLPOKT459A1LMBFO13616TBAI7S5Q2Q$time=1530534339060", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_7;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_7", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -1283,7 +1283,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_8;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_8", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -1293,7 +1293,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_7;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_7", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Dfd1598f6287bf5%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ffde7b793e2cfe9%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -1303,7 +1303,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=jot_6;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=jot_6;SI=LoadRunner;LSN=script name;");
 	web_submit_data("jot_6", 
 		"Action=https://syndication.twitter.com/i/jot", 
 		"Method=POST", 
@@ -1318,7 +1318,7 @@ Action()
 		"Name=l", "Value={\"widget_origin\":\"http://localhost:8079/logout.jsf\",\"widget_frame\":null,\"duration_ms\":204.81889926309827,\"_category_\":\"tfw_client_event\",\"triggered_on\":1530534339633,\"dnt\":false,\"client_version\":\"910cbce:1530167310832\",\"format_version\":1,\"event_namespace\":{\"client\":\"tfw\",\"action\":\"render\",\"page\":\"page\",\"component\":\"performance\"}}", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=log.pinterest.com_7;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=log.pinterest.com_7;SI=LoadRunner;LSN=script name;");
 	web_url("log.pinterest.com_7", 
 		"URL=https://log.pinterest.com/?guid=yKy0HPdLED1V&tv=2018050702&type=pidget&sub=pl&button_count=1&follow_count=0&pin_count=0&profile_count=0&board_count=0&section_count=0&lang=pl&via=http%3A%2F%2Flocalhost%3A8079%2Flogout.jsf&callback=PIN_1530534339412.f.callback[0]", 
 		"Resource=0", 
@@ -1333,7 +1333,7 @@ Action()
 
 	web_add_cookie("dtSa=true%7CC%7C-1%7CClick%20here%20to%20return%20to%20the%20home%20page.%7C-%7C1530534341895%7C534338958_59%7Chttp%3A%2F%2Flocalhost%3A8079%2Flogout.jsf%7CeasyTravel%20-%20Logout%7C1530534339061%7C; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=localhost:8079_2;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=localhost:8079_2;SI=LoadRunner;LSN=script name;");
 	web_url("localhost:8079_2", 
 		"URL=http://localhost:8079/", 
 		"Resource=0", 
@@ -1345,7 +1345,7 @@ Action()
 		"Url=http://assets.pinterest.com/js/pinit_main.js?0.08245911620938023", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=rb_1_13;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=rb_1_13;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1_13", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F%7CRUM%2BDefault%2BApplication%7C1&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2Flogout.jsf&visitID=IFEDHEFBKIJNPMBFAJCMEPMMHECJNIBN", 
 		"Method=POST", 
@@ -1359,7 +1359,7 @@ Action()
 		"a0b1530534338242c50d92e92f92g92h92i92k92l92m94n92o889p889q938r2194s2195t2197$V=1259|c$S=862$url=http%3A%2F%2Flocalhost%3A8079%2Flogout.jsf$title=easyTravel%20-%20Logout$vd=2884$isUnload=true$latC=53$visitID=IFEDHEFBKIJNPMBFAJCMEPMMHECJNIBN$fId=534338958_59$v=10150180628221724$vID=1530534276673RGLPOKT459A1LMBFO13616TBAI7S5Q2Q$time=1530534341947", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_8;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html_8", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -1369,7 +1369,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=fastbutton_8;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton_8", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -1379,7 +1379,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=postmessageRelay_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=postmessageRelay_8;SI=LoadRunner;LSN=script name;");
 	web_url("postmessageRelay_8", 
 		"URL=https://accounts.google.com/o/oauth2/postmessageRelay?parent=http%3A%2F%2Flocalhost%3A8079&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -1389,7 +1389,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_8;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html_8", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -1399,7 +1399,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_9;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_9;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_9", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -1409,7 +1409,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php_8;SI=LoadRunner;LSN=script name");
+	addDynatraceHeaderTest("PC=like.php_8;SI=LoadRunner;LSN=script name;");
 	web_url("like.php_8", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df396528c7d57984%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ff853dcf6ad4ac4%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 

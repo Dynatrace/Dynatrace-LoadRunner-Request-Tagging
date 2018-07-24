@@ -18,73 +18,72 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import com.dynatrace.loadrunner.logic.LoadRunnerConverter;
+import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
-public class LoadRunnerUnitTests {
-	
+public class LoadRunnerUnitTest {
+
 	@Rule
 	public TemporaryFolder tempFolderRule = new TemporaryFolder();
-	
+
 	private Path cHeaderFilePath;
 	private Path cHeaderFileOriginalPath;
 	private Path cActionFilePath;
 	private Path cActionFileOriginalPath;
-	
+
 	@Before
 	public void setup() {
-		cHeaderFilePath = Paths.get("testresources", "c-converted-globals.h");
-		cHeaderFileOriginalPath = Paths.get("testresources", "c-unconverted-globals.h");
-		cActionFilePath = Paths.get("testresources", "c-converted-action.c");
-		cActionFileOriginalPath = Paths.get("testresources", "c-unconverted-action.c");
-	}	
+		cHeaderFilePath = Paths.get("src","test","resources", "c-converted-globals.h");
+		cHeaderFileOriginalPath = Paths.get("src","test","resources", "c-unconverted-globals.h");
+		cActionFilePath = Paths.get("src","test","resources", "c-converted-action.c");
+		cActionFileOriginalPath = Paths.get("src","test","resources", "c-unconverted-action.c");
+	}
 
 	@Test
-	public void insertingScriptRecurring() throws IOException {
+	public void test_insertingScriptRecurring() throws IOException {
 		File tempHeader = tempFolderRule.newFile("RecurringGlobals.h");
 		File tempAction = tempFolderRule.newFile("RecurringAction.c");
-		Files.copy(cHeaderFileOriginalPath, tempHeader.toPath(),StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(cActionFileOriginalPath, tempAction.toPath(),StandardCopyOption.REPLACE_EXISTING);
-		
+		Files.copy(cHeaderFileOriginalPath, tempHeader.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(cActionFileOriginalPath, tempAction.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
 		List<ScriptFile> headerList = new LinkedList<>();
 		List<ScriptFile> bodyList = new LinkedList<>();
 		headerList.add(new ScriptFile(tempHeader));
 		bodyList.add(new ScriptFile(tempAction));
-		
-		for(int repeat=0;repeat<10;repeat++) {
-			convertFiles(true,headerList,bodyList,true);
+
+		for (int repeat = 0; repeat < 10; repeat++) {
+			convertFiles(true, headerList, bodyList, true);
 		}
-		
-		assertCompareFiles(tempHeader,cHeaderFilePath.toFile());
-		assertCompareFiles(tempAction,cActionFilePath.toFile());
+
+		assertCompareFiles(tempHeader, cHeaderFilePath.toFile());
+		assertCompareFiles(tempAction, cActionFilePath.toFile());
 	}
-	
+
 	@Test
-	public void ConvertUnconvertScenario() throws IOException {
+	public void test_convertUnconvertScenario() throws IOException {
 		File tempHeader = tempFolderRule.newFile("globals.h");
 		File tempAction = tempFolderRule.newFile("Action.c");
-		Files.copy(cHeaderFileOriginalPath, tempHeader.toPath(),StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(cActionFileOriginalPath, tempAction.toPath(),StandardCopyOption.REPLACE_EXISTING);
-		
+		Files.copy(cHeaderFileOriginalPath, tempHeader.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(cActionFileOriginalPath, tempAction.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
 		List<ScriptFile> headerList = new LinkedList<>();
 		List<ScriptFile> bodyList = new LinkedList<>();
 		headerList.add(new ScriptFile(tempHeader));
 		bodyList.add(new ScriptFile(tempAction));
-		
-		convertFiles(true,headerList,bodyList,true);
-		assertCompareFiles(tempHeader,cHeaderFilePath.toFile());
-		assertCompareFiles(tempAction,cActionFilePath.toFile());
-		convertFiles(false,headerList,bodyList,true);
-		assertCompareFiles(tempHeader,cHeaderFileOriginalPath.toFile());
-		assertCompareFiles(tempAction,cActionFileOriginalPath.toFile());
+
+		convertFiles(true, headerList, bodyList, true);
+		assertCompareFiles(tempHeader, cHeaderFilePath.toFile());
+		assertCompareFiles(tempAction, cActionFilePath.toFile());
+		convertFiles(false, headerList, bodyList, true);
+		assertCompareFiles(tempHeader, cHeaderFileOriginalPath.toFile());
+		assertCompareFiles(tempAction, cActionFileOriginalPath.toFile());
 	}
-	
-	private void convertFiles(boolean mode,List<ScriptFile> header, List<ScriptFile> body, boolean cEngine) {
-		LoadRunnerConverter converter = new LoadRunnerConverter();
-		converter.configureConverter(mode, header, body,"script name", cEngine);
-		converter.convertFiles();
+
+	private void convertFiles(boolean mode, List<ScriptFile> header, List<ScriptFile> body, boolean cEngine) {
+		LRConverter converter = new LRConverter(mode, header, body, "script name", cEngine);
+		converter.convert();
 	}
-	
+
 	private void assertCompareFiles(File modifiedFile, File comparisonFile) throws IOException {
 		BufferedReader modifiedReader = new BufferedReader(new InputStreamReader(new FileInputStream(modifiedFile)));
 		BufferedReader comparisonReader = new BufferedReader(
@@ -94,7 +93,7 @@ public class LoadRunnerUnitTests {
 			while ((line = modifiedReader.readLine()) != null) {
 				String otherLine = comparisonReader.readLine();
 				if (otherLine == null) {
-					Assert.assertTrue("Files do not have the same amount of lines", false);
+					Assert.assertTrue("Compared file is empty", false);
 				}
 				Assert.assertEquals("Lines do not match", line, otherLine);
 			}
@@ -105,5 +104,5 @@ public class LoadRunnerUnitTests {
 			comparisonReader.close();
 		}
 	}
-	
+
 }

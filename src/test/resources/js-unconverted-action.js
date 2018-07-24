@@ -875,11 +875,6 @@ function Action()
 		}
 	);
 
-
-//web.url(
-
-
-
 	web.url(
 		{
 			name : 'orange-booking-finish.jsf', 
@@ -973,3 +968,4 @@ function Action()
 
 	return 0;
 }
+

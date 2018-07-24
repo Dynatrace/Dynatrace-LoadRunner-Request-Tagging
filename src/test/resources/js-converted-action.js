@@ -892,11 +892,6 @@ function Action()
 		}
 	);
 
-
-//web.url(
-
-
-
 	addDynatraceHeaderTest("TSN=book journey;PC=orange-booking-finish.jsf;SI=LoadRunner;LSN=script name;");
 	web.url(
 		{
@@ -993,3 +988,4 @@ function Action()
 
 	return 0;
 }
+

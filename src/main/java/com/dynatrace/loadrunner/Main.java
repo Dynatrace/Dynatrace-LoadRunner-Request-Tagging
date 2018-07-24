@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.dynatrace.loadrunner.logic.LoadRunnerConverter;
+import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
 public class Main {
@@ -18,23 +18,20 @@ public class Main {
 	private static boolean cEngine = true;
 	private static final String VERSION = "Dt-LoadRunner-request-tagging version 2.0.1";
 
-	public static void showUsages() {
-		
+	public static void printUsages() {
+
 		System.out.println("The LoadRunner Request Tagging tool uses the following syntax: \n"
-				+ "java -jar Dt-LoadRunner-request-tagging.jar <mode> <path parameter> <optional parameters> \n"
-				+ "\n"
+				+ "java -jar Dt-LoadRunner-request-tagging.jar <mode> <path parameter> <optional parameters> \n" + "\n"
 				+ "mode:\n"
 				+ "	insert: to add the Dynatrace HTTP header to the selected LoadRunner scripts, type insert\n"
 				+ "	delete: to remove all modifications previously made by the LoadRunner Request Tagging tool, type delete\n"
-				+ "path parameter:\n"
-				+ "	Pick either -path or -body and -header\n"
+				+ "path parameter:\n" + "	Pick either -path or -body and -header\n"
 				+ "	-path <filepath>: use to scan all directories and subdirectories for script file's and insert/delete script in them\n"
 				+ "	-body <files> -header <files>: use to select exactly in which header and body files should be processed, the file seperator is & between files\n"
 				+ "optional parameteer:\n"
 				+ "	-LSN <value>: sets load script name to value passed after -LSN. If skipped, the script name will be taken from *.usr file\n"
 				+ "	-c: sets C as scripting language used (default)\n"
-				+ "	-js: sets JavaScript as scripting language\n"
-				+ "	-help: prints usage\n");
+				+ "	-js: sets JavaScript as scripting language\n" + "	-help: prints usage\n");
 	}
 
 	public static void main(String[] args) {
@@ -42,25 +39,25 @@ public class Main {
 		System.out.println(VERSION + "\n");
 
 		if (args.length == 0) {
-			showUsages();
+			printUsages();
 			return;
 		}
 
 		CommandLineParser parser = new CommandLineParser(args);
 
-		if (parser.arguments.containsKey("-help") || parser.arguments.containsKey("help")) {
-			showUsages();
+		if (parser.arguments.containsKey("-help")) {
+			printUsages();
 			return;
 		}
 
 		for (Entry<String, String> pair : parser.arguments.entrySet()) {
 			String key = pair.getKey().toLowerCase();
 			if (key.equals("insert")) {
-				getMode(pair.getKey());
+				setMode(pair.getKey());
 			} else if (key.equals("delete")) {
-				getMode(pair.getKey());
+				setMode(pair.getKey());
 			} else if (key.equals("lsn")) {
-				getScriptName(pair.getValue());
+				setScriptName(pair.getValue());
 			} else if (key.equals("path")) {
 				try {
 					File directory = new File(pair.getValue());
@@ -84,20 +81,19 @@ public class Main {
 					headers.add(new ScriptFile(new File(str)));
 				}
 			} else {
-				showUsages();
+				printUsages();
 				System.out.println("\nUnknown parameter: " + key);
 				return;
 			}
 		}
-		if (scriptName.isEmpty() && parser.containsKey("path")) {
+		if (scriptName.isEmpty() && parser.validateKey("path")) {
 			getScriptNameFromPath(parser.arguments.get("path"));
 		}
-		checkEngine();
+		validateFiles();
 		boolean validated = validateParams();
 		if (validated) {
-			LoadRunnerConverter converter = new LoadRunnerConverter();
-			converter.configureConverter(mode, headers, body, scriptName, cEngine);
-			converter.convertFiles();
+			LRConverter converter = new LRConverter(mode, headers, body, scriptName, cEngine);
+			converter.convert();
 			System.out.println("conversion complete");
 		} else {
 			System.out.println("ERROR, conversion failed");
@@ -151,7 +147,7 @@ public class Main {
 			return "";
 	}
 
-	private static void getMode(String arg) {
+	private static void setMode(String arg) {
 		if (arg.equals("insert")) {
 			mode = true;
 		}
@@ -161,12 +157,12 @@ public class Main {
 		System.out.println("Setting mode to: " + arg);
 	}
 
-	private static void getScriptName(String name) {
+	private static void setScriptName(String name) {
 		scriptName = name;
 		System.out.println("Setting script name to: " + scriptName);
 	}
 
-	private static void checkEngine() {
+	private static void validateFiles() {
 		if (cEngine) {
 			Iterator<ScriptFile> iterator = headers.iterator();
 			while (iterator.hasNext()) {
