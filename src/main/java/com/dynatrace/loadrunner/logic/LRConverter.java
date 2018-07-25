@@ -189,7 +189,7 @@ public class LRConverter {
 			while ((line = reader.readLine()) != null) {
 				writer.write(line + Constants.CRLF_OS_INDEPENDENT);
 				if (++lineCount == lastIncludeLine)
-					writer.write(Constants.C_FUNCTION);
+					writer.write(FileReaderUtil.getClassResources(LRConverter.class, FileReaderUtil.C_FUNCTION));
 			}
 		} catch (FileNotFoundException e) {
 			throw new FileNotFoundException(Constants.COULD_NOT_FIND_THE_FILE);
@@ -218,7 +218,7 @@ public class LRConverter {
 			while ((line = reader.readLine()) != null) {
 				writer.write(line + Constants.CRLF_OS_INDEPENDENT);
 			}
-			writer.write(Constants.JS_FUNCTION);
+			writer.write(FileReaderUtil.getClassResources(LRConverter.class, FileReaderUtil.JS_FUNCTION));
 		} catch (FileNotFoundException e) {
 			throw new FileNotFoundException(Constants.COULD_NOT_FIND_THE_FILE);
 		} finally {

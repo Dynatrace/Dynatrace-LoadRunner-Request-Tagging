@@ -1,0 +1,12 @@
+The LoadRunner Request Tagging tool uses the following syntax:
+java -jar Dt-LoadRunner-request-tagging.jar <mode> <path parameter> <optional parameters>
+mode:
+	insert: to add the Dynatrace HTTP header to the selected LoadRunner scripts, type insert
+	delete: to remove all modifications previously made by the LoadRunner Request Tagging tool, type delete
+path parameter: Pick either -path or -body and -header
+	-path <filepath>: use to scan all directories and subdirectories for script file's and insert/delete script in them
+	-body <files> -header <files>: use to select exactly in which header and body files should be processed, the file seperator is & between files
+optional parameter:
+	-LSN <value>: sets load script name to value passed after -LSN. If skipped, the script name will be taken from *.usr file
+	-c: sets C as scripting language used (default)
+	-js: sets JavaScript as scripting language -help: prints usage
