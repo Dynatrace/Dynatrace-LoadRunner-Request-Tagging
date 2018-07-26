@@ -1,10 +1,15 @@
 package com.dynatrace.loadrunner.logic;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Constants {
 	public static final String ADD_HEADER = "addDynatraceHeaderTest";
 
 	public static final String INCLUDE = "#include";
-	public final static String TMP = ".tmp";
+	public static final String TMP = ".tmp";
 	public static final String C_REGEX = "\\s*\\(\\s*([\"']).*\\1\\s*\\);";
 	public static final String C_TRANS_START = "lr_start_transaction";
 	public static final String C_TRANS_END = "lr_end_transaction";
@@ -12,15 +17,16 @@ public class Constants {
 
 	public static final String CRLF_OS_INDEPENDENT = "\r\n";
 
-	public static final String[] C_KEYWORDS = new String[] { "web_browser", "web_button", "web_check_box",
-			"web_edit_field", "web_element", "web_file", "web_image_link", "web_image_submit", "web_list",
-			"web_map_area", "web_radio_group", "web_reg_dialog", "web_static_image", "web_table", "web_text_area",
-			"web_text_link", "web_url", "web_link", "web_image", "web_submit_form", "web_submit_data",
-			"web_custom_request", };
-	public static final String[] CLICK_AND_SCRIPT_KEYWORDS = new String[] { "web_browser", "web_button",
-			"web_check_box", "web_edit_field", "web_element", "web_file", "web_image_link", "web_image_submit",
-			"web_list", "web_map_area", "web_radio_group", "web_reg_dialog", "web_static_image", "web_table",
-			"web_text_area", "web_text_link" };
+	public static final Set<String> C_KEYWORDS = Collections.unmodifiableSet(
+			new HashSet<>(Arrays.asList("web_browser", "web_button", "web_check_box", "web_edit_field", "web_element",
+					"web_file", "web_image_link", "web_image_submit", "web_list", "web_map_area", "web_radio_group",
+					"web_reg_dialog", "web_static_image", "web_table", "web_text_area", "web_text_link", "web_url",
+					"web_link", "web_image", "web_submit_form", "web_submit_data", "web_custom_request")));
+
+	public static final Set<String> CLICK_AND_SCRIPT_KEYWORDS = Collections.unmodifiableSet(
+			new HashSet<>(Arrays.asList("web_browser", "web_button", "web_check_box", "web_edit_field", "web_element",
+					"web_file", "web_image_link", "web_image_submit", "web_list", "web_map_area", "web_radio_group",
+					"web_reg_dialog", "web_static_image", "web_table", "web_text_area", "web_text_link")));
 
 	public static final String WAS_NOT_ABLE_TO_RESTORE = "Was not able to restore the backup file ";
 	public static final String COULD_NOT_FIND_THE_FILE = "Could not find the file ";
@@ -31,6 +37,9 @@ public class Constants {
 	public static final String JS_TRANS_END = "lr.endTransaction";
 	public static final char JS_PARAM = '\'';
 
-	public static final String[] JS_KEYWORDS = new String[] { "web.url", "web.customRequest", "web.submitData" };
-	public static final String[] JS_CLICK_AND_SCRIPT_KEYWORDS = new String[] { "web.image", "web.link", };
+	public static final Set<String> JS_KEYWORDS = Collections
+			.unmodifiableSet(new HashSet<>(Arrays.asList("web.url", "web.customRequest", "web.submitData")));
+
+	public static final Set<String> JS_CLICK_AND_SCRIPT_KEYWORDS = Collections
+			.unmodifiableSet(new HashSet<>(Arrays.asList("web.image", "web.link")));
 }

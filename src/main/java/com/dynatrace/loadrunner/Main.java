@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.dynatrace.loadrunner.UserConfig.Mode;
 import com.dynatrace.loadrunner.UserConfig.Technology;
+import com.dynatrace.loadrunner.logic.FileReaderUtil;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
@@ -17,44 +18,38 @@ public class Main {
 
 	private static List<ScriptFile> headers = new ArrayList<>();
 	private static List<ScriptFile> body = new ArrayList<>();
-	private static String lsn;
-	private static Mode mode;
-	private static Technology technology;
 
 	public static void main(String[] args) throws IOException {
 
-		UserConfig userConfig = ArgumentParser.getConfig(args);
+		String lsn = "";
+		Mode mode;
+		Technology technology;
 
-		setLsn(userConfig.getLsn(), userConfig.getPath());
-		setMode(userConfig.getMode());
-		setTechnology(userConfig.getTechnology());
+		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.VERSION));
+		UserConfig userConfig = null;
+		try {
+			userConfig = ArgumentParser.getConfig(args);
+		} catch (IllegalArgumentException e) {
+			System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
+			System.out.println(e);
+			return;
+		}
+		lsn = userConfig.getLsn();
+		if (StringUtils.isBlank(lsn)) {
+			lsn = getScriptNameFromPath(userConfig.getPath());
+		}
+		mode = userConfig.getMode();
+		technology = userConfig.getTechnology();
 		if (userConfig.getPath() == null) {
 			getHeaders(userConfig.getHeader());
 			getBodies(userConfig.getBody());
 		} else {
 			getFilesFromPath(userConfig.getPath());
 		}
-		prepareFiles();
+		prepareFiles(technology);
 		LRConverter converter = new LRConverter(mode, technology, headers, body, lsn);
 		converter.convert();
-	}
-
-	private static void setLsn(String scriptName, String path) {
-		if (StringUtils.isBlank(scriptName) && StringUtils.isNotBlank(path)) {
-			getScriptNameFromPath(path);
-		} else if (StringUtils.isNotBlank(scriptName)) {
-			lsn = scriptName;
-		} else {
-			lsn = "";
-		}
-	}
-
-	private static void setMode(Mode selectedMode) {
-		mode = selectedMode;
-	}
-
-	private static void setTechnology(Technology selectedTechnology) {
-		technology = selectedTechnology;
+		System.out.println("conversion complete");
 	}
 
 	private static void getFilesFromPath(String path) {
@@ -73,13 +68,16 @@ public class Main {
 		}
 	}
 
-	private static void getScriptNameFromPath(String path) {
+	private static String getScriptNameFromPath(String path) {
+		String lsn = "";
 		File directory = new File(path);
 		for (File file : directory.listFiles()) {
 			if (getFileExtension(file).equals("usr")) {
 				lsn = file.getName().replaceFirst("[.][^.]+$", "");
+				return lsn;
 			}
 		}
+		return lsn;
 	}
 
 	private static void searchPath(final File folder) {
@@ -98,14 +96,16 @@ public class Main {
 
 	private static String getFileExtension(File file) {
 		String fileName = file.getName();
-		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
 			return fileName.substring(fileName.lastIndexOf(".") + 1);
-		else
+		} else {
 			return "";
+		}
 	}
 
-	private static void prepareFiles() {
-		if (technology.equals(Technology.C)) {
+	private static void prepareFiles(Technology technology) {
+		switch (technology) {
+		case C:
 			Iterator<ScriptFile> iterator = headers.iterator();
 			while (iterator.hasNext()) {
 				ScriptFile file = iterator.next();
@@ -120,21 +120,23 @@ public class Main {
 					iterator.remove();
 				}
 			}
-		} else if (technology.equals(Technology.JS)) {
-			Iterator<ScriptFile> iterator = headers.iterator();
-			while (iterator.hasNext()) {
-				ScriptFile file = iterator.next();
+			break;
+		case JS:
+			Iterator<ScriptFile> iteratorJS = headers.iterator();
+			while (iteratorJS.hasNext()) {
+				ScriptFile file = iteratorJS.next();
 				if (!getFileExtension(file.getFile()).equals("js") && !file.getFileName().equals("globals.js")) {
-					iterator.remove();
+					iteratorJS.remove();
 				}
 			}
-			iterator = body.iterator();
-			while (iterator.hasNext()) {
-				ScriptFile file = iterator.next();
+			iteratorJS = body.iterator();
+			while (iteratorJS.hasNext()) {
+				ScriptFile file = iteratorJS.next();
 				if (!getFileExtension(file.getFile()).equals("js")) {
-					iterator.remove();
+					iteratorJS.remove();
 				}
 			}
+			break;
 		}
 	}
 }

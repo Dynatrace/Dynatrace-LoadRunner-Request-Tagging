@@ -12,87 +12,102 @@ import com.dynatrace.loadrunner.UserConfig.Technology;
 
 public class ArgumentParser {
 
-	private final static List<String> ARGUMENTS_WITHOUT_VALUE = Arrays.asList("insert", "delete", "-js", "-c", "-help");
-	private final static List<String> ARGUMENTS_WITH_VALUE = Arrays.asList("-lsn", "-body", "-header", "-path");
-
 	private ArgumentParser() {
 	}
 
 	public static UserConfig getConfig(String[] arguments) {
-		Map<String, String> argumentsMap = parseArguments(arguments);
-		validateSyntax(argumentsMap);
-		UserConfig userConfig = new UserConfig();
-		for (Entry<String, String> pair : argumentsMap.entrySet()) {
-			System.out.println(pair.getKey());
-			switch (pair.getKey().toLowerCase()) {
-			case "insert":
-				userConfig.setMode(Mode.INSERT);
+
+		Technology technology = Technology.C;
+		Mode mode = null;
+		String[] bodies = null;
+		String[] headers = null;
+		String lsn = null;
+		String path = null;
+
+		Map<Argument, String> argumentsMap = parse(arguments);
+		validate(argumentsMap);
+
+		for (Entry<Argument, String> pair : argumentsMap.entrySet()) {
+			switch (pair.getKey()) {
+			case INSERT:
+				mode = Mode.INSERT;
 				break;
-			case "delete":
-				userConfig.setMode(Mode.DELETE);
+			case DELETE:
+				mode = Mode.DELETE;
 				break;
-			case "-lsn":
-				userConfig.setLsn(pair.getValue());
+			case LSN:
+				lsn = pair.getValue();
 				break;
-			case "-js":
-				userConfig.setTechnology(Technology.JS);
+			case TYPE_JS:
+				technology = Technology.JS;
 				break;
-			case "-c":
-				userConfig.setTechnology(Technology.C);
+			case TYPE_C:
+				technology = Technology.C;
 				break;
-			case "-body":
-				userConfig.setBody(pair.getValue().split("&"));
+			case BODY:
+				bodies = pair.getValue().split("&");
 				break;
-			case "-header":
-				userConfig.setHeader(pair.getValue().split("&"));
+			case HEADER:
+				headers = pair.getValue().split("&");
 				break;
-			case "-path":
-				userConfig.setPath(pair.getValue());
+			case PATH:
+				path = pair.getValue();
+				break;
+			case HELP:
 				break;
 			}
 		}
+
+		UserConfig userConfig = new UserConfig(mode, technology, path, bodies, headers, lsn);
+		System.out.println(userConfig.toString());
 		return userConfig;
 	}
 
-	private static Map<String, String> parseArguments(String[] argumentsArray) throws IllegalArgumentException {
+	private static Map<Argument, String> parse(String[] argumentsArray) {
 		List<String> argumentsList = Arrays.asList(argumentsArray);
-		Map<String, String> argumentsMap = new HashMap<>();
+		Map<Argument, String> argumentsMap = new HashMap<>();
 		Iterator<String> iterator = argumentsList.iterator();
 		while (iterator.hasNext()) {
 			String key = iterator.next().toLowerCase();
-			if (!ARGUMENTS_WITHOUT_VALUE.contains(key)) {
-				if (!ARGUMENTS_WITH_VALUE.contains(key)) {
-					throw new IllegalArgumentException("Unknown parameter: " + key);
-				} else {
-					String value = iterator.next().toLowerCase();
-					if (ARGUMENTS_WITHOUT_VALUE.contains(value) || ARGUMENTS_WITH_VALUE.contains(value)) {
-						throw new IllegalArgumentException(
-								value + " is a keyword, thus it cannot be a value for key " + key);
-					} else {
-						argumentsMap.put(key, value);
-					}
-				}
+			Argument argument = getEnumValue(key);
+			if (argument == null) {
+				throw new IllegalArgumentException("Unknown parameter: " + key);
 			} else {
-				argumentsMap.put(key, null);
+				if (argument.isValueRequired() && iterator.hasNext()) {
+					argumentsMap.put(argument, iterator.next());
+				} else {
+					argumentsMap.put(argument, null);
+				}
 			}
 		}
 		return argumentsMap;
 	}
 
-	private static void validateSyntax(Map<String, String> argumentsMap) throws IllegalArgumentException {
-		if (argumentsMap.isEmpty()) {
-			throw new IllegalArgumentException("Arguments cannot be empty");
+	private static Argument getEnumValue(String name) {
+		for (Argument argument : Argument.values()) {
+			if (argument.getName().equals(name)) {
+				return argument;
+			}
 		}
-		if ((argumentsMap.containsKey("insert") && argumentsMap.containsKey("delete"))
-				|| (!argumentsMap.containsKey("insert") && (!argumentsMap.containsKey("delete")))) {
+		return null;
+	}
+
+	private static void validate(Map<Argument, String> argumentsMap) throws IllegalArgumentException {
+		if (argumentsMap.isEmpty()) {
+			throw new IllegalArgumentException("Parameters are empty");
+		}
+		if ((argumentsMap.containsKey(Argument.INSERT) == argumentsMap.containsKey(Argument.DELETE))
+				|| (!argumentsMap.containsKey(Argument.INSERT) && !argumentsMap.containsKey(Argument.DELETE))) {
 			throw new IllegalArgumentException("<mode> should contain either insert or delete");
 		}
-		if (argumentsMap.containsKey("-path")
-				&& (argumentsMap.containsKey("-body") || argumentsMap.containsKey("-headers"))) {
-			throw new IllegalArgumentException("<path parameter> should contain either -path or -body && -header");
+		if ((argumentsMap.containsKey(Argument.PATH) == (argumentsMap.containsKey(Argument.BODY)
+				|| argumentsMap.containsKey(Argument.HEADER)))
+				|| (!argumentsMap.containsKey(Argument.PATH) == (!argumentsMap
+						.containsKey(Argument.BODY) == !argumentsMap.containsKey(Argument.HEADER)))) {
+			throw new IllegalArgumentException("<path parameter> should contain either path or body and header");
 		}
-		if (argumentsMap.containsKey("-js") && argumentsMap.containsKey("-c")) {
-			throw new IllegalArgumentException("<optional parameter> should not contain both -c and -js arguments");
+		if (argumentsMap.containsKey(Argument.TYPE_C) && argumentsMap.containsKey(Argument.TYPE_JS)) {
+			throw new IllegalArgumentException("<optional parameter> should contain either -js or -c");
 		}
 	}
 

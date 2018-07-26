@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.dynatrace.loadrunner.UserConfig.Mode;
 import com.dynatrace.loadrunner.UserConfig.Technology;
@@ -15,8 +16,12 @@ public class FilePatcher {
 
 	private final static char EOF = (char) -1;
 
-	private String regex, transaction_start, transaction_end, header;
-	private String[] keywords, click_and_script;
+	private String regex;
+	private String transactionStart;
+	private String transactionEnd;
+	private String header;
+	private Set<String> keywords;
+	private Set<String> clickAndScript;
 	private char param;
 
 	private File sourceFile;
@@ -40,26 +45,26 @@ public class FilePatcher {
 		this.lsn = lsn;
 		this.technology = technology;
 		this.mode = mode;
-		setupConstants();
+		setup();
 		generateFile();
 	}
 
-	private void setupConstants() {
+	private void setup() {
 		header = Constants.ADD_HEADER;
 		if (technology.equals(Technology.C)) {
 			regex = header + Constants.C_REGEX;
-			transaction_start = Constants.C_TRANS_START;
-			transaction_end = Constants.C_TRANS_END;
+			transactionStart = Constants.C_TRANS_START;
+			transactionEnd = Constants.C_TRANS_END;
 			param = Constants.C_PARAM;
 			keywords = Constants.C_KEYWORDS;
-			click_and_script = Constants.CLICK_AND_SCRIPT_KEYWORDS;
+			clickAndScript = Constants.CLICK_AND_SCRIPT_KEYWORDS;
 		} else {
 			regex = header + Constants.JS_REGEX;
-			transaction_start = Constants.JS_TRANS_START;
-			transaction_end = Constants.JS_TRANS_END;
+			transactionStart = Constants.JS_TRANS_START;
+			transactionEnd = Constants.JS_TRANS_END;
 			param = Constants.JS_PARAM;
 			keywords = Constants.JS_KEYWORDS;
-			click_and_script = Constants.JS_CLICK_AND_SCRIPT_KEYWORDS;
+			clickAndScript = Constants.JS_CLICK_AND_SCRIPT_KEYWORDS;
 		}
 	}
 
@@ -92,9 +97,9 @@ public class FilePatcher {
 			write = instruction;
 		write = removeEOF(commentedInstruction);
 		if (!instruction.contains(header)) {
-			if (instruction.contains(transaction_start))
+			if (instruction.contains(transactionStart))
 				transactionNames.add(getFirstStringParameter(write));
-			else if (instruction.contains(transaction_end))
+			else if (instruction.contains(transactionEnd))
 				transactionNames.remove(getFirstStringParameter(write));
 			else {
 				for (String keyword : keywords) {
@@ -166,7 +171,7 @@ public class FilePatcher {
 	}
 
 	private boolean isClickAndScriptKeyword(String keyword) {
-		for (String word : click_and_script) {
+		for (String word : clickAndScript) {
 			if (word.equals(keyword))
 				return true;
 		}
