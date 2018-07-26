@@ -22,8 +22,8 @@ public class FileReaderUtil {
 		}
 		return resultStringBuilder.toString();
 	}
-	
-	public static String getClassResources(Class<?> cls,String name) throws IOException {
+
+	public static String getClassResources(Class<?> cls, String name) throws IOException {
 		return readFromInputStream(cls.getResourceAsStream(name));
 	}
 }

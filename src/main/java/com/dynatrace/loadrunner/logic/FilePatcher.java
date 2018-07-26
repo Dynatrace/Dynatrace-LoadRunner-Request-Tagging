@@ -8,6 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.dynatrace.loadrunner.UserConfig.Mode;
+import com.dynatrace.loadrunner.UserConfig.Technology;
+
 public class FilePatcher {
 
 	private final static char EOF = (char) -1;
@@ -22,9 +25,9 @@ public class FilePatcher {
 	private FileScanner scanner;
 
 	private List<String> transactionNames;
-	private boolean insert;
-	private boolean cEngine;
-	private String LSN;
+	private Mode mode;
+	private Technology technology;
+	private String lsn;
 
 	public FilePatcher(File sourceFile, File targetFile, ScriptFile scriptFile) {
 		writer = null;
@@ -33,17 +36,17 @@ public class FilePatcher {
 		this.sourceFile = sourceFile;
 	}
 
-	public void configure(String LSN, boolean cEngine, boolean insert) throws IOException {
-		this.LSN = LSN;
-		this.cEngine = cEngine;
-		this.insert = insert;
+	public void configure(String lsn, Technology technology, Mode mode) throws IOException {
+		this.lsn = lsn;
+		this.technology = technology;
+		this.mode = mode;
 		setupConstants();
 		generateFile();
 	}
 
 	private void setupConstants() {
 		header = Constants.ADD_HEADER;
-		if (cEngine) {
+		if (technology.equals(Technology.C)) {
 			regex = header + Constants.C_REGEX;
 			transaction_start = Constants.C_TRANS_START;
 			transaction_end = Constants.C_TRANS_END;
@@ -96,7 +99,7 @@ public class FilePatcher {
 			else {
 				for (String keyword : keywords) {
 					if (instruction.contains(keyword)) {
-						if (insert) {
+						if (mode.equals(Mode.INSERT)) {
 							String pageContext = getFirstStringParameter(instruction);
 							write = insertMethodCall(keyword, write, pageContext);
 						}
@@ -105,8 +108,7 @@ public class FilePatcher {
 				}
 			}
 			writer.write(write);
-		}
-		else {
+		} else {
 			writer.write(write.replaceAll(regex, ""));
 			scanner.readWhiteSpaces();
 		}
@@ -125,8 +127,7 @@ public class FilePatcher {
 					insertPosition = i - keywordIndex + 1;
 					break;
 				}
-			}
-			else {
+			} else {
 				keywordIndex = 0;
 				if (aktChar == keyword.charAt(keywordIndex)) {
 					keywordIndex++;
@@ -153,8 +154,8 @@ public class FilePatcher {
 		if (!isClickAndScriptKeyword(keyword)) {
 			parameterBuilder.append("PC=" + pageContext + ";");
 			parameterBuilder.append("SI=LoadRunner;");
-			if (!LSN.isEmpty()) {
-				parameterBuilder.append("LSN=" + LSN + ";");
+			if (!lsn.isEmpty()) {
+				parameterBuilder.append("LSN=" + lsn + ";");
 			}
 		}
 		parameterBuilder.append("\"");

@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.dynatrace.loadrunner.UserConfig.Mode;
+import com.dynatrace.loadrunner.UserConfig.Technology;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
@@ -32,14 +34,16 @@ public class LRUnitTest {
 
 	private Wrapper input;
 	private Wrapper result;
-	private boolean mode;
-	private boolean cEngine;
+	private Mode mode;
+	private Technology technology;
+	
+	private final static String LSN = "script name";
 
-	public LRUnitTest(Wrapper input, Wrapper result, boolean mode, boolean cEngine) {
+	public LRUnitTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
 		this.input = input;
 		this.result = result;
 		this.mode = mode;
-		this.cEngine = cEngine;
+		this.technology = technology;
 	}
 
 	@Parameters
@@ -50,7 +54,7 @@ public class LRUnitTest {
 						Paths.get("src", "test", "resources", "c-unconverted-globals.h")),
 						new Wrapper(Paths.get("src", "test", "resources", "c-converted-action.c"),
 								Paths.get("src", "test", "resources", "c-converted-globals.h")),
-						true, true }, });
+						Mode.INSERT, Technology.C }, });
 	}
 
 	@Test
@@ -66,15 +70,15 @@ public class LRUnitTest {
 		bodyList.add(new ScriptFile(tempAction));
 
 		for (int repeat = 0; repeat < 10; repeat++) {
-			convertFiles(mode, headerList, bodyList, cEngine);
+			convertFiles(mode, technology, headerList, bodyList);
 		}
 
 		assertCompareFiles(tempHeader, result.getHeader().toFile());
 		assertCompareFiles(tempAction, result.getBody().toFile());
 	}
 
-	private void convertFiles(boolean mode, List<ScriptFile> header, List<ScriptFile> body, boolean cEngine) {
-		LRConverter converter = new LRConverter(mode, header, body, "script name", cEngine);
+	private void convertFiles(Mode mode, Technology technology, List<ScriptFile> header, List<ScriptFile> body) {
+		LRConverter converter = new LRConverter(mode, technology, header, body, LSN);
 		converter.convert();
 	}
 

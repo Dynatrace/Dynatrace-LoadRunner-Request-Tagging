@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
+import com.dynatrace.loadrunner.UserConfig.Mode;
+import com.dynatrace.loadrunner.UserConfig.Technology;
+
 public class LRConverter {
 
 	public class AlreadyModifiedException extends Exception {
@@ -18,16 +21,16 @@ public class LRConverter {
 	private List<ScriptFile> bodyFiles;
 	private List<ScriptFile> headerFiles;
 	private String lsn;
-	private boolean mode;
-	private boolean cEngine;
+	private Mode mode;
+	private Technology technology;
 
-	public LRConverter(boolean mode, List<ScriptFile> headerFiles, List<ScriptFile> bodyFiles, String lsn,
-			boolean cEngine) {
+	public LRConverter(Mode mode, Technology technology, List<ScriptFile> headerFiles, List<ScriptFile> bodyFiles,
+			String lsn) {
 		this.mode = mode;
+		this.technology = technology;
 		this.headerFiles = headerFiles;
 		this.bodyFiles = bodyFiles;
 		this.lsn = lsn;
-		this.cEngine = cEngine;
 	}
 
 	public void convert() {
@@ -47,9 +50,9 @@ public class LRConverter {
 			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP);
 			FilePatcher generator = new FilePatcher(sourceFile, targetFile, file);
 			if (lsn != null || !lsn.isEmpty()) {
-				generator.configure(lsn, cEngine, mode);
+				generator.configure(lsn, technology, mode);
 			} else {
-				generator.configure("", cEngine, mode);
+				generator.configure("", technology, mode);
 			}
 			replace(sourceFile, targetFile);
 
@@ -65,9 +68,9 @@ public class LRConverter {
 			File sourceFile = file.getFile();
 			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP);
 			try {
-				if (mode) {
+				if (mode.equals(Mode.INSERT)) {
 					lastIncludeLine = findLastIncludeInHFile(sourceFile);
-					if (cEngine) {
+					if (technology.equals(Technology.C)) {
 						success = convertCGlobals(sourceFile, targetFile, lastIncludeLine);
 					} else {
 						success = convertJsGlobals(sourceFile, targetFile);
@@ -160,7 +163,7 @@ public class LRConverter {
 				if (line.trim().startsWith(Constants.INCLUDE)) {
 					result = lineCount;
 				}
-				if (line.contains(Constants.ADD_HEADER) && mode)
+				if (line.contains(Constants.ADD_HEADER) && mode.equals(Mode.INSERT))
 					throw new AlreadyModifiedException();
 			}
 		} catch (FileNotFoundException fne) {

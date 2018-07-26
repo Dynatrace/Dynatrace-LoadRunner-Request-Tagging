@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
-import com.dynatrace.loadrunner.logic.FileReaderUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import com.dynatrace.loadrunner.UserConfig.Mode;
+import com.dynatrace.loadrunner.UserConfig.Technology;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
@@ -15,73 +17,59 @@ public class Main {
 
 	private static List<ScriptFile> headers = new ArrayList<>();
 	private static List<ScriptFile> body = new ArrayList<>();
-	private static String scriptName = "";
-	private static Boolean mode;
-	private static boolean cEngine = true;
+	private static String lsn;
+	private static Mode mode;
+	private static Technology technology;
 
 	public static void main(String[] args) throws IOException {
 
-		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.VERSION));
+		UserConfig userConfig = ArgumentParser.getConfig(args);
 
-		if (args.length == 0) {
-			System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
-			return;
-		}
-
-		CommandLineParser parser = new CommandLineParser(args);
-
-		if (parser.arguments.containsKey("-help")) {
-			System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
-			return;
-		}
-
-		for (Entry<String, String> pair : parser.arguments.entrySet()) {
-			String key = pair.getKey().toLowerCase();
-			if (key.equals("insert")) {
-				setMode(pair.getKey());
-			} else if (key.equals("delete")) {
-				setMode(pair.getKey());
-			} else if (key.equals("lsn")) {
-				setScriptName(pair.getValue());
-			} else if (key.equals("path")) {
-				try {
-					File directory = new File(pair.getValue());
-					searchPath(directory);
-				} catch (NullPointerException e) {
-					System.out.println("Make sure you'd provided correct path to script file \n");
-					return;
-				}
-			} else if (key.equals("-c")) {
-				cEngine = true;
-			} else if (key.equals("-js")) {
-				cEngine = false;
-			} else if (key.equals("body")) {
-				String bodies[] = pair.getValue().split("&");
-				for (String str : bodies) {
-					body.add(new ScriptFile(new File(str)));
-				}
-			} else if (key.equals("header")) {
-				String header[] = pair.getValue().split("&");
-				for (String str : header) {
-					headers.add(new ScriptFile(new File(str)));
-				}
-			} else {
-				System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
-				System.out.println("\nUnknown parameter: " + key);
-				return;
-			}
-		}
-		if (scriptName.isEmpty() && parser.validateKey("path")) {
-			getScriptNameFromPath(parser.arguments.get("path"));
-		}
-		validateFiles();
-		boolean validated = validateParams();
-		if (validated) {
-			LRConverter converter = new LRConverter(mode, headers, body, scriptName, cEngine);
-			converter.convert();
-			System.out.println("conversion complete");
+		setLsn(userConfig.getLsn(), userConfig.getPath());
+		setMode(userConfig.getMode());
+		setTechnology(userConfig.getTechnology());
+		if (userConfig.getPath() == null) {
+			getHeaders(userConfig.getHeader());
+			getBodies(userConfig.getBody());
 		} else {
-			System.out.println("ERROR, conversion failed");
+			getFilesFromPath(userConfig.getPath());
+		}
+		prepareFiles();
+		LRConverter converter = new LRConverter(mode, technology, headers, body, lsn);
+		converter.convert();
+	}
+
+	private static void setLsn(String scriptName, String path) {
+		if (StringUtils.isBlank(scriptName) && StringUtils.isNotBlank(path)) {
+			getScriptNameFromPath(path);
+		} else if (StringUtils.isNotBlank(scriptName)) {
+			lsn = scriptName;
+		} else {
+			lsn = "";
+		}
+	}
+
+	private static void setMode(Mode selectedMode) {
+		mode = selectedMode;
+	}
+
+	private static void setTechnology(Technology selectedTechnology) {
+		technology = selectedTechnology;
+	}
+
+	private static void getFilesFromPath(String path) {
+		searchPath(new File(path));
+	}
+
+	private static void getHeaders(String[] headersArray) {
+		for (String file : headersArray) {
+			headers.add(new ScriptFile(new File(file)));
+		}
+	}
+
+	private static void getBodies(String[] bodiesArray) {
+		for (String file : bodiesArray) {
+			body.add(new ScriptFile(new File(file)));
 		}
 	}
 
@@ -89,25 +77,9 @@ public class Main {
 		File directory = new File(path);
 		for (File file : directory.listFiles()) {
 			if (getFileExtension(file).equals("usr")) {
-				scriptName = file.getName().replaceFirst("[.][^.]+$", "");
+				lsn = file.getName().replaceFirst("[.][^.]+$", "");
 			}
 		}
-	}
-
-	private static boolean validateParams() {
-		if (headers.isEmpty()) {
-			System.out.println("Headers not found");
-			return false;
-		}
-		if (body.isEmpty()) {
-			System.out.println("Bodies not found");
-			return false;
-		}
-		if (mode == null) {
-			System.out.println("Provide insert/delete parameter");
-			return false;
-		}
-		return true;
 	}
 
 	private static void searchPath(final File folder) {
@@ -132,23 +104,8 @@ public class Main {
 			return "";
 	}
 
-	private static void setMode(String arg) {
-		if (arg.equals("insert")) {
-			mode = true;
-		}
-		if (arg.equals("delete")) {
-			mode = false;
-		}
-		System.out.println("Setting mode to: " + arg);
-	}
-
-	private static void setScriptName(String name) {
-		scriptName = name;
-		System.out.println("Setting script name to: " + scriptName);
-	}
-
-	private static void validateFiles() {
-		if (cEngine) {
+	private static void prepareFiles() {
+		if (technology.equals(Technology.C)) {
 			Iterator<ScriptFile> iterator = headers.iterator();
 			while (iterator.hasNext()) {
 				ScriptFile file = iterator.next();
@@ -163,7 +120,7 @@ public class Main {
 					iterator.remove();
 				}
 			}
-		} else {
+		} else if (technology.equals(Technology.JS)) {
 			Iterator<ScriptFile> iterator = headers.iterator();
 			while (iterator.hasNext()) {
 				ScriptFile file = iterator.next();

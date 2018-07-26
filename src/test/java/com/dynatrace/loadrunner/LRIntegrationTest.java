@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import com.dynatrace.loadrunner.UserConfig.Mode;
+import com.dynatrace.loadrunner.UserConfig.Technology;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
@@ -32,43 +34,45 @@ public class LRIntegrationTest {
 
 	private Wrapper input;
 	private Wrapper result;
-	private boolean mode;
-	private boolean cEngine;
+	private Mode mode;
+	private Technology technology;
 
-	public LRIntegrationTest(Wrapper input, Wrapper result, boolean mode, boolean cEngine) {
+	private final static String LSN = "script name";
+	
+	public LRIntegrationTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
 		this.input = input;
 		this.result = result;
 		this.mode = mode;
-		this.cEngine = cEngine;
+		this.technology = technology;
 	}
 
 	@Parameters
 	public static Collection<Object[]> files() {
 		return Arrays.asList(new Object[][] {
 				// CONVERTING C
-				{ new Wrapper(Paths.get("src","test","resources", "c-unconverted-action.c"),
-						Paths.get("src","test","resources", "c-unconverted-globals.h")),
-						new Wrapper(Paths.get("src","test","resources", "c-converted-action.c"),
-								Paths.get("src","test","resources", "c-converted-globals.h")),
-						true, true },
+				{ new Wrapper(Paths.get("src", "test", "resources", "c-unconverted-action.c"),
+						Paths.get("src", "test", "resources", "c-unconverted-globals.h")),
+						new Wrapper(Paths.get("src", "test", "resources", "c-converted-action.c"),
+								Paths.get("src", "test", "resources", "c-converted-globals.h")),
+						Mode.INSERT, Technology.C },
 				// UNCONVERTING C
-				{ new Wrapper(Paths.get("src","test","resources", "c-converted-action.c"),
-						Paths.get("src","test","resources", "c-converted-globals.h")),
-						new Wrapper(Paths.get("src","test","resources", "c-unconverted-action.c"),
-								Paths.get("src","test","resources", "c-unconverted-globals.h")),
-						false, true },
+				{ new Wrapper(Paths.get("src", "test", "resources", "c-converted-action.c"),
+						Paths.get("src", "test", "resources", "c-converted-globals.h")),
+						new Wrapper(Paths.get("src", "test", "resources", "c-unconverted-action.c"),
+								Paths.get("src", "test", "resources", "c-unconverted-globals.h")),
+						Mode.DELETE, Technology.C },
 				// CONVERTING JS
-				{ new Wrapper(Paths.get("src","test","resources", "js-unconverted-action.js"),
-						Paths.get("src","test","resources", "js-unconverted-globals.js")),
-						new Wrapper(Paths.get("src","test","resources", "js-converted-action.js"),
-								Paths.get("src","test","resources", "js-converted-globals.js")),
-						true, false },
+				{ new Wrapper(Paths.get("src", "test", "resources", "js-unconverted-action.js"),
+						Paths.get("src", "test", "resources", "js-unconverted-globals.js")),
+						new Wrapper(Paths.get("src", "test", "resources", "js-converted-action.js"),
+								Paths.get("src", "test", "resources", "js-converted-globals.js")),
+						Mode.INSERT, Technology.JS },
 				// UNCONVERTING JS
-				{ new Wrapper(Paths.get("src","test","resources", "js-converted-action.js"),
-						Paths.get("src","test","resources", "js-converted-globals.js")),
-						new Wrapper(Paths.get("src","test","resources", "js-unconverted-action.js"),
-								Paths.get("src","test","resources", "js-unconverted-globals.js")),
-						false, false } });
+				{ new Wrapper(Paths.get("src", "test", "resources", "js-converted-action.js"),
+						Paths.get("src", "test", "resources", "js-converted-globals.js")),
+						new Wrapper(Paths.get("src", "test", "resources", "js-unconverted-action.js"),
+								Paths.get("src", "test", "resources", "js-unconverted-globals.js")),
+						Mode.DELETE, Technology.JS } });
 	}
 
 	@Test
@@ -83,14 +87,14 @@ public class LRIntegrationTest {
 		headerList.add(new ScriptFile(tempHeader));
 		bodyList.add(new ScriptFile(tempAction));
 
-		convertFiles(mode, headerList, bodyList, cEngine);
+		convertFiles(mode, technology, headerList, bodyList);
 
 		assertCompareFiles(tempHeader, result.getHeader().toFile());
 		assertCompareFiles(tempAction, result.getBody().toFile());
 	}
 
-	private void convertFiles(boolean mode, List<ScriptFile> header, List<ScriptFile> body, boolean cEngine) {
-		LRConverter converter = new LRConverter(mode, header, body, "script name", cEngine);
+	private void convertFiles(Mode mode, Technology technology, List<ScriptFile> header, List<ScriptFile> body) {
+		LRConverter converter = new LRConverter(mode, technology, header, body, LSN);
 		converter.convert();
 	}
 
@@ -103,7 +107,7 @@ public class LRIntegrationTest {
 			while ((line = modifiedReader.readLine()) != null) {
 				String otherLine = comparisonReader.readLine();
 				if (otherLine == null) {
-					//assertFail
+					// assertFail
 					Assert.assertTrue("Compared file is empty", false);
 				}
 				Assert.assertEquals("Lines do not match", line, otherLine);
