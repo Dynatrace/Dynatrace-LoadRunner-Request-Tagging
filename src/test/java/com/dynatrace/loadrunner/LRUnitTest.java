@@ -21,8 +21,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.dynatrace.loadrunner.UserConfig.Mode;
-import com.dynatrace.loadrunner.UserConfig.Technology;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
@@ -36,7 +34,7 @@ public class LRUnitTest {
 	private Wrapper result;
 	private Mode mode;
 	private Technology technology;
-	
+
 	private final static String LSN = "script name";
 
 	public LRUnitTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {

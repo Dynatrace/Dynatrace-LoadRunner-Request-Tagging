@@ -1,14 +1,10 @@
 package com.dynatrace.loadrunner;
 
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 public class UserConfig {
-
-	public enum Technology {
-		C, JS
-	};
-
-	public enum Mode {
-		INSERT, DELETE
-	};
 
 	private final Mode mode;
 	private final Technology technology;
@@ -17,7 +13,7 @@ public class UserConfig {
 	private final String[] header;
 	private final String lsn;
 
-	public UserConfig(Mode mode, Technology technology, String path, String[] body, String[] header, String lsn) {
+	private UserConfig(Mode mode, Technology technology, String path, String[] body, String[] header, String lsn) {
 		this.mode = mode;
 		this.technology = technology;
 		this.path = path;
@@ -38,18 +34,34 @@ public class UserConfig {
 		return path;
 	}
 
-	/* return copy */
 	public String[] getBody() {
 		return body;
 	}
 
-	/* return copy */
 	public String[] getHeader() {
 		return header;
 	}
 
 	public String getLsn() {
 		return lsn;
+	}
+
+	public static UserConfig from(Map<Argument, String> arguments) {
+		Mode mode = Mode.from(arguments.keySet());
+		Technology technology = Technology.from(arguments.keySet());
+		String scriptName = arguments.get(Argument.SCRIPT_NAME);
+		String path = arguments.get(Argument.PATH);
+		String[] bodies = split(arguments.get(Argument.BODY));
+		String[] headers = split(arguments.get(Argument.HEADER));
+
+		return new UserConfig(mode, technology, path, bodies, headers, scriptName);
+	}
+
+	static String[] split(String argumentValue) {
+		if (StringUtils.isBlank(argumentValue)) {
+			return null;
+		}
+		return argumentValue.split("&");
 	}
 
 }

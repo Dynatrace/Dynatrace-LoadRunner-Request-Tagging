@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.dynatrace.loadrunner.UserConfig.Mode;
-import com.dynatrace.loadrunner.UserConfig.Technology;
 import com.dynatrace.loadrunner.logic.FileReaderUtil;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
@@ -20,26 +19,29 @@ public class Main {
 	private static List<ScriptFile> body = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
-
-		String lsn = "";
-		Mode mode;
-		Technology technology;
-
-		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.VERSION));
-		UserConfig userConfig = null;
-		try {
-			userConfig = ArgumentParser.getConfig(args);
-		} catch (IllegalArgumentException e) {
-			System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
-			System.out.println(e);
+		Map<Argument, String> argumentsMap = ArgumentParser.parse(args);
+		if (argumentsMap.containsKey(Argument.HELP)) {
+			printUsage();
 			return;
 		}
-		lsn = userConfig.getLsn();
+
+		try {
+			ArgumentParser.validate(argumentsMap);
+		} catch (IllegalArgumentException e) {
+			System.out.println("\nError occurred: " + e.getMessage() + "\n");
+			printUsage();
+			return;
+		}
+
+		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.VERSION));
+		UserConfig userConfig = UserConfig.from(argumentsMap);
+
+		String lsn = userConfig.getLsn();
 		if (StringUtils.isBlank(lsn)) {
 			lsn = getScriptNameFromPath(userConfig.getPath());
 		}
-		mode = userConfig.getMode();
-		technology = userConfig.getTechnology();
+		Mode mode = userConfig.getMode();
+		Technology technology = userConfig.getTechnology();
 		if (userConfig.getPath() == null) {
 			getHeaders(userConfig.getHeader());
 			getBodies(userConfig.getBody());
@@ -49,7 +51,11 @@ public class Main {
 		prepareFiles(technology);
 		LRConverter converter = new LRConverter(mode, technology, headers, body, lsn);
 		converter.convert();
-		System.out.println("conversion complete");
+		System.out.println("Conversion complete");
+	}
+
+	private static void printUsage() throws IOException {
+		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
 	}
 
 	private static void getFilesFromPath(String path) {
@@ -98,9 +104,8 @@ public class Main {
 		String fileName = file.getName();
 		if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
 			return fileName.substring(fileName.lastIndexOf(".") + 1);
-		} else {
-			return "";
 		}
+		return "";
 	}
 
 	private static void prepareFiles(Technology technology) {

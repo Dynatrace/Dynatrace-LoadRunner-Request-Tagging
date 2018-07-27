@@ -12,6 +12,8 @@ public class FileReaderUtil {
 	public final static String PRINT_USAGES = "/printUsages.txt";
 	public final static String VERSION = "/version.txt";
 
+	// TODO expose methods like String getPrintUsages(), etc.
+
 	private static String readFromInputStream(final InputStream inputStream) throws IOException {
 		StringBuilder resultStringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {

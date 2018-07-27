@@ -21,8 +21,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.dynatrace.loadrunner.UserConfig.Mode;
-import com.dynatrace.loadrunner.UserConfig.Technology;
 import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
@@ -38,7 +36,7 @@ public class LRIntegrationTest {
 	private Technology technology;
 
 	private final static String LSN = "script name";
-	
+
 	public LRIntegrationTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
 		this.input = input;
 		this.result = result;

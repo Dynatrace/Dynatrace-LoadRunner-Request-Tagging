@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.dynatrace.loadrunner.UserConfig.Mode;
-import com.dynatrace.loadrunner.UserConfig.Technology;
+import com.dynatrace.loadrunner.Mode;
+import com.dynatrace.loadrunner.Technology;
 
 public class FilePatcher {
 
@@ -50,18 +50,18 @@ public class FilePatcher {
 	}
 
 	private void setup() {
-		header = Constants.ADD_HEADER;
+		header = Constants.DT_HEADER;
 		if (technology.equals(Technology.C)) {
 			regex = header + Constants.C_REGEX;
-			transactionStart = Constants.C_TRANS_START;
-			transactionEnd = Constants.C_TRANS_END;
+			transactionStart = Constants.C_TRANSACTION_START;
+			transactionEnd = Constants.C_TRANSACTION_END;
 			param = Constants.C_PARAM;
 			keywords = Constants.C_KEYWORDS;
-			clickAndScript = Constants.CLICK_AND_SCRIPT_KEYWORDS;
+			clickAndScript = Constants.C_CLICK_AND_SCRIPT_KEYWORDS;
 		} else {
 			regex = header + Constants.JS_REGEX;
-			transactionStart = Constants.JS_TRANS_START;
-			transactionEnd = Constants.JS_TRANS_END;
+			transactionStart = Constants.JS_TRANSACTION_START;
+			transactionEnd = Constants.JS_TRANSACTION_END;
 			param = Constants.JS_PARAM;
 			keywords = Constants.JS_KEYWORDS;
 			clickAndScript = Constants.JS_CLICK_AND_SCRIPT_KEYWORDS;
@@ -164,7 +164,7 @@ public class FilePatcher {
 			}
 		}
 		parameterBuilder.append("\"");
-		String instruction = start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF_OS_INDEPENDENT
+		String instruction = start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF
 				+ scanner.getIndention() + end;
 
 		return instruction;

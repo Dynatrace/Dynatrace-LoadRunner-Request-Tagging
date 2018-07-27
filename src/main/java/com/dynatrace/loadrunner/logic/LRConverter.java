@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
-import com.dynatrace.loadrunner.UserConfig.Mode;
-import com.dynatrace.loadrunner.UserConfig.Technology;
+import com.dynatrace.loadrunner.Mode;
+import com.dynatrace.loadrunner.Technology;
 
 public class LRConverter {
 
@@ -47,7 +47,7 @@ public class LRConverter {
 	private void convertBody(ScriptFile file) {
 		try {
 			File sourceFile = file.getFile();
-			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP);
+			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP_FILE_EXT);
 			FilePatcher generator = new FilePatcher(sourceFile, targetFile, file);
 			if (lsn != null || !lsn.isEmpty()) {
 				generator.configure(lsn, technology, mode);
@@ -66,7 +66,7 @@ public class LRConverter {
 		int lastIncludeLine;
 		try {
 			File sourceFile = file.getFile();
-			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP);
+			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP_FILE_EXT);
 			try {
 				if (mode.equals(Mode.INSERT)) {
 					lastIncludeLine = findLastIncludeInHFile(sourceFile);
@@ -102,7 +102,7 @@ public class LRConverter {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				boolean found = false;
-				if (line.contains(Constants.ADD_HEADER)) {
+				if (line.contains(Constants.DT_HEADER)) {
 					int braces = 0;
 					found = true;
 					while ((line = reader.readLine()) != null) {
@@ -123,10 +123,10 @@ public class LRConverter {
 				}
 
 				if (!found)
-					writer.write(line + Constants.CRLF_OS_INDEPENDENT);
+					writer.write(line + Constants.CRLF);
 			}
 		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException(Constants.COULD_NOT_FIND_THE_FILE);
+			throw new FileNotFoundException(Constants.FILE_NOT_FOUND);
 		} finally {
 			try {
 				reader.close();
@@ -144,7 +144,7 @@ public class LRConverter {
 
 	private void replace(File sourceFile, File targetFile) throws IOException {
 		if (!sourceFile.delete() || !targetFile.renameTo(sourceFile)) {
-			throw new IOException(Constants.WAS_NOT_ABLE_TO_RESTORE + sourceFile.getAbsolutePath());
+			throw new IOException(Constants.UNABLE_TO_RESTORE_FILE + sourceFile.getAbsolutePath());
 		}
 	}
 
@@ -160,14 +160,14 @@ public class LRConverter {
 
 			while ((line = reader.readLine()) != null) {
 				lineCount++;
-				if (line.trim().startsWith(Constants.INCLUDE)) {
+				if (line.trim().startsWith(Constants.INCLUDE_KEYWORD)) {
 					result = lineCount;
 				}
-				if (line.contains(Constants.ADD_HEADER) && mode.equals(Mode.INSERT))
+				if (line.contains(Constants.DT_HEADER) && mode.equals(Mode.INSERT))
 					throw new AlreadyModifiedException();
 			}
 		} catch (FileNotFoundException fne) {
-			throw new FileNotFoundException(Constants.COULD_NOT_FIND_THE_FILE);
+			throw new FileNotFoundException(Constants.FILE_NOT_FOUND);
 		} finally {
 			try {
 				reader.close();
@@ -190,12 +190,12 @@ public class LRConverter {
 
 			lineCount = 0;
 			while ((line = reader.readLine()) != null) {
-				writer.write(line + Constants.CRLF_OS_INDEPENDENT);
+				writer.write(line + Constants.CRLF);
 				if (++lineCount == lastIncludeLine)
 					writer.write(FileReaderUtil.getClassResources(LRConverter.class, FileReaderUtil.C_FUNCTION));
 			}
 		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException(Constants.COULD_NOT_FIND_THE_FILE);
+			throw new FileNotFoundException(Constants.FILE_NOT_FOUND);
 		} finally {
 			try {
 				writer.close();
@@ -219,11 +219,11 @@ public class LRConverter {
 			writer = new PrintWriter(targetFile);
 			reader = new BufferedReader(new FileReader(sourceFile));
 			while ((line = reader.readLine()) != null) {
-				writer.write(line + Constants.CRLF_OS_INDEPENDENT);
+				writer.write(line + Constants.CRLF);
 			}
 			writer.write(FileReaderUtil.getClassResources(LRConverter.class, FileReaderUtil.JS_FUNCTION));
 		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException(Constants.COULD_NOT_FIND_THE_FILE);
+			throw new FileNotFoundException(Constants.FILE_NOT_FOUND);
 		} finally {
 			try {
 				writer.close();
