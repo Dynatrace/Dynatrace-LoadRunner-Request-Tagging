@@ -1,4 +1,4 @@
-package com.dynatrace.loadrunner;
+package com.dynatrace.loadrunner.converter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,11 +21,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.dynatrace.loadrunner.logic.LRConverter;
-import com.dynatrace.loadrunner.logic.ScriptFile;
+import com.dynatrace.loadrunner.config.InputFiles;
+import com.dynatrace.loadrunner.config.Mode;
+import com.dynatrace.loadrunner.config.Technology;
 
 @RunWith(value = Parameterized.class)
-public class LRConverterTest {
+public class FilesConverterTest {
 
 	@Rule
 	public TemporaryFolder tempFolderRule = new TemporaryFolder();
@@ -37,7 +38,7 @@ public class LRConverterTest {
 
 	private final static String LSN = "script name";
 
-	public LRConverterTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
+	public FilesConverterTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
 		this.input = input;
 		this.result = result;
 		this.mode = mode;
@@ -62,10 +63,10 @@ public class LRConverterTest {
 		Files.copy(input.getHeader(), tempHeader.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		Files.copy(input.getBody(), tempAction.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		List<ScriptFile> headerList = new LinkedList<>();
-		List<ScriptFile> bodyList = new LinkedList<>();
-		headerList.add(new ScriptFile(tempHeader));
-		bodyList.add(new ScriptFile(tempAction));
+		List<File> headerList = new LinkedList<>();
+		List<File> bodyList = new LinkedList<>();
+		headerList.add(tempHeader);
+		bodyList.add(tempAction);
 
 		for (int repeat = 0; repeat < 10; repeat++) {
 			convertFiles(mode, technology, headerList, bodyList);
@@ -75,8 +76,8 @@ public class LRConverterTest {
 		assertCompareFiles(tempAction, result.getBody().toFile());
 	}
 
-	private void convertFiles(Mode mode, Technology technology, List<ScriptFile> header, List<ScriptFile> body) {
-		LRConverter converter = new LRConverter(mode, technology, header, body, LSN);
+	private void convertFiles(Mode mode, Technology technology, List<File> header, List<File> body) {
+		FilesConverter converter = new FilesConverter(mode, technology, new InputFiles(header, body), LSN);
 		converter.convert();
 	}
 

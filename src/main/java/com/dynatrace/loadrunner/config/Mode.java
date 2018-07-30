@@ -1,4 +1,4 @@
-package com.dynatrace.loadrunner;
+package com.dynatrace.loadrunner.config;
 
 import java.util.Set;
 

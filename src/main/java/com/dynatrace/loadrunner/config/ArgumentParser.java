@@ -1,4 +1,4 @@
-package com.dynatrace.loadrunner;
+package com.dynatrace.loadrunner.config;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-class ArgumentParser {
+public class ArgumentParser {
 
 	private ArgumentParser() {
 	}
 
-	static Map<Argument, String> parse(String[] argumentsArray) {
+	public static Map<Argument, String> parse(String[] argumentsArray) {
 		Map<Argument, String> arguments = new HashMap<>();
 		Iterator<String> iterator = Arrays.asList(argumentsArray).iterator();
 		while (iterator.hasNext()) {
@@ -33,7 +33,7 @@ class ArgumentParser {
 		return arguments;
 	}
 
-	static void validate(Map<Argument, String> arguments) throws IllegalArgumentException {
+	public static void validate(Map<Argument, String> arguments) throws IllegalArgumentException {
 		if (arguments.isEmpty()) {
 			throw new IllegalArgumentException("Parameters are empty");
 		}

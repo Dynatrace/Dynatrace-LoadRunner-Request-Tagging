@@ -1,97 +1,73 @@
-package com.dynatrace.loadrunner.logic;
+package com.dynatrace.loadrunner.converter;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.dynatrace.loadrunner.Mode;
-import com.dynatrace.loadrunner.Technology;
+import com.dynatrace.loadrunner.Constants;
+import com.dynatrace.loadrunner.config.Mode;
+import com.google.common.collect.Lists;
 
-public class FilePatcher {
+abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private final static char EOF = (char) -1;
 
-	private String regex;
-	private String transactionStart;
-	private String transactionEnd;
-	private String header;
-	private Set<String> keywords;
-	private Set<String> clickAndScript;
-	private char param;
+	private final Mode mode;
+	private final String scriptName;
 
-	private File sourceFile;
-	private File targetFile;
-	private BufferedWriter writer;
-	private FileScanner scanner;
+	protected final String header = Constants.DT_HEADER;
+	String regex;
+	String transactionStart;
+	String transactionEnd;
+	Set<String> keywords;
+	Set<String> clickAndScript;
+	char param;
 
-	private List<String> transactionNames;
-	private Mode mode;
-	private Technology technology;
-	private String lsn;
+	private final List<String> transactionNames = Lists.newArrayList();
 
-	public FilePatcher(File sourceFile, File targetFile, ScriptFile scriptFile) {
-		writer = null;
-		transactionNames = new LinkedList<String>();
-		this.targetFile = targetFile;
-		this.sourceFile = sourceFile;
-	}
-
-	public void configure(String lsn, Technology technology, Mode mode) throws IOException {
-		this.lsn = lsn;
-		this.technology = technology;
+	AbstractBodyFilePatcher(Mode mode, String scriptName) {
+		this.scriptName = scriptName;
 		this.mode = mode;
-		setup();
-		generateFile();
 	}
 
-	private void setup() {
-		header = Constants.DT_HEADER;
-		if (technology.equals(Technology.C)) {
-			regex = header + Constants.C_REGEX;
-			transactionStart = Constants.C_TRANSACTION_START;
-			transactionEnd = Constants.C_TRANSACTION_END;
-			param = Constants.C_PARAM;
-			keywords = Constants.C_KEYWORDS;
-			clickAndScript = Constants.C_CLICK_AND_SCRIPT_KEYWORDS;
-		} else {
-			regex = header + Constants.JS_REGEX;
-			transactionStart = Constants.JS_TRANSACTION_START;
-			transactionEnd = Constants.JS_TRANSACTION_END;
-			param = Constants.JS_PARAM;
-			keywords = Constants.JS_KEYWORDS;
-			clickAndScript = Constants.JS_CLICK_AND_SCRIPT_KEYWORDS;
+	protected boolean patch(File sourceFile, File targetFile) throws IOException {
+		switch (mode) {
+		case DELETE:
+			return removeBody(sourceFile, targetFile);
+		case INSERT:
+			return addBody(sourceFile, targetFile);
 		}
+		return false;
 	}
 
-	public void generateFile() throws IOException {
-		try {
-			writer = new BufferedWriter(new FileWriter(targetFile));
-			scanner = new FileScanner(sourceFile);
+	private boolean addBody(File sourceFile, File targetFile) throws IOException {
+		try (
+				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+				PrintWriter writer = new PrintWriter(targetFile)
+		) {
+			FileScanner scanner = new FileScanner(reader);
 			scanner.initalize();
-			parseFile();
-		} catch (IOException e) {
-			throw e;
-		} finally {
-			try {
-				writer.close();
-			} catch (Exception e) {
-			}
-			if (scanner != null)
-				scanner.close();
+			parseFile(scanner, writer);
 		}
+		return true;
 	}
 
-	private void parseFile() throws IOException {
+	private boolean removeBody(File sourceFile, File targetFile) {
+		return false;
+	}
+
+	private void parseFile(FileScanner scanner, PrintWriter writer) throws IOException {
 		while (scanner.readInstruction())
-			handleInstruction(scanner.getInstruction().toString(), scanner.getCommentedInstruction().toString());
+			handleInstruction(scanner, writer, scanner.getInstruction().toString(), scanner.getCommentedInstruction().toString());
 	}
 
-	private void handleInstruction(String instruction, String commentedInstruction) throws IOException {
+	private void handleInstruction(FileScanner scanner, PrintWriter writer, String instruction, String commentedInstruction)
+			throws IOException {
 		String write = commentedInstruction;
 		if (write == null)
 			write = instruction;
@@ -106,7 +82,7 @@ public class FilePatcher {
 					if (instruction.contains(keyword)) {
 						if (mode.equals(Mode.INSERT)) {
 							String pageContext = getFirstStringParameter(instruction);
-							write = insertMethodCall(keyword, write, pageContext);
+							write = insertMethodCall(scanner, keyword, write, pageContext);
 						}
 						break;
 					}
@@ -119,7 +95,7 @@ public class FilePatcher {
 		}
 	}
 
-	private String insertMethodCall(String keyword, String commentedInstruction, String pageContext)
+	private String insertMethodCall(FileScanner scanner, String keyword, String commentedInstruction, String pageContext)
 			throws UnsupportedEncodingException {
 		int insertPosition = 0;
 		int keywordIndex = 0;
@@ -159,13 +135,13 @@ public class FilePatcher {
 		if (!isClickAndScriptKeyword(keyword)) {
 			parameterBuilder.append("PC=" + pageContext + ";");
 			parameterBuilder.append("SI=LoadRunner;");
-			if (!lsn.isEmpty()) {
-				parameterBuilder.append("LSN=" + lsn + ";");
+			if (!scriptName.isEmpty()) {
+				parameterBuilder.append("LSN=" + scriptName + ";");
 			}
 		}
 		parameterBuilder.append("\"");
 		String instruction = start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF
-				+ scanner.getIndention() + end;
+				+ scanner.getIndentation() + end;
 
 		return instruction;
 	}

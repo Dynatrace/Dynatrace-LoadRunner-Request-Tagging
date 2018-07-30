@@ -1,4 +1,4 @@
-package com.dynatrace.loadrunner;
+package com.dynatrace.loadrunner.converter;
 
 import java.nio.file.Path;
 

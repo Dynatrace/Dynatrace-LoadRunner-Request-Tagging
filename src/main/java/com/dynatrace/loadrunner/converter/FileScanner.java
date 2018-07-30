@@ -1,24 +1,22 @@
-package com.dynatrace.loadrunner.logic;
+package com.dynatrace.loadrunner.converter;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class FileScanner {
 
 	private static final char EOF = (char) -1;
 	private char ch, old, older;
-	private String indention = "";
-	private String newIndention = "";
+	private String indentation = "";
+	private String newIndentation = "";
 	private boolean insideString = false;
 	private StringBuilder instruction;
 	private StringBuilder commentedInstruction;
 	private BufferedReader reader;
 
-	public FileScanner(File input) throws FileNotFoundException {
-		reader = new BufferedReader(new FileReader(input));
+	public FileScanner(BufferedReader reader) throws FileNotFoundException {
+		this.reader = reader;
 	}
 
 	public void initalize() {
@@ -31,7 +29,7 @@ public class FileScanner {
 		}
 		instruction = new StringBuilder();
 		commentedInstruction = new StringBuilder();
-		indention = "";
+		indentation = "";
 		while (ch != EOF) {
 			if (ch == ';' && !insideString) {
 				break;
@@ -59,8 +57,8 @@ public class FileScanner {
 					continue;
 				}
 				appendChar(old);
-			} else if (!Character.isWhitespace(ch) && indention.isEmpty()) {
-				indention = newIndention;
+			} else if (!Character.isWhitespace(ch) && indentation.isEmpty()) {
+				indentation = newIndentation;
 			}
 
 			appendChar(ch);
@@ -120,9 +118,9 @@ public class FileScanner {
 			old = ch;
 			ch = (char) reader.read();
 			if (ch == '\n') {
-				newIndention = "";
+				newIndentation = "";
 			} else if (ch == '\t' || ch == ' ') {
-				newIndention += ch;
+				newIndentation += ch;
 			}
 		} catch (IOException e) {
 			ch = EOF;
@@ -147,8 +145,8 @@ public class FileScanner {
 		}
 	}
 
-	public String getIndention() {
-		return indention;
+	public String getIndentation() {
+		return indentation;
 	}
 
 	public StringBuilder getInstruction() {

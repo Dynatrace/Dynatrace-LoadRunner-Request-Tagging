@@ -1,6 +1,6 @@
-package com.dynatrace.loadrunner;
+package com.dynatrace.loadrunner.config;
 
-enum Argument {
+public enum Argument {
 
 	INSERT("insert"), DELETE("delete"), TYPE_JS("-js"), TYPE_C("-c"), HELP("-help"), SCRIPT_NAME("-lsn",
 			true), BODY("-body", true), HEADER("-header", true), PATH("-path", true);
