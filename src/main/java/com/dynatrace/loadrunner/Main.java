@@ -33,7 +33,7 @@ public class Main {
 			return;
 		}
 
-		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.VERSION));
+		printVersion();
 		UserConfig userConfig = UserConfig.from(argumentsMap);
 
 		String lsn = userConfig.getLsn();
@@ -54,8 +54,12 @@ public class Main {
 		System.out.println("Conversion complete");
 	}
 
+	private static void printVersion() throws IOException {
+		System.out.println(FileReaderUtil.getVersion());
+	}
+
 	private static void printUsage() throws IOException {
-		System.out.println(FileReaderUtil.getClassResources(Main.class, FileReaderUtil.PRINT_USAGES));
+		System.out.println(FileReaderUtil.getPrintUsages());
 	}
 
 	private static void getFilesFromPath(String path) {

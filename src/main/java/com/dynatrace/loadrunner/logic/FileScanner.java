@@ -32,11 +32,6 @@ public class FileScanner {
 		instruction = new StringBuilder();
 		commentedInstruction = new StringBuilder();
 		indention = "";
-		/*
-		 * switch case which seemed preffered way becomes unreadable due to need of if's
-		 * to check whether insideString So in the end it will be both switch and if
-		 * instead of if's
-		 */
 		while (ch != EOF) {
 			if (ch == ';' && !insideString) {
 				break;

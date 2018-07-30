@@ -30,7 +30,7 @@ public class ModeTest {
 		}
 		assertEquals(Mode.INSERT, Mode.from(Sets.newHashSet(Argument.INSERT)));
 		assertEquals(Mode.DELETE, Mode.from(Sets.newHashSet(Argument.DELETE)));
-		assertEquals(Mode.DELETE, Mode.from(Sets.newHashSet(Argument.INSERT, Argument.DELETE)));
+		assertEquals(Mode.INSERT, Mode.from(Sets.newHashSet(Argument.INSERT, Argument.DELETE)));
 	}
 
 }

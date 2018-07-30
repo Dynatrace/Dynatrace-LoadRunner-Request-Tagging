@@ -41,20 +41,18 @@ class ArgumentParser {
 			throw new IllegalArgumentException("<mode> needs to be specified");
 		}
 		if (arguments.containsKey(Argument.INSERT) == arguments.containsKey(Argument.DELETE)) {
-			throw new IllegalArgumentException(
-					"<mode> should contain either '" + Argument.INSERT.getName() + "' or '" + Argument.DELETE.getName() + "'");
+			throw new IllegalArgumentException("<mode> should contain either '" + Argument.INSERT.getName() + "' or '"
+					+ Argument.DELETE.getName() + "'");
 		}
-		if (arguments.containsKey(Argument.PATH) == (arguments.containsKey(Argument.BODY)
-				|| arguments.containsKey(Argument.HEADER))
+		if (arguments.containsKey(
+				Argument.PATH) == (arguments.containsKey(Argument.BODY) || arguments.containsKey(Argument.HEADER))
 				|| arguments.containsKey(Argument.BODY) != arguments.containsKey(Argument.HEADER)) {
-			throw new IllegalArgumentException(
-					"<path parameter> should contain either '" + Argument.PATH.getName() + "' or '" + Argument.BODY.getName()
-							+ "' and '" + Argument.HEADER.getName() + "'");
+			throw new IllegalArgumentException("<path parameter> should contain either '" + Argument.PATH.getName()
+					+ "' or '" + Argument.BODY.getName() + "' and '" + Argument.HEADER.getName() + "'");
 		}
 		if (arguments.containsKey(Argument.TYPE_C) && arguments.containsKey(Argument.TYPE_JS)) {
-			throw new IllegalArgumentException(
-					"<optional parameter> should contain either '" + Argument.TYPE_JS.getName() + "' or '" + Argument.TYPE_C
-							.getName() + "'");
+			throw new IllegalArgumentException("<optional parameter> should contain either '"
+					+ Argument.TYPE_JS.getName() + "' or '" + Argument.TYPE_C.getName() + "'");
 		}
 		for (Map.Entry<Argument, String> argumentEntry : arguments.entrySet()) {
 			Argument key = argumentEntry.getKey();

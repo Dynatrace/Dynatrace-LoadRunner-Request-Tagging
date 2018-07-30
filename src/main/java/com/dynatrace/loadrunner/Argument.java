@@ -2,15 +2,8 @@ package com.dynatrace.loadrunner;
 
 enum Argument {
 
-	INSERT("insert"),
-	DELETE("delete"),
-	TYPE_JS("-js"),
-	TYPE_C("-c"),
-	HELP("-help"),
-	SCRIPT_NAME("-lsn", true),
-	BODY("-body", true),
-	HEADER("-header", true),
-	PATH("-path", true);
+	INSERT("insert"), DELETE("delete"), TYPE_JS("-js"), TYPE_C("-c"), HELP("-help"), SCRIPT_NAME("-lsn",
+			true), BODY("-body", true), HEADER("-header", true), PATH("-path", true);
 
 	private final String name;
 	private final boolean valueRequired;

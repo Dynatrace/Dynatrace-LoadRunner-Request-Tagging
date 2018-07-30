@@ -25,7 +25,7 @@ import com.dynatrace.loadrunner.logic.LRConverter;
 import com.dynatrace.loadrunner.logic.ScriptFile;
 
 @RunWith(value = Parameterized.class)
-public class LRUnitTest {
+public class LRConverterTest {
 
 	@Rule
 	public TemporaryFolder tempFolderRule = new TemporaryFolder();
@@ -37,7 +37,7 @@ public class LRUnitTest {
 
 	private final static String LSN = "script name";
 
-	public LRUnitTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
+	public LRConverterTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
 		this.input = input;
 		this.result = result;
 		this.mode = mode;

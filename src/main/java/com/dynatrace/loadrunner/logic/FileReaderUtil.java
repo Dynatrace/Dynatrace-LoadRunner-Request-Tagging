@@ -12,7 +12,7 @@ public class FileReaderUtil {
 	public final static String PRINT_USAGES = "/printUsages.txt";
 	public final static String VERSION = "/version.txt";
 
-	// TODO expose methods like String getPrintUsages(), etc.
+	public final static Class<FileReaderUtil> CLASS = FileReaderUtil.class;
 
 	private static String readFromInputStream(final InputStream inputStream) throws IOException {
 		StringBuilder resultStringBuilder = new StringBuilder();
@@ -25,7 +25,20 @@ public class FileReaderUtil {
 		return resultStringBuilder.toString();
 	}
 
-	public static String getClassResources(Class<?> cls, String name) throws IOException {
-		return readFromInputStream(cls.getResourceAsStream(name));
+	public static String getPrintUsages() throws IOException {
+		return readFromInputStream(CLASS.getResourceAsStream(PRINT_USAGES));
 	}
+
+	public static String getVersion() throws IOException {
+		return readFromInputStream(CLASS.getResourceAsStream(VERSION));
+	}
+
+	public static String getCFunction() throws IOException {
+		return readFromInputStream(CLASS.getResourceAsStream(C_FUNCTION));
+	}
+
+	public static String getJsFunction() throws IOException {
+		return readFromInputStream(CLASS.getResourceAsStream(JS_FUNCTION));
+	}
+
 }

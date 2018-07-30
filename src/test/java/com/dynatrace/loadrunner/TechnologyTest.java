@@ -21,6 +21,6 @@ public class TechnologyTest {
 		assertEquals(Technology.C, Technology.from(Sets.newHashSet()));
 		assertEquals(Technology.JS, Technology.from(Sets.newHashSet(Argument.TYPE_JS)));
 		assertEquals(Technology.C, Technology.from(Sets.newHashSet(Argument.TYPE_C)));
-		assertEquals(Technology.JS, Technology.from(Sets.newHashSet(Argument.TYPE_C, Argument.TYPE_JS)));
+		assertEquals(Technology.JS, Technology.from(Sets.newHashSet(Argument.TYPE_JS, Argument.TYPE_C)));
 	}
 }
