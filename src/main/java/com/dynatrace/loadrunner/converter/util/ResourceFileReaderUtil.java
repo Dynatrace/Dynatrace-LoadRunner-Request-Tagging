@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import com.dynatrace.loadrunner.Constants;
+
 public class ResourceFileReaderUtil {
 
 	public final static String C_FUNCTION = "/dynatraceFunction_C.txt";
@@ -23,8 +25,14 @@ public class ResourceFileReaderUtil {
 		StringBuilder resultStringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
 			String line;
+			boolean firstLine = true;
 			while ((line = br.readLine()) != null) {
-				resultStringBuilder.append(line).append("\n");
+				if (firstLine) {
+					firstLine = false;
+				} else {
+					resultStringBuilder.append(Constants.CRLF);
+				}
+				resultStringBuilder.append(line);
 			}
 		}
 		return resultStringBuilder.toString();

@@ -1,19 +1,19 @@
 package com.dynatrace.loadrunner.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -24,6 +24,7 @@ import org.junit.runners.Parameterized.Parameters;
 import com.dynatrace.loadrunner.config.InputFiles;
 import com.dynatrace.loadrunner.config.Mode;
 import com.dynatrace.loadrunner.config.Technology;
+import com.google.common.collect.Sets;
 
 @RunWith(value = Parameterized.class)
 public class FilesConverterTest {
@@ -31,76 +32,116 @@ public class FilesConverterTest {
 	@Rule
 	public TemporaryFolder tempFolderRule = new TemporaryFolder();
 
-	private Wrapper input;
-	private Wrapper result;
+	private String testCaseLabel;
+	private InputFiles input;
 	private Mode mode;
 	private Technology technology;
+	private OutputFiles result;
 
 	private final static String LSN = "script name";
 
-	public FilesConverterTest(Wrapper input, Wrapper result, Mode mode, Technology technology) {
+	public FilesConverterTest(String testCaseLabel, InputFiles input, Mode mode, Technology technology, OutputFiles result) {
+		this.testCaseLabel = testCaseLabel;
 		this.input = input;
-		this.result = result;
 		this.mode = mode;
 		this.technology = technology;
+		this.result = result;
 	}
 
-	@Parameters
+	@Parameters(name = "{0} (testCase #{index})")
 	public static Collection<Object[]> files() {
 		return Arrays.asList(new Object[][] {
-				// CONVERTING C
-				{ new Wrapper(Paths.get("src", "test", "resources", "c-unconverted-action.c"),
-						Paths.get("src", "test", "resources", "c-unconverted-globals.h")),
-						new Wrapper(Paths.get("src", "test", "resources", "c-converted-action.c"),
-								Paths.get("src", "test", "resources", "c-converted-globals.h")),
-						Mode.INSERT, Technology.C }, });
+				{
+						"patch C files",
+						new InputFiles(
+								Sets.newHashSet(new File("src/test/resources/c-unconverted-globals.h")),
+								Sets.newHashSet(new File("src/test/resources/c-unconverted-action.c"))),
+						Mode.INSERT,
+						Technology.C,
+						new OutputFiles(
+								Sets.newHashSet(new File("src/test/resources", "c-converted-globals.h")),
+								Sets.newHashSet(new File("src/test/resources", "c-converted-action.c")))
+				},
+				{
+						"revert C files",
+						new InputFiles(
+								Sets.newHashSet(new File("src/test/resources/c-converted-globals.h")),
+								Sets.newHashSet(new File("src/test/resources/c-converted-action.c"))),
+						Mode.DELETE,
+						Technology.C,
+						new OutputFiles(
+								Sets.newHashSet(new File("src/test/resources", "c-unconverted-globals.h")),
+								Sets.newHashSet(new File("src/test/resources", "c-unconverted-action.c")))
+				},
+				{
+						"patch JS files",
+						new InputFiles(
+								Sets.newHashSet(new File("src/test/resources/js-unconverted-globals.js")),
+								Sets.newHashSet(new File("src/test/resources/js-unconverted-action.js"))),
+						Mode.INSERT,
+						Technology.JS,
+						new OutputFiles(
+								Sets.newHashSet(new File("src/test/resources", "js-converted-globals.js")),
+								Sets.newHashSet(new File("src/test/resources", "js-converted-action.js")))
+				},
+				{
+						"revert JS files",
+						new InputFiles(
+								Sets.newHashSet(new File("src/test/resources/js-converted-globals.js")),
+								Sets.newHashSet(new File("src/test/resources/js-converted-action.js"))),
+						Mode.DELETE,
+						Technology.JS,
+						new OutputFiles(
+								Sets.newHashSet(new File("src/test/resources", "js-unconverted-globals.js")),
+								Sets.newHashSet(new File("src/test/resources", "js-unconverted-action.js")))
+				}
+		});
 	}
 
 	@Test
 	public void test() throws IOException {
-		File tempHeader = tempFolderRule.newFile("globals.h");
-		File tempAction = tempFolderRule.newFile("Action.c");
-		Files.copy(input.getHeader(), tempHeader.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(input.getBody(), tempAction.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		File tempHeader = tempFolderRule.newFile("headerFile.tmp");
+		File tempAction = tempFolderRule.newFile("bodyFile.tmp");
+		Files.copy(getFirstPath(input.getHeaderFiles()), tempHeader.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(getFirstPath(input.getBodyFiles()), tempAction.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-		List<File> headerList = new LinkedList<>();
-		List<File> bodyList = new LinkedList<>();
-		headerList.add(tempHeader);
-		bodyList.add(tempAction);
+		convertFiles(mode, technology, new InputFiles(Sets.newHashSet(tempHeader), Sets.newHashSet(tempAction)));
 
-		for (int repeat = 0; repeat < 10; repeat++) {
-			convertFiles(mode, technology, headerList, bodyList);
-		}
-
-		assertCompareFiles(tempHeader, result.getHeader().toFile());
-		assertCompareFiles(tempAction, result.getBody().toFile());
+		assertCompareFiles(tempHeader, getFirst(result.getHeaderFiles()));
+		assertCompareFiles(tempAction, getFirst(result.getBodyFiles()));
 	}
 
-	private void convertFiles(Mode mode, Technology technology, List<File> header, List<File> body) {
-		FilesConverter converter = new FilesConverter(mode, technology, new InputFiles(header, body), LSN);
+	private Path getFirstPath(Collection<File> files) {
+		return getFirst(files).toPath();
+	}
+
+	private File getFirst(Collection<File> files) {
+		return files.iterator().next();
+	}
+
+	private void convertFiles(Mode mode, Technology technology, InputFiles inputFiles) {
+		FilesConverter converter = new FilesConverter(mode, technology, inputFiles, LSN);
 		converter.convert();
 	}
 
-	private void assertCompareFiles(File modifiedFile, File comparisonFile) throws IOException {
-		BufferedReader modifiedReader = new BufferedReader(new InputStreamReader(new FileInputStream(modifiedFile)));
-		BufferedReader comparisonReader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(comparisonFile)));
-		try {
-			String line;
-			while ((line = modifiedReader.readLine()) != null) {
-				String otherLine = comparisonReader.readLine();
-				if (otherLine == null) {
+	private void assertCompareFiles(File expectedFile, File actualFile) throws IOException {
+		String messageSuffix = " (" + expectedFile.getName() + " vs " + actualFile.getName() + ")";
+		try (
+				BufferedReader expectedFileReader = new BufferedReader(new InputStreamReader(new FileInputStream(expectedFile)));
+				BufferedReader actualFileReader = new BufferedReader(new InputStreamReader(new FileInputStream(actualFile)))
+		) {
+			String expectedLine;
+			while ((expectedLine = expectedFileReader.readLine()) != null) {
+				String actualLine = actualFileReader.readLine();
+				if (actualLine == null) {
 					// assertFail
-					Assert.assertTrue("Compared file is empty", false);
+					fail("Compared file is empty" + messageSuffix);
 				}
-				Assert.assertEquals("Lines do not match", line, otherLine);
+				assertEquals("Lines do not match" + messageSuffix, expectedLine,
+						actualLine);
 			}
-			if (comparisonReader.readLine() != null)
-				Assert.assertTrue("Files do not have the same amount of lines", false);
-		} finally {
-			modifiedReader.close();
-			comparisonReader.close();
+			if (actualFileReader.readLine() != null)
+				fail("Files do not have the same amount of lines" + messageSuffix);
 		}
 	}
-
 }

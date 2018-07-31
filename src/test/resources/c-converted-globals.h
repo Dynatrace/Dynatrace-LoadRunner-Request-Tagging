@@ -38,7 +38,6 @@ void addDynatraceHeaderTest(char* header){
 	free(vuserstring);
 }
 
-
 //--------------------------------------------------------------------
 // Global Variables
 

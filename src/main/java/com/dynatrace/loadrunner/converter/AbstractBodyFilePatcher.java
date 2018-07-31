@@ -2,7 +2,6 @@ package com.dynatrace.loadrunner.converter;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,7 +35,10 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	AbstractBodyFilePatcher(Mode mode, String scriptName) {
 		this.scriptName = scriptName;
 		this.mode = mode;
+		initialize();
 	}
+
+	protected abstract void initialize();
 
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
 		switch (mode) {
@@ -49,8 +51,10 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	}
 
 	private boolean addBody(File sourceFile, File targetFile) throws IOException {
-		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-				PrintWriter writer = new PrintWriter(targetFile)) {
+		try (
+				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+				PrintWriter writer = new PrintWriter(targetFile)
+		) {
 			FileScanner scanner = new FileScanner(reader);
 			scanner.initalize();
 			parseFile(scanner, writer);
@@ -74,7 +78,6 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		if (write == null)
 			write = instruction;
 		write = removeEOF(commentedInstruction);
-		;
 		if (!instruction.contains(header)) {
 			if (instruction.contains(transactionStart))
 				transactionNames.add(getFirstStringParameter(write));

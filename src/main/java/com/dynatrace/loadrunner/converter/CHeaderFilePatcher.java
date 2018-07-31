@@ -30,8 +30,9 @@ public class CHeaderFilePatcher extends AbstractHeaderFilePatcher {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				writer.write(line + Constants.CRLF);
-				if (++lineCount == lastIncludeLine)
+				if (++lineCount == lastIncludeLine) {
 					writer.write(ResourceFileReaderUtil.getClassResources(FilesConverter.class, ResourceFileReaderUtil.C_FUNCTION));
+				}
 			}
 		}
 		return true;

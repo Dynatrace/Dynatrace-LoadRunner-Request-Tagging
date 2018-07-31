@@ -30,7 +30,9 @@ public class ModeTest {
 		}
 		assertEquals(Mode.INSERT, Mode.from(Sets.newHashSet(Argument.INSERT)));
 		assertEquals(Mode.DELETE, Mode.from(Sets.newHashSet(Argument.DELETE)));
-		assertEquals(Mode.INSERT, Mode.from(Sets.newHashSet(Argument.INSERT, Argument.DELETE)));
+		// in following case we're not sure about the result, so the validation should be done elsewhere
+		Mode mode = Mode.from(Sets.newHashSet(Argument.INSERT, Argument.DELETE));
+		assertTrue(Mode.INSERT.equals(mode) || Mode.DELETE.equals(mode));
 	}
 
 }

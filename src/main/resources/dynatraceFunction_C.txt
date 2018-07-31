@@ -1,4 +1,3 @@
-
 void addDynatraceHeaderTest(char* header){
 	char* headerValue;
 	int headerValueLength;

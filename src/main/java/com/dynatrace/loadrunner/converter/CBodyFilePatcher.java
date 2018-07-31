@@ -25,7 +25,6 @@ final class CBodyFilePatcher extends AbstractBodyFilePatcher {
 
 	public CBodyFilePatcher(Mode mode, String scriptName) {
 		super(mode, scriptName);
-		this.initialize();
 	}
 
 	protected void initialize() {
