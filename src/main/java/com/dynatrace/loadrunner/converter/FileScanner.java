@@ -1,10 +1,9 @@
 package com.dynatrace.loadrunner.converter;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class FileScanner {
+class FileScanner {
 
 	private static final char EOF = (char) -1;
 	private char ch, old, older;
@@ -15,15 +14,15 @@ public class FileScanner {
 	private StringBuilder commentedInstruction;
 	private BufferedReader reader;
 
-	public FileScanner(BufferedReader reader) throws FileNotFoundException {
+	FileScanner(BufferedReader reader) {
 		this.reader = reader;
 	}
 
-	public void initalize() {
+	void initialize() {
 		readChar();
 	}
 
-	public boolean readInstruction() throws IOException {
+	boolean readInstruction() {
 		if (ch == EOF) {
 			return false;
 		}
@@ -81,7 +80,7 @@ public class FileScanner {
 		commentedInstruction.append(ch);
 	}
 
-	private String readBlockComment() throws IOException {
+	private String readBlockComment() {
 		StringBuilder comment = new StringBuilder();
 		boolean endFound = false;
 		do {
@@ -99,7 +98,7 @@ public class FileScanner {
 		return comment.toString();
 	}
 
-	private String readToLineEnd() throws IOException {
+	private String readToLineEnd() {
 		StringBuilder comment = new StringBuilder();
 		do {
 			readChar();
@@ -127,33 +126,21 @@ public class FileScanner {
 		}
 	}
 
-	public String readWhiteSpaces() throws IOException {
-		StringBuilder whitespaces = new StringBuilder();
+	void skipWhiteSpaces() {
 		while (ch != EOF && Character.isWhitespace(ch)) {
 			readChar();
-			whitespaces.append(ch);
-		}
-		if (whitespaces.length() > 0)
-			return whitespaces.substring(0, whitespaces.length() - 1);
-		return "";
-	}
-
-	public void close() {
-		try {
-			reader.close();
-		} catch (Exception e) {
 		}
 	}
 
-	public String getIndentation() {
+	String getIndentation() {
 		return indentation;
 	}
 
-	public StringBuilder getInstruction() {
+	StringBuilder getInstruction() {
 		return instruction;
 	}
 
-	public StringBuilder getCommentedInstruction() {
+	StringBuilder getCommentedInstruction() {
 		return commentedInstruction;
 	}
 

@@ -2,6 +2,7 @@ package com.dynatrace.loadrunner.converter.util;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
@@ -49,7 +50,7 @@ public class FileReaderUtil {
 			return;
 		}
 		if (file.isDirectory()) {
-			for (final File subFile : file.listFiles()) {
+			for (final File subFile : Objects.requireNonNull(file.listFiles())) {
 				findFilesRecursive(subFile, output);
 			}
 		} else {

@@ -7,7 +7,7 @@ public enum Mode {
 
 	private final Argument sourceArgument;
 
-	private Mode(Argument sourceArgument) {
+	Mode(Argument sourceArgument) {
 		this.sourceArgument = sourceArgument;
 	}
 

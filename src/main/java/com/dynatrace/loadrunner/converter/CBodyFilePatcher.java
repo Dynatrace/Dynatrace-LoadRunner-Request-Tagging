@@ -23,7 +23,7 @@ final class CBodyFilePatcher extends AbstractBodyFilePatcher {
 			"web_file", "web_image_link", "web_image_submit", "web_list", "web_map_area", "web_radio_group",
 			"web_reg_dialog", "web_static_image", "web_table", "web_text_area", "web_text_link");
 
-	public CBodyFilePatcher(Mode mode, String scriptName) {
+	CBodyFilePatcher(Mode mode, String scriptName) {
 		super(mode, scriptName);
 	}
 

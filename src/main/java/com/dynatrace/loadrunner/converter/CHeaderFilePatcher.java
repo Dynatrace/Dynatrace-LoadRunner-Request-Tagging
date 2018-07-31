@@ -12,7 +12,7 @@ import com.dynatrace.loadrunner.converter.util.ResourceFileReaderUtil;
 
 public class CHeaderFilePatcher extends AbstractHeaderFilePatcher {
 
-	public CHeaderFilePatcher(Mode mode) {
+	CHeaderFilePatcher(Mode mode) {
 		super(mode);
 	}
 
@@ -27,7 +27,7 @@ public class CHeaderFilePatcher extends AbstractHeaderFilePatcher {
 				PrintWriter writer = new PrintWriter(targetFile)
 		) {
 			int lineCount = 0;
-			String line = null;
+			String line;
 			while ((line = reader.readLine()) != null) {
 				writer.write(line + Constants.CRLF);
 				if (++lineCount == lastIncludeLine) {

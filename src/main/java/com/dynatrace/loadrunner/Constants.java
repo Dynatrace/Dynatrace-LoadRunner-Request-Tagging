@@ -9,9 +9,4 @@ public final class Constants {
 	public static final String CRLF = "\r\n";
 
 	public static final String UNABLE_TO_RESTORE_FILE = "Unable to restore the backup file ";
-	public static final String FILE_NOT_FOUND = "File not found: ";
-
-	/* C files constants */
-
-	/* JS files constants */
 }

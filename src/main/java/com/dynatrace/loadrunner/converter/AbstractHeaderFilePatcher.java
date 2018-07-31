@@ -13,7 +13,7 @@ abstract class AbstractHeaderFilePatcher extends AbstractFilePatcher {
 
 	private final Mode mode;
 
-	public AbstractHeaderFilePatcher(Mode mode) {
+	AbstractHeaderFilePatcher(Mode mode) {
 		this.mode = mode;
 	}
 
@@ -42,7 +42,7 @@ abstract class AbstractHeaderFilePatcher extends AbstractFilePatcher {
 				headerFound |= line.contains(Constants.DT_HEADER);
 				if (headerFound) {
 					totalBracesCount += countBraces(line);
-					headerFound &= totalBracesCount > 0;
+					headerFound = totalBracesCount > 0;
 					continue;
 					// skip this line; we're in the middle of header block
 				}

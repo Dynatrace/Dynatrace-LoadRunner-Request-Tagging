@@ -19,7 +19,7 @@ final class JSBodyFilePatcher extends AbstractBodyFilePatcher {
 	private static final Set<String> JS_CLICK_AND_SCRIPT_KEYWORDS = Collections
 			.unmodifiableSet(new HashSet<>(Arrays.asList("web.image", "web.link")));
 
-	public JSBodyFilePatcher(Mode mode, String scriptName) {
+	JSBodyFilePatcher(Mode mode, String scriptName) {
 		super(mode, scriptName);
 	}
 

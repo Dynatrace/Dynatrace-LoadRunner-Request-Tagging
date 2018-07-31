@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
 
@@ -41,43 +40,26 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	protected abstract void initialize();
 
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
-		switch (mode) {
-		case DELETE:
-			return addBody(sourceFile, targetFile);
-		case INSERT:
-			return addBody(sourceFile, targetFile);
-		}
-		return false;
-	}
-
-	private boolean addBody(File sourceFile, File targetFile) throws IOException {
 		try (
 				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
 				PrintWriter writer = new PrintWriter(targetFile)
 		) {
 			FileScanner scanner = new FileScanner(reader);
-			scanner.initalize();
+			scanner.initialize();
 			parseFile(scanner, writer);
 		}
 		return true;
 	}
 
-	private boolean removeBody(File sourceFile, File targetFile) {
-		return false;
-	}
-
-	private void parseFile(FileScanner scanner, PrintWriter writer) throws IOException {
+	private void parseFile(FileScanner scanner, PrintWriter writer) {
 		while (scanner.readInstruction())
 			handleInstruction(scanner, writer, scanner.getInstruction().toString(),
 					scanner.getCommentedInstruction().toString());
 	}
 
 	private void handleInstruction(FileScanner scanner, PrintWriter writer, String instruction,
-			String commentedInstruction) throws IOException {
-		String write = commentedInstruction;
-		if (write == null)
-			write = instruction;
-		write = removeEOF(commentedInstruction);
+			String commentedInstruction) {
+		String write = removeEOF(commentedInstruction);
 		if (!instruction.contains(header)) {
 			if (instruction.contains(transactionStart))
 				transactionNames.add(getFirstStringParameter(write));
@@ -97,12 +79,12 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 			writer.write(write);
 		} else {
 			writer.write(write.replaceAll(regex, ""));
-			scanner.readWhiteSpaces();
+			scanner.skipWhiteSpaces();
 		}
 	}
 
 	private String insertMethodCall(FileScanner scanner, String keyword, String commentedInstruction,
-			String pageContext) throws UnsupportedEncodingException {
+			String pageContext) {
 		int insertPosition = 0;
 		int keywordIndex = 0;
 		char aktChar;
@@ -136,20 +118,19 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		parameterBuilder.append("\"");
 		String tsn = createTimerName();
 		if (StringUtils.isNotBlank(tsn)) {
-			parameterBuilder.append("TSN=" + tsn + ";");
+			parameterBuilder.append("TSN=").append(tsn).append(';');
 		}
 		if (!isClickAndScriptKeyword(keyword)) {
-			parameterBuilder.append("PC=" + pageContext + ";");
+			parameterBuilder.append("PC=").append(pageContext).append(';');
 			parameterBuilder.append("SI=LoadRunner;");
 			if (StringUtils.isNotBlank(scriptName)) {
-				parameterBuilder.append("LSN=" + scriptName + ";");
+				parameterBuilder.append("LSN=").append(scriptName).append(';');
 			}
 		}
 		parameterBuilder.append("\"");
-		String instruction = start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF
-				+ scanner.getIndentation() + end;
 
-		return instruction;
+		return start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF
+				+ scanner.getIndentation() + end;
 	}
 
 	private boolean isClickAndScriptKeyword(String keyword) {
@@ -160,7 +141,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		return false;
 	}
 
-	private String createTimerName() throws UnsupportedEncodingException {
+	private String createTimerName() {
 		StringBuilder builder = new StringBuilder();
 		boolean first = true;
 		for (String transactionName : transactionNames) {
@@ -173,13 +154,13 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	}
 
 	private int skipLine(String commentedInstruction, char aktCh, int i) {
-		char oldChar = '/', olderChar, aktChar = aktCh;
+		char oldChar;
+		char aktChar = aktCh;
 		int index = i;
 		do {
-			olderChar = oldChar;
 			oldChar = aktChar;
 			aktChar = commentedInstruction.charAt(++index);
-			if ((aktChar == '\n' && oldChar != '\\') || (aktChar == '\n' && oldChar == '\r' && olderChar != '\\'))
+			if (aktChar == '\n' && oldChar != '\\')
 				break;
 		} while (index < commentedInstruction.length());
 		return index;

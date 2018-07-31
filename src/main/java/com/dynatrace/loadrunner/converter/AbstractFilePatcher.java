@@ -7,7 +7,7 @@ import com.dynatrace.loadrunner.Constants;
 
 abstract class AbstractFilePatcher {
 
-	public void patch(File sourceFile) {
+	void patch(File sourceFile) {
 		try {
 			File targetFile = new File(sourceFile.getAbsolutePath() + Constants.TMP_FILE_EXT);
 			if (patch(sourceFile, targetFile)) {
@@ -20,7 +20,7 @@ abstract class AbstractFilePatcher {
 
 	protected abstract boolean patch(File sourceFile, File targetFile) throws IOException;
 
-	protected void replace(File sourceFile, File targetFile) throws IOException {
+	private void replace(File sourceFile, File targetFile) throws IOException {
 		if (!sourceFile.delete() || !targetFile.renameTo(sourceFile)) {
 			throw new IOException(Constants.UNABLE_TO_RESTORE_FILE + sourceFile.getAbsolutePath());
 		}

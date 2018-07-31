@@ -7,7 +7,7 @@ public enum Technology {
 
 	private final Argument sourceArgument;
 
-	private Technology(Argument sourceArgument) {
+	Technology(Argument sourceArgument) {
 		this.sourceArgument = sourceArgument;
 	}
 

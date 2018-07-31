@@ -12,7 +12,7 @@ import com.dynatrace.loadrunner.converter.util.ResourceFileReaderUtil;
 
 public class JSHeaderFilePatcher extends AbstractHeaderFilePatcher {
 
-	public JSHeaderFilePatcher(Mode mode) {
+	JSHeaderFilePatcher(Mode mode) {
 		super(mode);
 	}
 
@@ -24,7 +24,7 @@ public class JSHeaderFilePatcher extends AbstractHeaderFilePatcher {
 				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
 				PrintWriter writer = new PrintWriter(targetFile)
 		) {
-			String line = null;
+			String line;
 			while ((line = reader.readLine()) != null) {
 				writer.write(line + Constants.CRLF);
 			}

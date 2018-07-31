@@ -8,12 +8,12 @@ public enum Argument {
 	private final String name;
 	private final boolean valueRequired;
 
-	private Argument(String name, boolean valueRequired) {
+	Argument(String name, boolean valueRequired) {
 		this.name = name;
 		this.valueRequired = valueRequired;
 	}
 
-	private Argument(String name) {
+	Argument(String name) {
 		this(name, false);
 	}
 
