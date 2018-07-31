@@ -21,6 +21,7 @@ final class JSBodyFilePatcher extends AbstractBodyFilePatcher {
 
 	public JSBodyFilePatcher(Mode mode, String scriptName) {
 		super(mode, scriptName);
+		initialize();
 	}
 
 	protected void initialize() {

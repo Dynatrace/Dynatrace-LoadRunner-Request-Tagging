@@ -44,7 +44,7 @@ public class Main {
 		if (StringUtils.isBlank(userConfig.getPath())) {
 			return new InputFiles(
 					FileReaderUtil.getHeaderFiles(userConfig.getHeader(), technology),
-					FileReaderUtil.getBodyFiles(userConfig.getHeader(), technology));
+					FileReaderUtil.getBodyFiles(userConfig.getBody(), technology));
 		}
 		return FileReaderUtil.findInputFiles(new File(userConfig.getPath()), technology);
 	}

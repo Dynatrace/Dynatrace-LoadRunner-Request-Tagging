@@ -2,12 +2,15 @@ package com.dynatrace.loadrunner.converter;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.dynatrace.loadrunner.Constants;
 import com.dynatrace.loadrunner.config.Mode;
@@ -38,7 +41,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
 		switch (mode) {
 		case DELETE:
-			return removeBody(sourceFile, targetFile);
+			return addBody(sourceFile, targetFile);
 		case INSERT:
 			return addBody(sourceFile, targetFile);
 		}
@@ -46,10 +49,8 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	}
 
 	private boolean addBody(File sourceFile, File targetFile) throws IOException {
-		try (
-				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-				PrintWriter writer = new PrintWriter(targetFile)
-		) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+				PrintWriter writer = new PrintWriter(targetFile)) {
 			FileScanner scanner = new FileScanner(reader);
 			scanner.initalize();
 			parseFile(scanner, writer);
@@ -63,15 +64,17 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private void parseFile(FileScanner scanner, PrintWriter writer) throws IOException {
 		while (scanner.readInstruction())
-			handleInstruction(scanner, writer, scanner.getInstruction().toString(), scanner.getCommentedInstruction().toString());
+			handleInstruction(scanner, writer, scanner.getInstruction().toString(),
+					scanner.getCommentedInstruction().toString());
 	}
 
-	private void handleInstruction(FileScanner scanner, PrintWriter writer, String instruction, String commentedInstruction)
-			throws IOException {
+	private void handleInstruction(FileScanner scanner, PrintWriter writer, String instruction,
+			String commentedInstruction) throws IOException {
 		String write = commentedInstruction;
 		if (write == null)
 			write = instruction;
 		write = removeEOF(commentedInstruction);
+		;
 		if (!instruction.contains(header)) {
 			if (instruction.contains(transactionStart))
 				transactionNames.add(getFirstStringParameter(write));
@@ -95,8 +98,8 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		}
 	}
 
-	private String insertMethodCall(FileScanner scanner, String keyword, String commentedInstruction, String pageContext)
-			throws UnsupportedEncodingException {
+	private String insertMethodCall(FileScanner scanner, String keyword, String commentedInstruction,
+			String pageContext) throws UnsupportedEncodingException {
 		int insertPosition = 0;
 		int keywordIndex = 0;
 		char aktChar;
@@ -129,13 +132,13 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		StringBuilder parameterBuilder = new StringBuilder();
 		parameterBuilder.append("\"");
 		String tsn = createTimerName();
-		if (!tsn.isEmpty()) {
+		if (StringUtils.isNotBlank(tsn)) {
 			parameterBuilder.append("TSN=" + tsn + ";");
 		}
 		if (!isClickAndScriptKeyword(keyword)) {
 			parameterBuilder.append("PC=" + pageContext + ";");
 			parameterBuilder.append("SI=LoadRunner;");
-			if (!scriptName.isEmpty()) {
+			if (StringUtils.isNotBlank(scriptName)) {
 				parameterBuilder.append("LSN=" + scriptName + ";");
 			}
 		}
