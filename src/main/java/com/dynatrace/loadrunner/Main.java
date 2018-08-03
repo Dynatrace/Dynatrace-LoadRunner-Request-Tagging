@@ -19,31 +19,46 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		Map<Argument, String> argumentsMap = ArgumentParser.parse(args);
-		if (argumentsMap.containsKey(Argument.HELP)) {
+
+		if (containsHelp(argumentsMap)) {
 			printUsage();
 			return;
 		}
 
-		try {
-			ArgumentParser.validate(argumentsMap);
-		} catch (IllegalArgumentException e) {
-			System.out.println("\nError occurred: " + e.getMessage() + "\n");
+		if (isNotValid(argumentsMap)) {
 			printUsage();
 			return;
 		}
 
 		UserConfig userConfig = UserConfig.from(argumentsMap);
 		Technology technology = userConfig.getTechnology();
-		FilesConverter converter = new FilesConverter(userConfig.getMode(), technology, getInputFiles(userConfig, technology),
-				userConfig.getLsn());
+		FilesConverter converter = new FilesConverter(userConfig.getMode(), technology,
+				getInputFiles(userConfig, technology), userConfig.getLsn());
 		converter.convert();
+
 		System.out.println("Conversion complete");
+	}
+
+	private static boolean containsHelp(Map<Argument, String> argumentsMap) {
+		if (argumentsMap.containsKey(Argument.HELP)) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean isNotValid(Map<Argument, String> argumentsMap) {
+		try {
+			ArgumentParser.validate(argumentsMap);
+		} catch (IllegalArgumentException e) {
+			System.out.println("\nError occurred: " + e.getMessage() + "\n");
+			return true;
+		}
+		return false;
 	}
 
 	private static InputFiles getInputFiles(UserConfig userConfig, Technology technology) {
 		if (StringUtils.isBlank(userConfig.getPath())) {
-			return new InputFiles(
-					FileReaderUtil.getHeaderFiles(userConfig.getHeader(), technology),
+			return new InputFiles(FileReaderUtil.getHeaderFiles(userConfig.getHeader(), technology),
 					FileReaderUtil.getBodyFiles(userConfig.getBody(), technology));
 		}
 		return FileReaderUtil.findInputFiles(new File(userConfig.getPath()), technology);

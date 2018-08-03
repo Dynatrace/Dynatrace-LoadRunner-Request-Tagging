@@ -12,11 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.dynatrace.loadrunner.Constants;
 import com.dynatrace.loadrunner.config.Mode;
+import com.dynatrace.loadrunner.converter.util.BodyFilePatcherUtil;
 import com.google.common.collect.Lists;
 
+/* TODO : rework */
 abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
-
-	private final static char EOF = (char) -1;
 
 	private final Mode mode;
 	private final String scriptName;
@@ -39,11 +39,10 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	protected abstract void initialize();
 
+	/* TODO : is this okay? */
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
-		try (
-				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-				PrintWriter writer = new PrintWriter(targetFile)
-		) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+				PrintWriter writer = new PrintWriter(targetFile)) {
 			FileScanner scanner = new FileScanner(reader);
 			scanner.initialize();
 			parseFile(scanner, writer);
@@ -51,76 +50,60 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		return true;
 	}
 
+	/* TODO : change method arguments to become easier to read and understand */
 	private void parseFile(FileScanner scanner, PrintWriter writer) {
-		while (scanner.readInstruction())
-			handleInstruction(scanner, writer, scanner.getInstruction().toString(),
-					scanner.getCommentedInstruction().toString());
+		while (scanner.read()) {
+			handle(scanner, writer);
+		}
 	}
 
-	private void handleInstruction(FileScanner scanner, PrintWriter writer, String instruction,
-			String commentedInstruction) {
-		String write = removeEOF(commentedInstruction);
-		if (!instruction.contains(header)) {
-			if (instruction.contains(transactionStart))
-				transactionNames.add(getFirstStringParameter(write));
-			else if (instruction.contains(transactionEnd))
-				transactionNames.remove(getFirstStringParameter(write));
-			else {
+	private void handle(FileScanner scanner, PrintWriter writer) {
+		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
+		if (scanner.modifiedInstructionContais(header)) {
+			writer.write(instructionToWrite.replaceAll(regex, ""));
+			scanner.skipWhiteSpaces();
+		} else {
+			/* TODO : handle transactions differently */
+			if (scanner.modifiedInstructionContais(transactionStart)) {
+				transactionNames.add(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
+			} else if (scanner.modifiedInstructionContais(transactionEnd)) {
+				transactionNames.remove(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
+			} else {
 				for (String keyword : keywords) {
-					if (instruction.contains(keyword)) {
+					if (scanner.modifiedInstructionContais(keyword)) {
 						if (mode.equals(Mode.INSERT)) {
-							String pageContext = getFirstStringParameter(instruction);
-							write = insertMethodCall(scanner, keyword, write, pageContext);
+							/* TODO : rename pageContext */
+							String pageContext = BodyFilePatcherUtil
+									.getFirstStringParameter(scanner.getModifiedInstruction().toString(), param);
+							/* TODO : change insertMethodCall */
+							instructionToWrite = insertMethodCall(instructionToWrite,
+									scanner.getWhiteSpace().toString(), keyword, pageContext);
 						}
 						break;
 					}
 				}
 			}
-			writer.write(write);
-		} else {
-			writer.write(write.replaceAll(regex, ""));
-			scanner.skipWhiteSpaces();
+			writer.write(instructionToWrite);
 		}
 	}
 
-	private String insertMethodCall(FileScanner scanner, String keyword, String commentedInstruction,
+	/* TODO : UTIL CLASS? its not writing, its building line to write */
+	private String insertMethodCall(String unmodifiedInstruction, String whiteSpaces, String keyword,
 			String pageContext) {
-		int insertPosition = 0;
-		int keywordIndex = 0;
-		char aktChar;
-		for (int i = 0; i < commentedInstruction.length(); i++) {
-			aktChar = commentedInstruction.charAt(i);
-			if (aktChar == keyword.charAt(keywordIndex)) {
-				keywordIndex++;
-				if (keywordIndex == keyword.length()) {
-					insertPosition = i - keywordIndex + 1;
-					break;
-				}
-			} else {
-				keywordIndex = 0;
-				if (aktChar == keyword.charAt(keywordIndex)) {
-					keywordIndex++;
-				} else if (aktChar == '/') {
-					aktChar = commentedInstruction.charAt(++i);
-					if (aktChar == '*')
-						i = skipBlockComment(commentedInstruction, i);
-					else if (aktChar == '/')
-						i = skipLine(commentedInstruction, aktChar, i);
-				} else if (aktChar == '#')
-					i = skipLine(commentedInstruction, aktChar, i);
-			}
-		}
 
-		String start = commentedInstruction.substring(0, insertPosition);
-		String end = commentedInstruction.substring(insertPosition);
+		int insertPosition = BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword);
+
+		String start = unmodifiedInstruction.substring(0, insertPosition);
+		String end = unmodifiedInstruction.substring(insertPosition);
 
 		StringBuilder parameterBuilder = new StringBuilder();
 		parameterBuilder.append("\"");
-		String tsn = createTimerName();
+		String tsn = BodyFilePatcherUtil.concatTransactionNames(transactionNames);
 		if (StringUtils.isNotBlank(tsn)) {
 			parameterBuilder.append("TSN=").append(tsn).append(';');
 		}
-		if (!isClickAndScriptKeyword(keyword)) {
+
+		if (!clickAndScript.contains(keyword)) {
 			parameterBuilder.append("PC=").append(pageContext).append(';');
 			parameterBuilder.append("SI=LoadRunner;");
 			if (StringUtils.isNotBlank(scriptName)) {
@@ -129,80 +112,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		}
 		parameterBuilder.append("\"");
 
-		return start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF
-				+ scanner.getIndentation() + end;
-	}
-
-	private boolean isClickAndScriptKeyword(String keyword) {
-		for (String word : clickAndScript) {
-			if (word.equals(keyword))
-				return true;
-		}
-		return false;
-	}
-
-	private String createTimerName() {
-		StringBuilder builder = new StringBuilder();
-		boolean first = true;
-		for (String transactionName : transactionNames) {
-			if (!first)
-				builder.append(" - ");
-			first = false;
-			builder.append(transactionName);
-		}
-		return builder.toString();
-	}
-
-	private int skipLine(String commentedInstruction, char aktCh, int i) {
-		char oldChar;
-		char aktChar = aktCh;
-		int index = i;
-		do {
-			oldChar = aktChar;
-			aktChar = commentedInstruction.charAt(++index);
-			if (aktChar == '\n' && oldChar != '\\')
-				break;
-		} while (index < commentedInstruction.length());
-		return index;
-	}
-
-	private int skipBlockComment(String commentedInstruction, int i) {
-		char aktChar;
-		int index = i;
-
-		while (index < commentedInstruction.length() - 1) {
-			aktChar = commentedInstruction.charAt(++index);
-			while (aktChar == '*' && index < commentedInstruction.length() - 1) {
-				aktChar = commentedInstruction.charAt(++index);
-				if (aktChar == '/') {
-					return index;
-				}
-			}
-		}
-		return index;
-	}
-
-	private String getFirstStringParameter(String instruction) {
-		StringBuilder builder = new StringBuilder();
-		int i = instruction.indexOf(param) + 1;
-		if (i == 0)
-			return "";
-		char ch = instruction.charAt(i++), old = param;
-		while (i < instruction.length()) {
-			if (ch == param && old != '\\')
-				break;
-			builder.append(ch);
-			old = ch;
-			ch = instruction.charAt(i++);
-		}
-		return builder.toString();
-	}
-
-	private String removeEOF(String instruction) {
-		String write = instruction;
-		if (instruction.length() > 0 && instruction.charAt(instruction.length() - 1) == EOF)
-			write = instruction.substring(0, instruction.length() - 1);
-		return write;
+		return start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF + whiteSpaces + end;
 	}
 
 }

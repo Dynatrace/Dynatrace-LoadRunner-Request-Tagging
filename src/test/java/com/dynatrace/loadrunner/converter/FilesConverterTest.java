@@ -32,6 +32,7 @@ public class FilesConverterTest {
 	@Rule
 	public TemporaryFolder tempFolderRule = new TemporaryFolder();
 
+	@SuppressWarnings("unused")
 	private String testCaseLabel;
 	private InputFiles input;
 	private Mode mode;
@@ -40,7 +41,8 @@ public class FilesConverterTest {
 
 	private final static String LSN = "script name";
 
-	public FilesConverterTest(String testCaseLabel, InputFiles input, Mode mode, Technology technology, OutputFiles result) {
+	public FilesConverterTest(String testCaseLabel, InputFiles input, Mode mode, Technology technology,
+			OutputFiles result) {
 		this.testCaseLabel = testCaseLabel;
 		this.input = input;
 		this.mode = mode;
@@ -51,51 +53,30 @@ public class FilesConverterTest {
 	@Parameters(name = "{0} (testCase #{index})")
 	public static Collection<Object[]> files() {
 		return Arrays.asList(new Object[][] {
-				{
-						"patch C files",
-						new InputFiles(
-								Sets.newHashSet(new File("src/test/resources/c-unconverted-globals.h")),
+				{ "patch C files",
+						new InputFiles(Sets.newHashSet(new File("src/test/resources/c-unconverted-globals.h")),
 								Sets.newHashSet(new File("src/test/resources/c-unconverted-action.c"))),
-						Mode.INSERT,
-						Technology.C,
-						new OutputFiles(
-								Sets.newHashSet(new File("src/test/resources", "c-converted-globals.h")),
-								Sets.newHashSet(new File("src/test/resources", "c-converted-action.c")))
-				},
-				{
-						"revert C files",
-						new InputFiles(
-								Sets.newHashSet(new File("src/test/resources/c-converted-globals.h")),
+						Mode.INSERT, Technology.C,
+						new OutputFiles(Sets.newHashSet(new File("src/test/resources", "c-converted-globals.h")),
+								Sets.newHashSet(new File("src/test/resources", "c-converted-action.c"))) },
+				{ "revert C files",
+						new InputFiles(Sets.newHashSet(new File("src/test/resources/c-converted-globals.h")),
 								Sets.newHashSet(new File("src/test/resources/c-converted-action.c"))),
-						Mode.DELETE,
-						Technology.C,
-						new OutputFiles(
-								Sets.newHashSet(new File("src/test/resources", "c-unconverted-globals.h")),
-								Sets.newHashSet(new File("src/test/resources", "c-unconverted-action.c")))
-				},
-				{
-						"patch JS files",
-						new InputFiles(
-								Sets.newHashSet(new File("src/test/resources/js-unconverted-globals.js")),
+						Mode.DELETE, Technology.C,
+						new OutputFiles(Sets.newHashSet(new File("src/test/resources", "c-unconverted-globals.h")),
+								Sets.newHashSet(new File("src/test/resources", "c-unconverted-action.c"))) },
+				{ "patch JS files",
+						new InputFiles(Sets.newHashSet(new File("src/test/resources/js-unconverted-globals.js")),
 								Sets.newHashSet(new File("src/test/resources/js-unconverted-action.js"))),
-						Mode.INSERT,
-						Technology.JS,
-						new OutputFiles(
-								Sets.newHashSet(new File("src/test/resources", "js-converted-globals.js")),
-								Sets.newHashSet(new File("src/test/resources", "js-converted-action.js")))
-				},
-				{
-						"revert JS files",
-						new InputFiles(
-								Sets.newHashSet(new File("src/test/resources/js-converted-globals.js")),
+						Mode.INSERT, Technology.JS,
+						new OutputFiles(Sets.newHashSet(new File("src/test/resources", "js-converted-globals.js")),
+								Sets.newHashSet(new File("src/test/resources", "js-converted-action.js"))) },
+				{ "revert JS files",
+						new InputFiles(Sets.newHashSet(new File("src/test/resources/js-converted-globals.js")),
 								Sets.newHashSet(new File("src/test/resources/js-converted-action.js"))),
-						Mode.DELETE,
-						Technology.JS,
-						new OutputFiles(
-								Sets.newHashSet(new File("src/test/resources", "js-unconverted-globals.js")),
-								Sets.newHashSet(new File("src/test/resources", "js-unconverted-action.js")))
-				}
-		});
+						Mode.DELETE, Technology.JS,
+						new OutputFiles(Sets.newHashSet(new File("src/test/resources", "js-unconverted-globals.js")),
+								Sets.newHashSet(new File("src/test/resources", "js-unconverted-action.js"))) } });
 	}
 
 	@Test
@@ -126,10 +107,10 @@ public class FilesConverterTest {
 
 	private void assertCompareFiles(File expectedFile, File actualFile) throws IOException {
 		String messageSuffix = " (" + expectedFile.getName() + " vs " + actualFile.getName() + ")";
-		try (
-				BufferedReader expectedFileReader = new BufferedReader(new InputStreamReader(new FileInputStream(expectedFile)));
-				BufferedReader actualFileReader = new BufferedReader(new InputStreamReader(new FileInputStream(actualFile)))
-		) {
+		try (BufferedReader expectedFileReader = new BufferedReader(
+				new InputStreamReader(new FileInputStream(expectedFile)));
+				BufferedReader actualFileReader = new BufferedReader(
+						new InputStreamReader(new FileInputStream(actualFile)))) {
 			String expectedLine;
 			while ((expectedLine = expectedFileReader.readLine()) != null) {
 				String actualLine = actualFileReader.readLine();
@@ -137,8 +118,7 @@ public class FilesConverterTest {
 					// assertFail
 					fail("Compared file is empty" + messageSuffix);
 				}
-				assertEquals("Lines do not match" + messageSuffix, expectedLine,
-						actualLine);
+				assertEquals("Lines do not match" + messageSuffix, expectedLine, actualLine);
 			}
 			if (actualFileReader.readLine() != null)
 				fail("Files do not have the same amount of lines" + messageSuffix);

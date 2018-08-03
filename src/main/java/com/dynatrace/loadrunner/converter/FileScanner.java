@@ -3,145 +3,169 @@ package com.dynatrace.loadrunner.converter;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-class FileScanner {
+public class FileScanner {
 
-	private static final char EOF = (char) -1;
-	private char ch, old, older;
-	private String indentation = "";
-	private String newIndentation = "";
-	private boolean insideString = false;
-	private StringBuilder instruction;
-	private StringBuilder commentedInstruction;
+	private final static char EOF = (char) -1;
+
 	private BufferedReader reader;
 
-	FileScanner(BufferedReader reader) {
+	private char firstChar, secondChar, thirdChar;
+
+	private StringBuilder modifiedInstruction;
+	private StringBuilder unmodifiedInstruction;
+	private StringBuilder whiteSpace;
+	private StringBuilder newWhiteSpace;
+
+	private boolean insideString = false;
+
+	public FileScanner(BufferedReader reader) {
 		this.reader = reader;
 	}
 
-	void initialize() {
-		readChar();
+	public void initialize() {
+		modifiedInstruction = new StringBuilder();
+		unmodifiedInstruction = new StringBuilder();
+		whiteSpace = new StringBuilder();
+		newWhiteSpace = new StringBuilder();
+		getChar();
 	}
 
-	boolean readInstruction() {
-		if (ch == EOF) {
+	/* TODO : rework if else */
+	public boolean read() {
+
+		if (firstChar == EOF) {
 			return false;
 		}
-		instruction = new StringBuilder();
-		commentedInstruction = new StringBuilder();
-		indentation = "";
-		while (ch != EOF) {
-			if (ch == ';' && !insideString) {
+
+		cleanBuffer();
+
+		while (firstChar != EOF) {
+			if (firstChar == ';' && !insideString) {
 				break;
 			}
-			if (ch == '}' && !insideString) {
+			if (firstChar == '}' && !insideString) {
 				break;
-			} else if (ch == '"') {
-				if (old != '\\') {
+			} else if (firstChar == '"') {
+				if (secondChar != '\\') {
 					insideString = !insideString;
 				}
-			} else if (ch == '\'') {
-				if (old != '\\') {
+			} else if (firstChar == '\'') {
+				if (secondChar != '\\') {
 					insideString = !insideString;
 				}
-			} else if (ch == '/' && !insideString) {
-				readChar();
-				if (ch == '*' && !insideString) {
-					appendCommentBegin();
-					commentedInstruction.append(readBlockComment());
+			} else if (firstChar == '/' && !insideString) {
+				getChar();
+				if (firstChar == '*' && !insideString) {
+					unmodifiedInstruction.append(readBlockComment());
 					continue;
 				}
-				if (ch == '/' && !insideString) {
-					appendCommentBegin();
-					commentedInstruction.append(readToLineEnd());
+				if (firstChar == '/' && !insideString) {
+					unmodifiedInstruction.append(readToLineEnd());
 					continue;
 				}
-				appendChar(old);
-			} else if (!Character.isWhitespace(ch) && indentation.isEmpty()) {
-				indentation = newIndentation;
+				append(secondChar);
+			} else if (!Character.isWhitespace(firstChar) && whiteSpace.toString().isEmpty()) {
+				whiteSpace.append(newWhiteSpace.toString());
 			}
 
-			appendChar(ch);
-			readChar();
+			append(firstChar);
+			getChar();
 		}
-		appendChar(ch);
-		readChar();
+		append(firstChar);
+		getChar();
 		return true;
 	}
 
-	private void appendChar(char character) {
+	private void append(char character) {
 		if (!Character.isWhitespace(character)) {
-			instruction.append(character);
+			modifiedInstruction.append(character);
 		}
-		commentedInstruction.append(character);
+		unmodifiedInstruction.append(character);
 	}
 
+	/* TODO : do i need it */
 	private void appendCommentBegin() {
-		commentedInstruction.append(old);
-		commentedInstruction.append(ch);
+		unmodifiedInstruction.append(secondChar);
+		unmodifiedInstruction.append(firstChar);
 	}
 
+	/* TODO : inside if else or method */
 	private String readBlockComment() {
 		StringBuilder comment = new StringBuilder();
 		boolean endFound = false;
+		appendCommentBegin();
 		do {
-			readChar();
-			comment.append(ch);
-			while (ch == '*' && !endFound) {
-				readChar();
-				comment.append(ch);
-				if (ch == '/') {
+			getChar();
+			comment.append(firstChar);
+			while (firstChar == '*' && !endFound) {
+				getChar();
+				comment.append(firstChar);
+				if (firstChar == '/') {
 					endFound = true;
 				}
 			}
-		} while (ch != EOF && !endFound);
-		readChar();
+		} while (firstChar != EOF && !endFound);
+		getChar();
 		return comment.toString();
 	}
 
+	/* TODO : inside if else or method */
 	private String readToLineEnd() {
 		StringBuilder comment = new StringBuilder();
+		appendCommentBegin();
 		do {
-			readChar();
-			comment.append(ch);
-			if ((ch == '\n' && old != '\\') || (ch == '\n' && old == '\r' && older != '\\')) {
+			getChar();
+			comment.append(firstChar);
+			if ((firstChar == '\n' && secondChar != '\\')
+					|| (firstChar == '\n' && secondChar == '\r' && thirdChar != '\\')) {
 				break;
 			}
-		} while (ch != EOF);
-		readChar();
+		} while (firstChar != EOF);
+		getChar();
 		return comment.toString();
 	}
 
-	private void readChar() {
+	private void getChar() {
 		try {
-			older = old;
-			old = ch;
-			ch = (char) reader.read();
-			if (ch == '\n') {
-				newIndentation = "";
-			} else if (ch == '\t' || ch == ' ') {
-				newIndentation += ch;
+			thirdChar = secondChar;
+			secondChar = firstChar;
+			firstChar = (char) reader.read();
+			if (firstChar == '\n') {
+				newWhiteSpace.setLength(0);
+			} else if (firstChar == '\t' || firstChar == ' ') {
+				newWhiteSpace.append(firstChar);
 			}
 		} catch (IOException e) {
-			ch = EOF;
+			firstChar = EOF;
 		}
 	}
 
 	void skipWhiteSpaces() {
-		while (ch != EOF && Character.isWhitespace(ch)) {
-			readChar();
+		while (firstChar != EOF && Character.isWhitespace(firstChar)) {
+			getChar();
 		}
 	}
 
-	String getIndentation() {
-		return indentation;
+	boolean modifiedInstructionContais(String keyword) {
+		return modifiedInstruction.toString().contains(keyword) ? true : false;
 	}
 
-	StringBuilder getInstruction() {
-		return instruction;
+	StringBuilder getWhiteSpace() {
+		return whiteSpace;
 	}
 
-	StringBuilder getCommentedInstruction() {
-		return commentedInstruction;
+	/* TODO : method vs returning string */
+	StringBuilder getModifiedInstruction() {
+		return modifiedInstruction;
 	}
 
+	StringBuilder getUnmodifiedInstruction() {
+		return unmodifiedInstruction;
+	}
+
+	private void cleanBuffer() {
+		modifiedInstruction.setLength(0);
+		unmodifiedInstruction.setLength(0);
+		whiteSpace.setLength(0);
+	}
 }
