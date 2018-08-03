@@ -59,25 +59,23 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private void handle(FileScanner scanner, PrintWriter writer) {
 		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
-		if (scanner.modifiedInstructionContais(header)) {
+		if (scanner.modifiedInstructionContains(header)) {
 			writer.write(instructionToWrite.replaceAll(regex, ""));
 			scanner.skipWhiteSpaces();
 		} else {
 			/* TODO : handle transactions differently */
-			if (scanner.modifiedInstructionContais(transactionStart)) {
+			if (scanner.modifiedInstructionContains(transactionStart)) {
 				transactionNames.add(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
-			} else if (scanner.modifiedInstructionContais(transactionEnd)) {
+			} else if (scanner.modifiedInstructionContains(transactionEnd)) {
 				transactionNames.remove(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
 			} else {
 				for (String keyword : keywords) {
-					if (scanner.modifiedInstructionContais(keyword)) {
+					if (scanner.modifiedInstructionContains(keyword)) {
 						if (mode.equals(Mode.INSERT)) {
-							/* TODO : rename pageContext */
-							String pageContext = BodyFilePatcherUtil
+							String processedPage = BodyFilePatcherUtil
 									.getFirstStringParameter(scanner.getModifiedInstruction().toString(), param);
-							/* TODO : change insertMethodCall */
-							instructionToWrite = insertMethodCall(instructionToWrite,
-									scanner.getWhiteSpace().toString(), keyword, pageContext);
+							instructionToWrite = modifyInstruction(instructionToWrite,
+									scanner.getWhiteSpace().toString(), keyword, processedPage);
 						}
 						break;
 					}
@@ -87,32 +85,34 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		}
 	}
 
-	/* TODO : UTIL CLASS? its not writing, its building line to write */
-	private String insertMethodCall(String unmodifiedInstruction, String whiteSpaces, String keyword,
-			String pageContext) {
+	private String modifyInstruction(String unmodifiedInstruction, String whiteSpaces, String keyword,
+			String processedPage) {
 
 		int insertPosition = BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword);
 
 		String start = unmodifiedInstruction.substring(0, insertPosition);
 		String end = unmodifiedInstruction.substring(insertPosition);
 
+		return start + header + "(" + buildParameters(keyword, processedPage) + ");" + Constants.CRLF + whiteSpaces
+				+ end;
+	}
+
+	private String buildParameters(String keyword, String processedPage) {
 		StringBuilder parameterBuilder = new StringBuilder();
 		parameterBuilder.append("\"");
 		String tsn = BodyFilePatcherUtil.concatTransactionNames(transactionNames);
 		if (StringUtils.isNotBlank(tsn)) {
 			parameterBuilder.append("TSN=").append(tsn).append(';');
 		}
-
 		if (!clickAndScript.contains(keyword)) {
-			parameterBuilder.append("PC=").append(pageContext).append(';');
+			parameterBuilder.append("PC=").append(processedPage).append(';');
 			parameterBuilder.append("SI=LoadRunner;");
 			if (StringUtils.isNotBlank(scriptName)) {
 				parameterBuilder.append("LSN=").append(scriptName).append(';');
 			}
 		}
 		parameterBuilder.append("\"");
-
-		return start + header + "(" + parameterBuilder.toString() + ");" + Constants.CRLF + whiteSpaces + end;
+		return parameterBuilder.toString();
 	}
 
 }

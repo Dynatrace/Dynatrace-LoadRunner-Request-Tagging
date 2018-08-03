@@ -13,10 +13,11 @@ public class FileScanner {
 
 	private StringBuilder modifiedInstruction;
 	private StringBuilder unmodifiedInstruction;
+	/* TODO : Are both necessary ? */
 	private StringBuilder whiteSpace;
 	private StringBuilder newWhiteSpace;
 
-	private boolean insideString = false;
+	private boolean outsideString = true;
 
 	public FileScanner(BufferedReader reader) {
 		this.reader = reader;
@@ -32,45 +33,38 @@ public class FileScanner {
 
 	/* TODO : rework if else */
 	public boolean read() {
-
 		if (firstChar == EOF) {
 			return false;
 		}
-
 		cleanBuffer();
-
 		while (firstChar != EOF) {
-			if (firstChar == ';' && !insideString) {
+			/* TODO : switch with method vs if else with method */
+			if ((firstChar == ';' || firstChar == '}') && outsideString) {
+				/* break method */
 				break;
-			}
-			if (firstChar == '}' && !insideString) {
-				break;
-			} else if (firstChar == '"') {
-				if (secondChar != '\\') {
-					insideString = !insideString;
-				}
-			} else if (firstChar == '\'') {
-				if (secondChar != '\\') {
-					insideString = !insideString;
-				}
-			} else if (firstChar == '/' && !insideString) {
+			} else if ((firstChar == '"' || firstChar == '\'') && secondChar != '\\') {
+				/* string method */
+				outsideString = !outsideString;
+			} else if (firstChar == '/' && outsideString) {
 				getChar();
-				if (firstChar == '*' && !insideString) {
+				if (firstChar == '*' && outsideString) {
 					unmodifiedInstruction.append(readBlockComment());
 					continue;
 				}
-				if (firstChar == '/' && !insideString) {
+				if (firstChar == '/' && outsideString) {
 					unmodifiedInstruction.append(readToLineEnd());
 					continue;
 				}
 				append(secondChar);
 			} else if (!Character.isWhitespace(firstChar) && whiteSpace.toString().isEmpty()) {
+				/* is newWhiteSpace necessary */
 				whiteSpace.append(newWhiteSpace.toString());
 			}
 
 			append(firstChar);
 			getChar();
 		}
+
 		append(firstChar);
 		getChar();
 		return true;
@@ -146,7 +140,7 @@ public class FileScanner {
 		}
 	}
 
-	boolean modifiedInstructionContais(String keyword) {
+	boolean modifiedInstructionContains(String keyword) {
 		return modifiedInstruction.toString().contains(keyword) ? true : false;
 	}
 
