@@ -19,6 +19,8 @@ public class FileReaderUtil {
 	private static final String JS_BODY_FILE_EXT = "js";
 	private static final String JS_GLOBALS_FILE = "globals.js";
 
+	private static final String REGEX = "[.][^.]+$";
+
 	private FileReaderUtil() {
 		// prevent creation
 	}
@@ -39,7 +41,7 @@ public class FileReaderUtil {
 	private static String getScriptNameFromPath(final Collection<File> allFiles) {
 		for (File file : allFiles) {
 			if (USR_FILE_EXT.equals(getFileExtension(file.getName()))) {
-				return file.getName().replaceFirst("[.][^.]+$", "");
+				return file.getName().replaceFirst(REGEX, "");
 			}
 		}
 		return null;

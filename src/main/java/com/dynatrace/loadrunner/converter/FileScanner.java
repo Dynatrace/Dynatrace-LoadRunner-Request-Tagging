@@ -3,6 +3,8 @@ package com.dynatrace.loadrunner.converter;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import com.dynatrace.loadrunner.Constants;
+
 public class FileScanner {
 
 	private final static char EOF = (char) -1;
@@ -13,7 +15,6 @@ public class FileScanner {
 
 	private StringBuilder modifiedInstruction;
 	private StringBuilder unmodifiedInstruction;
-	/* TODO : Are both necessary ? */
 	private StringBuilder whiteSpace;
 	private StringBuilder newWhiteSpace;
 
@@ -31,33 +32,29 @@ public class FileScanner {
 		getChar();
 	}
 
-	/* TODO : rework if else */
 	public boolean read() {
 		if (firstChar == EOF) {
 			return false;
 		}
 		cleanBuffer();
 		while (firstChar != EOF) {
-			/* TODO : switch with method vs if else with method */
-			if ((firstChar == ';' || firstChar == '}') && outsideString) {
-				/* break method */
+			if ((firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString) {
 				break;
-			} else if ((firstChar == '"' || firstChar == '\'') && secondChar != '\\') {
-				/* string method */
+			} else if ((firstChar == Constants.DOUBLE_QUOTE || firstChar == Constants.SINGLE_QUOTE)
+					&& secondChar != Constants.BACKSLASH) {
 				outsideString = !outsideString;
-			} else if (firstChar == '/' && outsideString) {
+			} else if (firstChar == Constants.SLASH && outsideString) {
 				getChar();
-				if (firstChar == '*' && outsideString) {
+				if (firstChar == Constants.ASTERISK && outsideString) {
 					unmodifiedInstruction.append(readBlockComment());
 					continue;
 				}
-				if (firstChar == '/' && outsideString) {
+				if (firstChar == Constants.SLASH && outsideString) {
 					unmodifiedInstruction.append(readToLineEnd());
 					continue;
 				}
 				append(secondChar);
 			} else if (!Character.isWhitespace(firstChar) && whiteSpace.toString().isEmpty()) {
-				/* is newWhiteSpace necessary */
 				whiteSpace.append(newWhiteSpace.toString());
 			}
 
@@ -77,13 +74,11 @@ public class FileScanner {
 		unmodifiedInstruction.append(character);
 	}
 
-	/* TODO : do i need it */
 	private void appendCommentBegin() {
 		unmodifiedInstruction.append(secondChar);
 		unmodifiedInstruction.append(firstChar);
 	}
 
-	/* TODO : inside if else or method */
 	private String readBlockComment() {
 		StringBuilder comment = new StringBuilder();
 		boolean endFound = false;
@@ -91,10 +86,10 @@ public class FileScanner {
 		do {
 			getChar();
 			comment.append(firstChar);
-			while (firstChar == '*' && !endFound) {
+			while (firstChar == Constants.ASTERISK && !endFound) {
 				getChar();
 				comment.append(firstChar);
-				if (firstChar == '/') {
+				if (firstChar == Constants.SLASH) {
 					endFound = true;
 				}
 			}
@@ -103,15 +98,15 @@ public class FileScanner {
 		return comment.toString();
 	}
 
-	/* TODO : inside if else or method */
 	private String readToLineEnd() {
 		StringBuilder comment = new StringBuilder();
 		appendCommentBegin();
 		do {
 			getChar();
 			comment.append(firstChar);
-			if ((firstChar == '\n' && secondChar != '\\')
-					|| (firstChar == '\n' && secondChar == '\r' && thirdChar != '\\')) {
+			if ((firstChar == Constants.LINE_FEED && secondChar != Constants.BACKSLASH)
+					|| (firstChar == Constants.LINE_FEED && secondChar == Constants.CARRIAGE_RETURN
+							&& thirdChar != Constants.BACKSLASH)) {
 				break;
 			}
 		} while (firstChar != EOF);
@@ -124,9 +119,9 @@ public class FileScanner {
 			thirdChar = secondChar;
 			secondChar = firstChar;
 			firstChar = (char) reader.read();
-			if (firstChar == '\n') {
+			if (firstChar == Constants.LINE_FEED) {
 				newWhiteSpace.setLength(0);
-			} else if (firstChar == '\t' || firstChar == ' ') {
+			} else if (firstChar == Constants.TAB || firstChar == Constants.WHITESPACE) {
 				newWhiteSpace.append(firstChar);
 			}
 		} catch (IOException e) {
@@ -148,7 +143,6 @@ public class FileScanner {
 		return whiteSpace;
 	}
 
-	/* TODO : method vs returning string */
 	StringBuilder getModifiedInstruction() {
 		return modifiedInstruction;
 	}

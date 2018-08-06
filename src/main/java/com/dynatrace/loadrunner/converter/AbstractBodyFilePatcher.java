@@ -39,7 +39,6 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	protected abstract void initialize();
 
-	/* TODO : is this okay? */
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
 		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
 				PrintWriter writer = new PrintWriter(targetFile)) {
@@ -50,39 +49,56 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		return true;
 	}
 
-	/* TODO : change method arguments to become easier to read and understand */
 	private void parseFile(FileScanner scanner, PrintWriter writer) {
-		while (scanner.read()) {
-			handle(scanner, writer);
+		switch (mode) {
+		case INSERT:
+			while (scanner.read()) {
+				handleInsert(scanner, writer);
+			}
+			break;
+		case DELETE:
+			while (scanner.read()) {
+				handleDelete(scanner, writer);
+			}
+			break;
 		}
 	}
 
-	private void handle(FileScanner scanner, PrintWriter writer) {
+	private void handleInsert(FileScanner scanner, PrintWriter writer) {
+		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
+		if (scanner.modifiedInstructionContains(transactionStart)) {
+			transactionNames.add(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
+		} else if (scanner.modifiedInstructionContains(transactionEnd)) {
+			transactionNames.remove(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
+		} else {
+			String keyword = processKeywords(scanner.getModifiedInstruction().toString());
+			if (StringUtils.isNotBlank(keyword)) {
+				String processedPage = BodyFilePatcherUtil
+						.getFirstStringParameter(scanner.getModifiedInstruction().toString(), param);
+				instructionToWrite = modifyInstruction(instructionToWrite, scanner.getWhiteSpace().toString(), keyword,
+						processedPage);
+			}
+		}
+		writer.write(instructionToWrite);
+	}
+
+	private void handleDelete(FileScanner scanner, PrintWriter writer) {
 		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
 		if (scanner.modifiedInstructionContains(header)) {
 			writer.write(instructionToWrite.replaceAll(regex, ""));
 			scanner.skipWhiteSpaces();
 		} else {
-			/* TODO : handle transactions differently */
-			if (scanner.modifiedInstructionContains(transactionStart)) {
-				transactionNames.add(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
-			} else if (scanner.modifiedInstructionContains(transactionEnd)) {
-				transactionNames.remove(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
-			} else {
-				for (String keyword : keywords) {
-					if (scanner.modifiedInstructionContains(keyword)) {
-						if (mode.equals(Mode.INSERT)) {
-							String processedPage = BodyFilePatcherUtil
-									.getFirstStringParameter(scanner.getModifiedInstruction().toString(), param);
-							instructionToWrite = modifyInstruction(instructionToWrite,
-									scanner.getWhiteSpace().toString(), keyword, processedPage);
-						}
-						break;
-					}
-				}
-			}
 			writer.write(instructionToWrite);
 		}
+	}
+
+	private String processKeywords(String modifiedInstruction) {
+		for (String keyword : keywords) {
+			if (modifiedInstruction.contains(keyword)) {
+				return keyword;
+			}
+		}
+		return null;
 	}
 
 	private String modifyInstruction(String unmodifiedInstruction, String whiteSpaces, String keyword,

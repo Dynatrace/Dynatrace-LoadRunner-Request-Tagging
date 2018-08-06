@@ -6,14 +6,15 @@ import java.util.List;
 public class BodyFilePatcherUtil {
 
 	private final static char EOF = (char) -1;
+	private final static String TRANSACTION_SEPARATOR = " - ";
 
 	public static int getInsertPosition(String unmodifiedInstruction, String keyword) {
 		int insertPosition = 0;
 		int keywordIndex = 0;
-		char aktChar;
+		char processedChar;
 		for (int i = 0; i < unmodifiedInstruction.length(); i++) {
-			aktChar = unmodifiedInstruction.charAt(i);
-			if (aktChar == keyword.charAt(keywordIndex)) {
+			processedChar = unmodifiedInstruction.charAt(i);
+			if (processedChar == keyword.charAt(keywordIndex)) {
 				keywordIndex++;
 				if (keywordIndex == keyword.length()) {
 					insertPosition = i - keywordIndex + 1;
@@ -21,16 +22,16 @@ public class BodyFilePatcherUtil {
 				}
 			} else {
 				keywordIndex = 0;
-				if (aktChar == keyword.charAt(keywordIndex)) {
+				if (processedChar == keyword.charAt(keywordIndex)) {
 					keywordIndex++;
-				} else if (aktChar == '/') {
-					aktChar = unmodifiedInstruction.charAt(++i);
-					if (aktChar == '*')
+				} else if (processedChar == '/') {
+					processedChar = unmodifiedInstruction.charAt(++i);
+					if (processedChar == '*')
 						i = BodyFilePatcherUtil.getIndexAfterBlockComment(unmodifiedInstruction, i);
-					else if (aktChar == '/')
-						i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, aktChar, i);
-				} else if (aktChar == '#')
-					i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, aktChar, i);
+					else if (processedChar == '/')
+						i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
+				} else if (processedChar == '#')
+					i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
 			}
 		}
 		return insertPosition;
@@ -41,7 +42,7 @@ public class BodyFilePatcherUtil {
 		boolean first = true;
 		for (String transactionName : transactionNames) {
 			if (!first)
-				builder.append(" - ");
+				builder.append(TRANSACTION_SEPARATOR);
 			first = false;
 			builder.append(transactionName);
 		}
