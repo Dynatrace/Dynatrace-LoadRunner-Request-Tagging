@@ -1,0 +1,59 @@
+Action()
+{
+
+	web_add_cookie("rxvt=1530536081459|1530534276697; DOMAIN=localhost");
+	
+	web_url("localhost:8079", 
+		"URL=http://localhost:8079/", 
+		"Resource=0", 
+		"RecContentType=text/html", 
+		"Referer=", 
+		"Snapshot=t1.inf", 
+		"Mode=HTML", 
+		EXTRARES, 
+		"Url=/img/journey_box.png", ENDITEM, 
+		"Url=/img/header.png", ENDITEM, 
+		"Url=https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.pl.de2wM28ILrc.O/m=plusone/rt=j/sv=1/d=1/ed=1/am=wQ/rs=AGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA/cb=gapi.loaded_0", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Grau_Button_4.png", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Orange_Button_4.png", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Grau_Loginbox.png", ENDITEM, 
+		"Url=/img/searchbox.png", ENDITEM, 
+		"Url=/css/css-images/cal_button.gif", ENDITEM, 
+		"Url=/img/menupunkt_trennung_transparent.png", ENDITEM, 
+		"Url=/css/css-images/ajax-loader.gif", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Orange_Hauptfeld.png", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Orange_Button_1.png", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Grau_ganzeBreite.png", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Grau_Hauptfeld.png", ENDITEM, 
+		"Url=/img/login/Loginwindow_textbox.png", ENDITEM, 
+		"Url=/img/gradient/Verlauf_Grau_Button_3.png", ENDITEM, 
+		"Url=http://connect.facebook.net/en_US/all.js", ENDITEM, 
+		"Url=/img/menupunkt_auswahl_transparent.png", ENDITEM, 
+		"Url=/img/logo_layer_bottom.png", ENDITEM, 
+		"Url=/img/booking/Booking_transaction_textbox_medium1_page_3.png", ENDITEM, 
+		"Url=https://platform.linkedin.com/js/secureAnonymousFramework?v=1.0.328-1429&lang=en_US", ENDITEM, 
+		"Url=https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.pl.de2wM28ILrc.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/am=wQ/rs=AGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA/cb=gapi.loaded_1", ENDITEM, 
+		"Url=http://assets.pinterest.com/js/pinit_main.js?0.47113422356133966", ENDITEM, 
+		"Url=http://localhost:8092/image/winter.jpeg", ENDITEM, 
+		"Url=https://platform.twitter.com/js/button.efa03583c158eb89fd00b8c75a70efae.js", ENDITEM, 
+		"Url=https://static.licdn.com/scds/common/u/images/apps/connect/sprites/sprite_connect_v14.png", ENDITEM, 
+		"Url=https://syndication.twitter.com/i/jot?l="
+		"%7B%22widget_origin%22%3A%22http%3A%2F%2Flocalhost%3A8079%2F%22%2C%22widget_frame%22%3Afalse%2C%22language%22%3A%22en%22%2C%22message%22%3A%22m%3Awithcount%3A%22%2C%22_category_%22%3A%22tfw_client_event%22%2C%22triggered_on%22%3A1530534286043%2C%22dnt%22%3Afalse%2C%22client_version%22%3A%22910cbce%3A1530167310832%22%2C%22format_version%22%3A1%2C%22event_namespace%22%3A%7B%22client%22%3A%22tfw%22%2C%22page%22%3A%22button%22%2C%22section%22%3A%22follow%22%2C%22action%22%3A%22impression%22%7D%7D", ENDITEM, 
+		"Url=/img/header2.jpg", ENDITEM, 
+		"Url=https://syndication.twitter.com/i/jot?l="
+		"%7B%22widget_origin%22%3A%22http%3A%2F%2Flocalhost%3A8079%2F%22%2C%22widget_frame%22%3Anull%2C%22duration_ms%22%3A19171.83664939617%2C%22_category_%22%3A%22tfw_client_event%22%2C%22triggered_on%22%3A1530534299194%2C%22dnt%22%3Afalse%2C%22client_version%22%3A%22910cbce%3A1530167310832%22%2C%22format_version%22%3A1%2C%22event_namespace%22%3A%7B%22client%22%3A%22tfw%22%2C%22action%22%3A%22render%22%2C%22page%22%3A%22page%22%2C%22component%22%3A%22performance%22%7D%7D", ENDITEM, 
+		LAST);
+
+	web_set_sockets_option("SSL_VERSION", "2&3");
+
+	web_url("xaOI6zd9HW9.js", 
+		"URL=http://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
+		"Resource=0", 
+		"RecContentType=text/html", 
+		"Referer=http://localhost:8079/", 
+		"Snapshot=t2.inf", 
+		"Mode=HTML", 
+		LAST);
+		
+		return 0;
+}

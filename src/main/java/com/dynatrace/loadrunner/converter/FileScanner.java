@@ -24,6 +24,9 @@ public class FileScanner {
 		this.reader = reader;
 	}
 
+	/**
+	 * 
+	 */
 	public void initialize() {
 		modifiedInstruction = new StringBuilder();
 		unmodifiedInstruction = new StringBuilder();
@@ -32,7 +35,13 @@ public class FileScanner {
 		getChar();
 	}
 
-	public boolean read() {
+	/**
+	 * 
+	 * 
+	 * 
+	 * @return
+	 */
+	public boolean goToNextInstruction() {
 		if (firstChar == EOF) {
 			return false;
 		}
@@ -87,10 +96,8 @@ public class FileScanner {
 	}
 
 	private boolean foundInstruction() {
-		if ((firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString) {
-			return true;
-		}
-		return false;
+		return ((firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString) ? true
+				: false;
 	}
 
 	private void append(char character) {

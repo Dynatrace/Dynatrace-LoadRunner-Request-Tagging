@@ -52,12 +52,12 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	private void parseFile(FileScanner scanner, PrintWriter writer) {
 		switch (mode) {
 		case INSERT:
-			while (scanner.read()) {
+			while (scanner.goToNextInstruction()) {
 				handleInsert(scanner, writer);
 			}
 			break;
 		case DELETE:
-			while (scanner.read()) {
+			while (scanner.goToNextInstruction()) {
 				handleDelete(scanner, writer);
 			}
 			break;

@@ -12,18 +12,12 @@ final class CBodyFilePatcher extends AbstractBodyFilePatcher {
 	private static final String C_TRANSACTION_START = "lr_start_transaction";
 	private static final String C_TRANSACTION_END = "lr_end_transaction";
 
-	// TODO check if we need them both almost identical, or should we separate their purpose clearly
-//	private static final Set<String> C_KEYWORDS = Sets.newHashSet(
-//			"web_browser", "web_button", "web_check_box", "web_edit_field", "web_element",
-//			"web_file", "web_image_link", "web_image_submit", "web_list", "web_map_area", "web_radio_group",
-//			"web_reg_dialog", "web_static_image", "web_table", "web_text_area", "web_text_link", "web_url",
-//			"web_link", "web_image", "web_submit_form", "web_submit_data", "web_custom_request");
-	private final static Set<String> C_REQUEST_KEYWORDS = Sets.newHashSet("web_url",
-			"web_link", "web_image", "web_submit_form", "web_submit_data", "web_custom_request");
-	private static final Set<String> C_CLICK_AND_SCRIPT_KEYWORDS = Sets.newHashSet(
-			"web_browser", "web_button", "web_check_box", "web_edit_field", "web_element",
-			"web_file", "web_image_link", "web_image_submit", "web_list", "web_map_area", "web_radio_group",
-			"web_reg_dialog", "web_static_image", "web_table", "web_text_area", "web_text_link");
+	private final static Set<String> C_REQUEST_KEYWORDS = Sets.newHashSet("web_url", "web_link", "web_image",
+			"web_submit_form", "web_submit_data", "web_custom_request");
+	private static final Set<String> C_CLICK_AND_SCRIPT_KEYWORDS = Sets.newHashSet("web_browser", "web_button",
+			"web_check_box", "web_edit_field", "web_element", "web_file", "web_image_link", "web_image_submit",
+			"web_list", "web_map_area", "web_radio_group", "web_reg_dialog", "web_static_image", "web_table",
+			"web_text_area", "web_text_link");
 	private static final Set<String> C_KEYWORDS = Sets.union(C_REQUEST_KEYWORDS, C_CLICK_AND_SCRIPT_KEYWORDS);
 
 	CBodyFilePatcher(Mode mode, String scriptName) {

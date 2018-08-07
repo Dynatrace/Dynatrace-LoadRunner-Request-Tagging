@@ -2,7 +2,8 @@ package com.dynatrace.loadrunner.converter.util;
 
 import java.util.List;
 
-/* TODO : rename variables to make them more readable */
+import com.dynatrace.loadrunner.Constants;
+
 public class BodyFilePatcherUtil {
 
 	private final static char EOF = (char) -1;
@@ -24,13 +25,13 @@ public class BodyFilePatcherUtil {
 				keywordIndex = 0;
 				if (processedChar == keyword.charAt(keywordIndex)) {
 					keywordIndex++;
-				} else if (processedChar == '/') {
+				} else if (processedChar == Constants.SLASH) {
 					processedChar = unmodifiedInstruction.charAt(++i);
-					if (processedChar == '*')
+					if (processedChar == Constants.ASTERISK)
 						i = BodyFilePatcherUtil.getIndexAfterBlockComment(unmodifiedInstruction, i);
-					else if (processedChar == '/')
+					else if (processedChar == Constants.SLASH)
 						i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
-				} else if (processedChar == '#')
+				} else if (processedChar == Constants.HASH)
 					i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
 			}
 		}
@@ -39,37 +40,37 @@ public class BodyFilePatcherUtil {
 
 	public static String concatTransactionNames(List<String> transactionNames) {
 		StringBuilder builder = new StringBuilder();
-		boolean first = true;
+		boolean firstTransaction = true;
 		for (String transactionName : transactionNames) {
-			if (!first)
+			if (!firstTransaction)
 				builder.append(TRANSACTION_SEPARATOR);
-			first = false;
+			firstTransaction = false;
 			builder.append(transactionName);
 		}
 		return builder.toString();
 	}
 
-	private static int getIndexAfterLineComment(String commentedInstruction, char aktCh, int i) {
+	private static int getIndexAfterLineComment(String commentedInstruction, char character, int passedIndex) {
 		char oldChar;
-		char aktChar = aktCh;
-		int index = i;
+		char currentChar = character;
+		int index = passedIndex;
 		do {
-			oldChar = aktChar;
-			aktChar = commentedInstruction.charAt(++index);
-			if (aktChar == '\n' && oldChar != '\\')
+			oldChar = currentChar;
+			currentChar = commentedInstruction.charAt(++index);
+			if (currentChar == Constants.LINE_FEED && oldChar != Constants.BACKSLASH)
 				break;
 		} while (index < commentedInstruction.length());
 		return index;
 	}
 
 	private static int getIndexAfterBlockComment(String commentedInstruction, int i) {
-		char aktChar;
+		char currentChar;
 		int index = i;
 		while (index < commentedInstruction.length() - 1) {
-			aktChar = commentedInstruction.charAt(++index);
-			while (aktChar == '*' && index < commentedInstruction.length() - 1) {
-				aktChar = commentedInstruction.charAt(++index);
-				if (aktChar == '/') {
+			currentChar = commentedInstruction.charAt(++index);
+			while (currentChar == Constants.ASTERISK && index < commentedInstruction.length() - 1) {
+				currentChar = commentedInstruction.charAt(++index);
+				if (currentChar == Constants.SLASH) {
 					return index;
 				}
 			}
@@ -84,7 +85,7 @@ public class BodyFilePatcherUtil {
 			return "";
 		char ch = instruction.charAt(i++), old = stringParameter;
 		while (i < instruction.length()) {
-			if (ch == stringParameter && old != '\\')
+			if (ch == stringParameter && old != Constants.BACKSLASH)
 				break;
 			builder.append(ch);
 			old = ch;

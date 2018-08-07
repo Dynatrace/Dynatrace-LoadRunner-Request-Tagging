@@ -16,22 +16,22 @@ public class CHeaderFilePatcher extends AbstractHeaderFilePatcher {
 		super(mode);
 	}
 
-	@Override protected boolean addHeader(File sourceFile, File targetFile) throws IOException {
+	@Override
+	protected boolean addHeader(File sourceFile, File targetFile) throws IOException {
 		int lastIncludeLine = getLastIncludeKeywordLine(sourceFile);
 		if (lastIncludeLine < 0) {
 			// file was already patched
 			return false;
 		}
-		try (
-				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-				PrintWriter writer = new PrintWriter(targetFile)
-		) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+				PrintWriter writer = new PrintWriter(targetFile)) {
 			int lineCount = 0;
 			String line;
 			while ((line = reader.readLine()) != null) {
 				writer.write(line + Constants.CRLF);
 				if (++lineCount == lastIncludeLine) {
-					writer.write(ResourceFileReaderUtil.getClassResources(FilesConverter.class, ResourceFileReaderUtil.C_FUNCTION));
+					writer.write(ResourceFileReaderUtil.getClassResources(FilesConverter.class,
+							ResourceFileReaderUtil.C_FUNCTION));
 				}
 			}
 		}
@@ -40,9 +40,7 @@ public class CHeaderFilePatcher extends AbstractHeaderFilePatcher {
 
 	private int getLastIncludeKeywordLine(File sourceFile) throws IOException {
 		int result = 0;
-		try (
-				BufferedReader reader = new BufferedReader(new FileReader(sourceFile))
-		) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
 			String line;
 			int lineCount = 0;
 			while ((line = reader.readLine()) != null) {

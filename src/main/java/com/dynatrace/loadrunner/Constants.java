@@ -9,7 +9,7 @@ public final class Constants {
 	public static final String CRLF = "\r\n";
 
 	public static final String UNABLE_TO_RESTORE_FILE = "Unable to restore the backup file ";
-	
+
 	public static final char BACKSLASH = '\\';
 	public static final char SINGLE_QUOTE = '\'';
 	public static final char DOUBLE_QUOTE = '"';
@@ -21,4 +21,5 @@ public final class Constants {
 	public static final char CARRIAGE_RETURN = '\r';
 	public static final char WHITESPACE = ' ';
 	public static final char TAB = '\t';
+	public static final char HASH = '#';
 }
