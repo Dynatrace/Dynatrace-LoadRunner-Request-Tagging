@@ -49,7 +49,7 @@ public class BodyFilePatcherUtil {
 		return builder.toString();
 	}
 
-	public static int getIndexAfterLineComment(String commentedInstruction, char aktCh, int i) {
+	private static int getIndexAfterLineComment(String commentedInstruction, char aktCh, int i) {
 		char oldChar;
 		char aktChar = aktCh;
 		int index = i;
@@ -62,7 +62,7 @@ public class BodyFilePatcherUtil {
 		return index;
 	}
 
-	public static int getIndexAfterBlockComment(String commentedInstruction, int i) {
+	private static int getIndexAfterBlockComment(String commentedInstruction, int i) {
 		char aktChar;
 		int index = i;
 		while (index < commentedInstruction.length() - 1) {

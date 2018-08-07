@@ -38,25 +38,16 @@ public class FileScanner {
 		}
 		cleanBuffer();
 		while (firstChar != EOF) {
-			if ((firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString) {
+
+			if (foundInstruction()) {
 				break;
-			} else if ((firstChar == Constants.DOUBLE_QUOTE || firstChar == Constants.SINGLE_QUOTE)
-					&& secondChar != Constants.BACKSLASH) {
-				outsideString = !outsideString;
-			} else if (firstChar == Constants.SLASH && outsideString) {
-				getChar();
-				if (firstChar == Constants.ASTERISK && outsideString) {
-					unmodifiedInstruction.append(readBlockComment());
-					continue;
-				}
-				if (firstChar == Constants.SLASH && outsideString) {
-					unmodifiedInstruction.append(readToLineEnd());
-					continue;
-				}
-				append(secondChar);
-			} else if (!Character.isWhitespace(firstChar) && whiteSpace.toString().isEmpty()) {
-				whiteSpace.append(newWhiteSpace.toString());
 			}
+
+			checkIfStringKeyword();
+
+			checkIfComment();
+
+			checkIfWhiteSpace();
 
 			append(firstChar);
 			getChar();
@@ -67,6 +58,41 @@ public class FileScanner {
 		return true;
 	}
 
+	private void checkIfWhiteSpace() {
+		if (!Character.isWhitespace(firstChar) && whiteSpace.toString().isEmpty()) {
+			whiteSpace.append(newWhiteSpace.toString());
+		}
+	}
+
+	private void checkIfComment() {
+		if (firstChar == Constants.SLASH && outsideString) {
+			getChar();
+			if (firstChar == Constants.ASTERISK && outsideString) {
+				unmodifiedInstruction.append(readBlockComment());
+				return;
+			}
+			if (firstChar == Constants.SLASH && outsideString) {
+				unmodifiedInstruction.append(readToLineEnd());
+				return;
+			}
+			append(secondChar);
+		}
+	}
+
+	private void checkIfStringKeyword() {
+		if ((firstChar == Constants.DOUBLE_QUOTE || firstChar == Constants.SINGLE_QUOTE)
+				&& secondChar != Constants.BACKSLASH) {
+			outsideString = !outsideString;
+		}
+	}
+
+	private boolean foundInstruction() {
+		if ((firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString) {
+			return true;
+		}
+		return false;
+	}
+
 	private void append(char character) {
 		if (!Character.isWhitespace(character)) {
 			modifiedInstruction.append(character);
@@ -74,15 +100,11 @@ public class FileScanner {
 		unmodifiedInstruction.append(character);
 	}
 
-	private void appendCommentBegin() {
-		unmodifiedInstruction.append(secondChar);
-		unmodifiedInstruction.append(firstChar);
-	}
-
 	private String readBlockComment() {
 		StringBuilder comment = new StringBuilder();
 		boolean endFound = false;
-		appendCommentBegin();
+		comment.append(secondChar);
+		comment.append(firstChar);
 		do {
 			getChar();
 			comment.append(firstChar);
@@ -100,7 +122,8 @@ public class FileScanner {
 
 	private String readToLineEnd() {
 		StringBuilder comment = new StringBuilder();
-		appendCommentBegin();
+		comment.append(secondChar);
+		comment.append(firstChar);
 		do {
 			getChar();
 			comment.append(firstChar);
