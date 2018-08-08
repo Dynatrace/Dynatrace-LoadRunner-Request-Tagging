@@ -5,57 +5,48 @@ import java.io.IOException;
 
 import com.dynatrace.loadrunner.Constants;
 
-public class FileScanner {
+class FileScanner {
 
 	private final static char EOF = (char) -1;
 
-	private BufferedReader reader;
+	private final BufferedReader reader;
+	private final StringBuilder modifiedInstruction;
+	private final StringBuilder unmodifiedInstruction;
+	private final StringBuilder whiteSpace;
+	private final StringBuilder newWhiteSpace;
 
-	private char firstChar, secondChar, thirdChar;
-
-	private StringBuilder modifiedInstruction;
-	private StringBuilder unmodifiedInstruction;
-	private StringBuilder whiteSpace;
-	private StringBuilder newWhiteSpace;
+	private char firstChar;
+	private char secondChar;
+	private char thirdChar;
 
 	private boolean outsideString = true;
 
-	public FileScanner(BufferedReader reader) {
+	FileScanner(BufferedReader reader) {
 		this.reader = reader;
-	}
-
-	/**
-	 * 
-	 */
-	public void initialize() {
 		modifiedInstruction = new StringBuilder();
 		unmodifiedInstruction = new StringBuilder();
 		whiteSpace = new StringBuilder();
 		newWhiteSpace = new StringBuilder();
-		getChar();
 	}
 
 	/**
-	 * 
-	 * 
-	 * 
-	 * @return
+	 * Initialize local state by reading the first character
 	 */
-	public boolean goToNextInstruction() {
+	void initialize() {
+		getChar();
+	}
+
+	boolean goToNextInstruction() {
 		if (firstChar == EOF) {
 			return false;
 		}
 		cleanBuffer();
 		while (firstChar != EOF) {
-
 			if (foundInstruction()) {
 				break;
 			}
-
 			checkIfStringKeyword();
-
 			checkIfComment();
-
 			checkIfWhiteSpace();
 
 			append(firstChar);
@@ -96,8 +87,7 @@ public class FileScanner {
 	}
 
 	private boolean foundInstruction() {
-		return ((firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString) ? true
-				: false;
+		return (firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString;
 	}
 
 	private void append(char character) {
@@ -136,7 +126,7 @@ public class FileScanner {
 			comment.append(firstChar);
 			if ((firstChar == Constants.LINE_FEED && secondChar != Constants.BACKSLASH)
 					|| (firstChar == Constants.LINE_FEED && secondChar == Constants.CARRIAGE_RETURN
-							&& thirdChar != Constants.BACKSLASH)) {
+					&& thirdChar != Constants.BACKSLASH)) {
 				break;
 			}
 		} while (firstChar != EOF);
@@ -166,7 +156,7 @@ public class FileScanner {
 	}
 
 	boolean modifiedInstructionContains(String keyword) {
-		return modifiedInstruction.toString().contains(keyword) ? true : false;
+		return modifiedInstruction.toString().contains(keyword);
 	}
 
 	StringBuilder getWhiteSpace() {

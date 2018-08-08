@@ -23,8 +23,9 @@ abstract class AbstractHeaderFilePatcher extends AbstractFilePatcher {
 			return removeHeader(sourceFile, targetFile);
 		case INSERT:
 			return addHeader(sourceFile, targetFile);
+		default:
+			throw new UnsupportedOperationException("Unknown patch mode: " + mode);
 		}
-		return false;
 	}
 
 	protected abstract boolean addHeader(File sourceFile, File targetFile) throws IOException;

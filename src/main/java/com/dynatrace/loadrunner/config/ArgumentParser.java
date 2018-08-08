@@ -1,7 +1,7 @@
 package com.dynatrace.loadrunner.config;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -12,8 +12,15 @@ public class ArgumentParser {
 	private ArgumentParser() {
 	}
 
+	/**
+	 * Parse all the arguments passed during program execution and perform initial validation
+	 *
+	 * @param argumentsArray program arguments passed on execution
+	 * @return parsed arguments map with their values if required, and null value otherwise
+	 * @throws IllegalArgumentException in case when argument is unrecognized
+	 */
 	public static Map<Argument, String> parse(String[] argumentsArray) {
-		Map<Argument, String> arguments = new HashMap<>();
+		Map<Argument, String> arguments = new EnumMap<>(Argument.class);
 		Iterator<String> iterator = Arrays.asList(argumentsArray).iterator();
 		while (iterator.hasNext()) {
 			String key = iterator.next();
@@ -33,7 +40,19 @@ public class ArgumentParser {
 		return arguments;
 	}
 
-	public static void validate(Map<Argument, String> arguments) throws IllegalArgumentException {
+	/**
+	 * Validates all the arguments parsed by parse() method:</br>
+	 * <ul>
+	 * <li>check if there are any argument provided</li>
+	 * <li>check if required arguments are provided</li>
+	 * <li>check if there aren't any arguments in conflict</li>
+	 * <li>check if there are values provided for arguments that require them</li>
+	 * </ul>
+	 *
+	 * @param arguments arguments to validate
+	 * @throws IllegalArgumentException in case when the validation fails
+	 */
+	public static void validate(Map<Argument, String> arguments) {
 		if (arguments.isEmpty()) {
 			throw new IllegalArgumentException("Parameters are empty");
 		}

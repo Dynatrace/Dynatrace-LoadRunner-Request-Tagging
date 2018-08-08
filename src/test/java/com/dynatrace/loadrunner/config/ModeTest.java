@@ -23,7 +23,7 @@ public class ModeTest {
 	@Test
 	public void testFrom() {
 		try {
-			Mode.from(new HashSet<Argument>());
+			Mode.from(new HashSet<>());
 			fail();
 		} catch (IllegalStateException e) {
 			assertTrue(true);

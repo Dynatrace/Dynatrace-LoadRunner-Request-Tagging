@@ -2,8 +2,15 @@ package com.dynatrace.loadrunner.config;
 
 public enum Argument {
 
-	INSERT("insert"), DELETE("delete"), TYPE_JS("-js"), TYPE_C("-c"), HELP("-help"), SCRIPT_NAME("-lsn",
-			true), BODY("-body", true), HEADER("-header", true), PATH("-path", true);
+	INSERT("insert"),
+	DELETE("delete"),
+	TYPE_JS("-js"),
+	TYPE_C("-c"),
+	HELP("-help"),
+	SCRIPT_NAME("-lsn", true),
+	BODY("-body", true),
+	HEADER("-header", true),
+	PATH("-path", true);
 
 	private final String name;
 	private final boolean valueRequired;
@@ -27,7 +34,7 @@ public enum Argument {
 
 	public static Argument byName(String name) {
 		for (Argument argument : values()) {
-			if (argument.getName().trim().toLowerCase().equals(name.trim().toLowerCase())) {
+			if (argument.getName().trim().equalsIgnoreCase(name.trim())) {
 				return argument;
 			}
 		}

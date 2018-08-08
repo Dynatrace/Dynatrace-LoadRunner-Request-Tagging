@@ -26,7 +26,7 @@ final class JSBodyFilePatcher extends AbstractBodyFilePatcher {
 	}
 
 	protected void initialize() {
-		regex = header + JS_REGEX;
+		regex = HEADER + JS_REGEX;
 		transactionStart = JS_TRANSACTION_START;
 		transactionEnd = JS_TRANSACTION_END;
 		param = JS_PARAM;

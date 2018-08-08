@@ -9,6 +9,10 @@ public class BodyFilePatcherUtil {
 	private final static char EOF = (char) -1;
 	private final static String TRANSACTION_SEPARATOR = " - ";
 
+	private BodyFilePatcherUtil() {
+		// prevent creation
+	}
+
 	public static int getInsertPosition(String unmodifiedInstruction, String keyword) {
 		int insertPosition = 0;
 		int keywordIndex = 0;

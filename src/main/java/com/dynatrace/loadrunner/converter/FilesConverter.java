@@ -20,8 +20,8 @@ public class FilesConverter {
 	public FilesConverter(Mode mode, Technology technology, InputFiles inputFiles, String userScriptName) {
 		headerFiles = inputFiles.getHeaderFiles();
 		bodyFiles = inputFiles.getBodyFiles();
-		String scriptName = StringUtils.isBlank(userScriptName) ? inputFiles.getScriptNameFromPath() : userScriptName;
-		bodyFilePatcher = getBodyFilePatcher(technology, mode, scriptName);
+		bodyFilePatcher = getBodyFilePatcher(technology, mode,
+				StringUtils.isBlank(userScriptName) ? inputFiles.getScriptNameFromPath() : userScriptName);
 		headerFilePatcher = getHeaderFilePatcher(technology, mode);
 	}
 
@@ -31,8 +31,9 @@ public class FilesConverter {
 			return new CHeaderFilePatcher(mode);
 		case JS:
 			return new JSHeaderFilePatcher(mode);
+		default:
+			throw new UnsupportedOperationException("Unsupported technology: " + technology);
 		}
-		return null;
 	}
 
 	private AbstractBodyFilePatcher getBodyFilePatcher(Technology technology, Mode mode, String scriptName) {
@@ -41,8 +42,9 @@ public class FilesConverter {
 			return new CBodyFilePatcher(mode, scriptName);
 		case JS:
 			return new JSBodyFilePatcher(mode, scriptName);
+		default:
+			throw new UnsupportedOperationException("Unsupported technology: " + technology);
 		}
-		return null;
 	}
 
 	public void convert() {

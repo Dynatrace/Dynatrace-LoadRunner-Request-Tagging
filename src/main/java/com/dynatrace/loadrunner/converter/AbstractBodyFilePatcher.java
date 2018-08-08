@@ -15,13 +15,12 @@ import com.dynatrace.loadrunner.config.Mode;
 import com.dynatrace.loadrunner.converter.util.BodyFilePatcherUtil;
 import com.google.common.collect.Lists;
 
-/* TODO : rework */
 abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private final Mode mode;
 	private final String scriptName;
 
-	protected final String header = Constants.DT_HEADER;
+	static final String HEADER = Constants.DT_HEADER;
 	String regex;
 	String transactionStart;
 	String transactionEnd;
@@ -61,6 +60,8 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 				handleDelete(scanner, writer);
 			}
 			break;
+		default:
+			throw new UnsupportedOperationException("Unknown patch mode: " + mode);
 		}
 	}
 
@@ -84,7 +85,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private void handleDelete(FileScanner scanner, PrintWriter writer) {
 		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
-		if (scanner.modifiedInstructionContains(header)) {
+		if (scanner.modifiedInstructionContains(HEADER)) {
 			writer.write(instructionToWrite.replaceAll(regex, ""));
 			scanner.skipWhiteSpaces();
 		} else {
@@ -103,14 +104,13 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private String modifyInstruction(String unmodifiedInstruction, String whiteSpaces, String keyword,
 			String processedPage) {
-
 		int insertPosition = BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword);
-
-		String start = unmodifiedInstruction.substring(0, insertPosition);
-		String end = unmodifiedInstruction.substring(insertPosition);
-
-		return start + header + "(" + buildParameters(keyword, processedPage) + ");" + Constants.CRLF + whiteSpaces
-				+ end;
+		return unmodifiedInstruction.substring(0, insertPosition)
+				+ HEADER
+				+ '(' + buildParameters(keyword, processedPage) + ");"
+				+ Constants.CRLF
+				+ whiteSpaces
+				+ unmodifiedInstruction.substring(insertPosition);
 	}
 
 	private String buildParameters(String keyword, String processedPage) {

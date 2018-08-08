@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Rule;
@@ -51,8 +50,8 @@ public class FilesConverterTest {
 	}
 
 	@Parameters(name = "{0} (testCase #{index})")
-	public static Collection<Object[]> files() {
-		return Arrays.asList(new Object[][] {
+	public static Object[][] files() {
+		return new Object[][] {
 				{ "patch C files",
 						new InputFiles(Sets.newHashSet(new File("src/test/resources/c-unconverted-globals.h")),
 								Sets.newHashSet(new File("src/test/resources/c-unconverted-action.c"))),
@@ -76,7 +75,7 @@ public class FilesConverterTest {
 								Sets.newHashSet(new File("src/test/resources/js-converted-action.js"))),
 						Mode.DELETE, Technology.JS,
 						new OutputFiles(Sets.newHashSet(new File("src/test/resources", "js-unconverted-globals.js")),
-								Sets.newHashSet(new File("src/test/resources", "js-unconverted-action.js"))) } });
+								Sets.newHashSet(new File("src/test/resources", "js-unconverted-action.js"))) } };
 	}
 
 	@Test

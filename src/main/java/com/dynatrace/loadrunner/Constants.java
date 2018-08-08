@@ -22,4 +22,8 @@ public final class Constants {
 	public static final char WHITESPACE = ' ';
 	public static final char TAB = '\t';
 	public static final char HASH = '#';
+
+	private Constants() {
+		// prevent creation
+	}
 }

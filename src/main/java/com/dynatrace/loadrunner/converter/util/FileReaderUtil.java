@@ -61,10 +61,16 @@ public class FileReaderUtil {
 	}
 
 	public static Collection<File> getHeaderFiles(String[] input, Technology technology) {
+		if (input == null) {
+			return Sets.newHashSet();
+		}
 		return filterHeaderFiles(getFiles(input), technology);
 	}
 
 	public static Collection<File> getBodyFiles(String[] input, Technology technology) {
+		if (input == null) {
+			return Sets.newHashSet();
+		}
 		return filterBodyFiles(getFiles(input), technology);
 	}
 

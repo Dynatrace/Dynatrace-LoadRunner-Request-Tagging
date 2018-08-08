@@ -15,9 +15,7 @@ import com.google.common.collect.Maps;
 
 public class ArgumentParserTest {
 
-	@Test
-	public void getConfig() {
-	}
+	private static final String VALIDATE_PATH_ERROR_MESSAGE = "<path parameter> should contain either '-path' or '-body' and '-header'";
 
 	@Test
 	public void parse_empty() {
@@ -99,7 +97,7 @@ public class ArgumentParserTest {
 			ArgumentParser.validate(arguments);
 			fail();
 		} catch (IllegalArgumentException e) {
-			assertEquals("<path parameter> should contain either '-path' or '-body' and '-header'", e.getMessage());
+			assertEquals(VALIDATE_PATH_ERROR_MESSAGE, e.getMessage());
 		}
 	}
 
@@ -113,7 +111,7 @@ public class ArgumentParserTest {
 			ArgumentParser.validate(arguments);
 			fail();
 		} catch (IllegalArgumentException e) {
-			assertEquals("<path parameter> should contain either '-path' or '-body' and '-header'", e.getMessage());
+			assertEquals(VALIDATE_PATH_ERROR_MESSAGE, e.getMessage());
 		}
 	}
 
@@ -128,7 +126,7 @@ public class ArgumentParserTest {
 			ArgumentParser.validate(arguments);
 			fail();
 		} catch (IllegalArgumentException e) {
-			assertEquals("<path parameter> should contain either '-path' or '-body' and '-header'", e.getMessage());
+			assertEquals(VALIDATE_PATH_ERROR_MESSAGE, e.getMessage());
 		}
 	}
 
@@ -141,7 +139,7 @@ public class ArgumentParserTest {
 			ArgumentParser.validate(arguments);
 			fail();
 		} catch (IllegalArgumentException e) {
-			assertEquals("<path parameter> should contain either '-path' or '-body' and '-header'", e.getMessage());
+			assertEquals(VALIDATE_PATH_ERROR_MESSAGE, e.getMessage());
 		}
 	}
 
