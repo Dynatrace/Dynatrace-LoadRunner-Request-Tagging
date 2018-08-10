@@ -57,6 +57,5 @@ see also <a href="https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagg
 
 |Version|Description                            |
 |:------|:--------------------------------------|
-|1.2.0  |Added support for in-process-linking   |
-|1.1.0  |Added support for in-process-linking   |
+|1.1.0  |Covering full JavaScript support<br/>Cleaning up the source code<br/>Fixing reported issues|
 |[pre release 1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/pre-release-1)|Initial release|
