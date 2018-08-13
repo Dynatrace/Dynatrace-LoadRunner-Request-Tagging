@@ -1,6 +1,6 @@
 <a name="project" />
 
-# Dynatrace Request Tagging tool
+# Dynatrace LoadRunner Request Tagging tool
 
 The LoadRunner Request Tagging tool inserts a short method `addDynatraceHeaderTest` in your _globals.h_ or _globals.js_ file that populates the `x-dynatrace-test` header.
 It also parses your _.c_ or _.js_ files and automatically adds a call to this method before one of the key LoadRunner methods is called.
