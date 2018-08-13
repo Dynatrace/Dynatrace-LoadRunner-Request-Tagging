@@ -1,6 +1,6 @@
 <a name="project" />
 
-# Dynatrace-LoadRunner-Converter
+# Dynatrace Request Tagging tool
 
 The LoadRunner Request Tagging tool inserts a short method `addDynatraceHeaderTest` in your _globals.h_ or _globals.js_ file that populates the `x-dynatrace-test` header.
 It also parses your _.c_ or _.js_ files and automatically adds a call to this method before one of the key LoadRunner methods is called.
@@ -34,11 +34,11 @@ The Dynatrace LoadRunner Request Tagging Tool is an open source project, current
 
 **Get Help**
 * Ask a question in the <a href="https://answers.dynatrace.com/spaces/482/view.html" target="_blank">product forums</a>
-* Read the <a href="https://www.dynatrace.com/support/help/" target="_blank">product documentation</a>
+* Read the <a href="https://www.dynatrace.com/support/help/integrations/test-automation-frameworks/how-do-i-integrate-dynatrace-into-loadrunner-scripts/" target="_blank">product documentation</a>
 
 **Open a <a href="https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/issues">GitHub issue</a> to:**
 * Report minor defects, minor items or typos
-* Ask for improvements or changes in the SDK API
+* Ask for improvements or changes
 * Ask any questions related to the community effort
 
 SLAs don't apply for GitHub tickets
