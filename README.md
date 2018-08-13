@@ -30,7 +30,7 @@ Both C and JavaScript scripting languages are supported.
 
 ## Help & Support
 
-The Dynatrace LoadRunner Request Tagging Tool is an open source project, currently in beta status. The features are fully supported by Dynatrace. 
+The Dynatrace LoadRunner Request Tagging Tool is an open source project. The features are fully supported by Dynatrace. 
 
 **Get Help**
 * Ask a question in the <a href="https://answers.dynatrace.com/spaces/482/view.html" target="_blank">product forums</a>
