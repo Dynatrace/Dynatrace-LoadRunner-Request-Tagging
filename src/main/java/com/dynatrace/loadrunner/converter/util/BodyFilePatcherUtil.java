@@ -1,108 +1,55 @@
 package com.dynatrace.loadrunner.converter.util;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Arrays;
 import java.util.List;
 
-import com.dynatrace.loadrunner.Constants;
+import org.junit.Test;
 
-public class BodyFilePatcherUtil {
+public class BodyFilePatcherUtilTest {
 
-	private final static char EOF = (char) -1;
-	private final static String TRANSACTION_SEPARATOR = " - ";
-
-	private BodyFilePatcherUtil() {
-		// prevent creation
+	@Test
+	public void getInsertPositionTest() {
+		String unmodifiedInstruction = "	web_url(\"xaOI6zd9HW9.js_2\"";
+		String unmodifiedInstructionWithComment = "/*just some test comment*/web_url(\"uhh91198.js\",)";
+		String unmodifiedInstructionWithoutKeyword = "just some random text witohut keyword";
+		String keyword = "web_url";
+		assertEquals(BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword), 1);
+		assertEquals(BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithComment, keyword), 26);
+		assertEquals(BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithoutKeyword, keyword), 0);
 	}
 
-	public static int getInsertPosition(String unmodifiedInstruction, String keyword) {
-		int insertPosition = 0;
-		int keywordIndex = 0;
-		char processedChar;
-		for (int i = 0; i < unmodifiedInstruction.length(); i++) {
-			processedChar = unmodifiedInstruction.charAt(i);
-			if (processedChar == keyword.charAt(keywordIndex)) {
-				keywordIndex++;
-				if (keywordIndex == keyword.length()) {
-					insertPosition = i - keywordIndex + 1;
-					break;
-				}
-			} else {
-				keywordIndex = 0;
-				if (processedChar == keyword.charAt(keywordIndex)) {
-					keywordIndex++;
-				} else if (processedChar == Constants.SLASH) {
-					processedChar = unmodifiedInstruction.charAt(++i);
-					if (processedChar == Constants.ASTERISK)
-						i = BodyFilePatcherUtil.getIndexAfterBlockComment(unmodifiedInstruction, i);
-					else if (processedChar == Constants.SLASH)
-						i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
-				} else if (processedChar == Constants.HASH)
-					i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
-			}
-		}
-		return insertPosition;
+	@Test
+	public void concatTransactionNamesTest() {
+		String expectedResult = "transaction1 - transaction2 - transaction3 and transaction4";
+		List<String> transactions = Arrays.asList("transaction1", "transaction2", "transaction3 and transaction4");
+		String transactionString = BodyFilePatcherUtil.concatTransactionNames(transactions);
+		assertEquals(transactionString, expectedResult);
 	}
 
-	public static String concatTransactionNames(List<String> transactionNames) {
-		StringBuilder builder = new StringBuilder();
-		boolean firstTransaction = true;
-		for (String transactionName : transactionNames) {
-			if (!firstTransaction)
-				builder.append(TRANSACTION_SEPARATOR);
-			firstTransaction = false;
-			builder.append(transactionName);
-		}
-		return builder.toString();
+	@Test
+	public void getFirstStringParameter() {
+		char cParam = '"';
+		char jsParam = '\'';
+		String instructionJs = "web.url({name:'orange-booking-finish.jsf_3',url:'http://localhost:8079/orange-booking-finish.jsf?success=1&journeyId=1',resource:0,recContentType:'text/html',referer:'http://localhost:8079/orange-booking-finish.jsf?journeyId=1',snapshot:'t33.inf',mode:'HTML',extraRes:[{url:'/img/gradient/Verlauf_Orange_Button_2.png',referer:'http://localhost:8079/orange-booking-finish.jsf?success=1&journeyId=1'}";
+		String expectedResultJs = "orange-booking-finish.jsf_3";
+		String instructionC = "";
+		String expectedResultC = "";
+		assertEquals(BodyFilePatcherUtil.getFirstStringParameter(instructionJs, jsParam), expectedResultJs);
+		assertEquals(BodyFilePatcherUtil.getFirstStringParameter(instructionC, cParam), expectedResultC);
 	}
-
-	private static int getIndexAfterLineComment(String commentedInstruction, char character, int passedIndex) {
-		char oldChar;
-		char currentChar = character;
-		int index = passedIndex;
-		do {
-			oldChar = currentChar;
-			currentChar = commentedInstruction.charAt(++index);
-			if (currentChar == Constants.LINE_FEED && oldChar != Constants.BACKSLASH)
-				break;
-		} while (index < commentedInstruction.length());
-		return index;
-	}
-
-	private static int getIndexAfterBlockComment(String commentedInstruction, int i) {
-		char currentChar;
-		int index = i;
-		while (index < commentedInstruction.length() - 1) {
-			currentChar = commentedInstruction.charAt(++index);
-			while (currentChar == Constants.ASTERISK && index < commentedInstruction.length() - 1) {
-				currentChar = commentedInstruction.charAt(++index);
-				if (currentChar == Constants.SLASH) {
-					return index;
-				}
-			}
-		}
-		return index;
-	}
-
-	public static String getFirstStringParameter(String instruction, char stringParameter) {
-		StringBuilder builder = new StringBuilder();
-		int i = instruction.indexOf(stringParameter) + 1;
-		if (i == 0)
-			return "";
-		char ch = instruction.charAt(i++), old = stringParameter;
-		while (i < instruction.length()) {
-			if (ch == stringParameter && old != Constants.BACKSLASH)
-				break;
-			builder.append(ch);
-			old = ch;
-			ch = instruction.charAt(i++);
-		}
-		return builder.toString();
-	}
-
-	public static String removeEOF(String instruction) {
-		String write = instruction;
-		if (instruction.length() > 0 && instruction.charAt(instruction.length() - 1) == EOF)
-			write = instruction.substring(0, instruction.length() - 1);
-		return write;
+        
+        // This test is to ensure we ignore comments while extracting first paramater for C language
+        @Test
+	public void getFirstStringParameterWithCommentsForC() {
+		char cParam = '"';
+                StringBuilder instructionC = new StringBuilder();
+                instructionC.append("// web_url(\"WRONG_PARAMETER\",\"URL=https://something.com/\",\"TargetFrame=\",\"Resource=0\",\"RecContentType=text/html\");");
+                instructionC.append("\r\n");
+		instructionC.append("lr_end_transaction(\"CORRECT_PARAMETER\", LR_AUTO);");
+		String expectedResultC = "CORRECT_PARAMETER";
+		assertEquals(expectedResultC, BodyFilePatcherUtil.getFirstStringParameter(instructionC.toString(), cParam));
 	}
 
 }
