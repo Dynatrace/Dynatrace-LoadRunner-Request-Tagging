@@ -39,5 +39,17 @@ public class BodyFilePatcherUtilTest {
 		assertEquals(BodyFilePatcherUtil.getFirstStringParameter(instructionJs, jsParam), expectedResultJs);
 		assertEquals(BodyFilePatcherUtil.getFirstStringParameter(instructionC, cParam), expectedResultC);
 	}
+	
+	// This test is to ensure we ignore comments while extracting first parameter for C language
+        @Test
+	public void getFirstStringParameterWithCommentsForC() {
+		char cParam = '"';
+                StringBuilder instructionC = new StringBuilder();
+                instructionC.append("// web_url(\"WRONG_PARAMETER\",\"URL=https://something.com/\",\"TargetFrame=\",\"Resource=0\",\"RecContentType=text/html\");");
+                instructionC.append("\r\n");
+		instructionC.append("lr_end_transaction(\"CORRECT_PARAMETER\", LR_AUTO);");
+		String expectedResultC = "CORRECT_PARAMETER";
+		assertEquals(expectedResultC, BodyFilePatcherUtil.getFirstStringParameter(instructionC.toString(), cParam));
+	}
 
 }
