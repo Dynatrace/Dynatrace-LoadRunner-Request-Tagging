@@ -13,11 +13,13 @@ public class BodyFilePatcherUtilTest {
 	public void getInsertPositionTest() {
 		String unmodifiedInstruction = "	web_url(\"xaOI6zd9HW9.js_2\"";
 		String unmodifiedInstructionWithComment = "/*just some test comment*/web_url(\"uhh91198.js\",)";
-		String unmodifiedInstructionWithoutKeyword = "just some random text witohut keyword";
+		String unmodifiedInstructionWithLineComment = "//web_url(\"uhh91198.js\",)";
+		String unmodifiedInstructionWithoutKeyword = "just some random text without keyword";
 		String keyword = "web_url";
-		assertEquals(BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword), 1);
-		assertEquals(BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithComment, keyword), 26);
-		assertEquals(BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithoutKeyword, keyword), 0);
+		assertEquals(1, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword));
+		assertEquals(26, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithComment, keyword));
+		assertEquals(0, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithLineComment, keyword));
+		assertEquals(0, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithoutKeyword, keyword));
 	}
 
 	@Test
@@ -25,7 +27,7 @@ public class BodyFilePatcherUtilTest {
 		String expectedResult = "transaction1 - transaction2 - transaction3 and transaction4";
 		List<String> transactions = Arrays.asList("transaction1", "transaction2", "transaction3 and transaction4");
 		String transactionString = BodyFilePatcherUtil.concatTransactionNames(transactions);
-		assertEquals(transactionString, expectedResult);
+		assertEquals(expectedResult, transactionString);
 	}
 
 	@Test
@@ -36,8 +38,8 @@ public class BodyFilePatcherUtilTest {
 		String expectedResultJs = "orange-booking-finish.jsf_3";
 		String instructionC = "";
 		String expectedResultC = "";
-		assertEquals(BodyFilePatcherUtil.getFirstStringParameter(instructionJs, jsParam), expectedResultJs);
-		assertEquals(BodyFilePatcherUtil.getFirstStringParameter(instructionC, cParam), expectedResultC);
+		assertEquals(expectedResultJs, BodyFilePatcherUtil.getFirstStringParameter(instructionJs, jsParam));
+		assertEquals(expectedResultC, BodyFilePatcherUtil.getFirstStringParameter(instructionC, cParam));
 	}
 
 }
