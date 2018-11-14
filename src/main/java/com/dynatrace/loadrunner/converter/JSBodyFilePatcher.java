@@ -21,8 +21,8 @@ final class JSBodyFilePatcher extends AbstractBodyFilePatcher {
 			.unmodifiableSet(new HashSet<>(Arrays.asList("web.url", "web.customRequest", "web.submitData")));
 	private static final Set<String> JS_KEYWORDS = Sets.union(JS_CLICK_AND_SCRIPT_KEYWORDS, JS_REQUEST_KEYWORDS);
 
-	JSBodyFilePatcher(Mode mode, String scriptName) {
-		super(mode, scriptName);
+	JSBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
+		super(mode, scriptName, verbose);
 	}
 
 	protected void initialize() {
