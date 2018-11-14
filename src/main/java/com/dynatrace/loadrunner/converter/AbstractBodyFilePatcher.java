@@ -17,7 +17,6 @@ import com.google.common.collect.Lists;
 
 abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
-	private final Mode mode;
 	private final String scriptName;
 
 	static final String HEADER = Constants.DT_HEADER;
@@ -31,9 +30,8 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	private final List<String> transactionNames = Lists.newArrayList();
 
 	AbstractBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
-		super(verbose);
+		super(mode, verbose);
 		this.scriptName = scriptName;
-		this.mode = mode;
 		initialize();
 	}
 
@@ -56,7 +54,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private void parseFile(FileScanner scanner, PrintWriter writer) {
 		if(verbose) {
-			System.out.print("parsing...");
+			System.out.println("parsing...");
 		}
 		switch (mode) {
 		case INSERT:
@@ -73,7 +71,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 			throw new UnsupportedOperationException("Unknown patch mode: " + mode);
 		}
 		if(verbose) {
-			System.out.println(" done");
+			System.out.println("... parsing done");
 		}
 	}
 

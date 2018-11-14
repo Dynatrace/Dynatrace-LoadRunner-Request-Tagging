@@ -11,24 +11,15 @@ import com.dynatrace.loadrunner.config.Mode;
 
 abstract class AbstractHeaderFilePatcher extends AbstractFilePatcher {
 
-	private final Mode mode;
-
 	AbstractHeaderFilePatcher(Mode mode, boolean verbose) {
-		super(verbose);
-		this.mode = mode;
+		super(mode, verbose);
 	}
 
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
 		switch (mode) {
 		case DELETE:
-			if(verbose) {
-				System.out.printf("Removing header from file %s%n", sourceFile.getAbsolutePath());
-			}
 			return removeHeader(sourceFile, targetFile);
 		case INSERT:
-			if(verbose) {
-				System.out.printf("Adding header to file %s%n", sourceFile.getAbsolutePath());
-			}
 			return addHeader(sourceFile, targetFile);
 		default:
 			throw new UnsupportedOperationException("Unknown patch mode: " + mode);
