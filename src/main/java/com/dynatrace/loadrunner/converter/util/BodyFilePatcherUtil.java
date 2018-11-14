@@ -31,12 +31,14 @@ public class BodyFilePatcherUtil {
 					keywordIndex++;
 				} else if (processedChar == Constants.SLASH) {
 					processedChar = unmodifiedInstruction.charAt(++i);
-					if (processedChar == Constants.ASTERISK)
-						i = BodyFilePatcherUtil.getIndexAfterBlockComment(unmodifiedInstruction, i);
-					else if (processedChar == Constants.SLASH)
-						i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
-				} else if (processedChar == Constants.HASH)
-					i = BodyFilePatcherUtil.getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
+					if (processedChar == Constants.ASTERISK) {
+						i = getIndexAfterBlockComment(unmodifiedInstruction, i);
+					} else if (processedChar == Constants.SLASH) {
+						i = getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
+					}
+				} else if (processedChar == Constants.HASH) {
+					i = getIndexAfterLineComment(unmodifiedInstruction, processedChar, i);
+				}
 			}
 		}
 		return insertPosition;
@@ -54,16 +56,16 @@ public class BodyFilePatcherUtil {
 		return builder.toString();
 	}
 
-	private static int getIndexAfterLineComment(String commentedInstruction, char character, int passedIndex) {
+	private static int getIndexAfterLineComment(String commentedInstruction, char character, int initialIndex) {
 		char oldChar;
 		char currentChar = character;
-		int index = passedIndex;
+		int index = initialIndex;
 		do {
 			oldChar = currentChar;
 			currentChar = commentedInstruction.charAt(++index);
 			if (currentChar == Constants.LINE_FEED && oldChar != Constants.BACKSLASH)
 				break;
-		} while (index < commentedInstruction.length());
+		} while (index < commentedInstruction.length() - 1);
 		return index;
 	}
 
