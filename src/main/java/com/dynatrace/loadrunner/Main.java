@@ -40,7 +40,7 @@ public class Main {
 		} catch (UnsupportedOperationException e) {
 			System.err.printf("%nUnexpected error occurred: %s%n", e.getMessage());
 		} catch (Exception e) {
-			if(userConfig != null && userConfig.isVerbose()) {
+			if (userConfig != null && userConfig.isVerbose()) {
 				System.err.println("\nUnexpected error occurred (details below)");
 				e.printStackTrace();
 			} else {
