@@ -18,6 +18,7 @@ Both C and JavaScript scripting languages are supported.
 	- `-LSN <value>`: sets the load script name to a specified `<value>`. If skipped, the script name will be taken from the _.usr_ file
 	- `-c`: sets C as the scripting language (the default)
 	- `-js`: sets JavaScript as the scripting language
+	- `-verbose`: prints detailed info while processing files
 	- `-help`: prints usage.
 
 <a name="furtherreading" />

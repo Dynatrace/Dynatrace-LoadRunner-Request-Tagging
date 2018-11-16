@@ -20,8 +20,8 @@ final class CBodyFilePatcher extends AbstractBodyFilePatcher {
 			"web_text_area", "web_text_link");
 	private static final Set<String> C_KEYWORDS = Sets.union(C_REQUEST_KEYWORDS, C_CLICK_AND_SCRIPT_KEYWORDS);
 
-	CBodyFilePatcher(Mode mode, String scriptName) {
-		super(mode, scriptName);
+	CBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
+		super(mode, scriptName, verbose);
 	}
 
 	protected void initialize() {

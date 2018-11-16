@@ -44,11 +44,12 @@ public class ArgumentParserTest {
 	@Test
 	public void parse() {
 		Map<Argument, String> parsed = ArgumentParser
-				.parse(new String[] { Argument.INSERT.getName(), Argument.PATH.getName(), "somePath" });
+				.parse(new String[] { Argument.INSERT.getName(), Argument.PATH.getName(), "somePath", Argument.VERBOSE.getName() });
 		assertTrue(parsed.containsKey(Argument.INSERT));
 		assertNull(parsed.get(Argument.INSERT));
 		assertTrue(parsed.containsKey(Argument.PATH));
 		assertEquals("somePath", parsed.get(Argument.PATH));
+		assertTrue(parsed.containsKey(Argument.VERBOSE));
 	}
 
 	@Test

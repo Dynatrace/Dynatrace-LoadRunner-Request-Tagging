@@ -17,7 +17,6 @@ import com.google.common.collect.Lists;
 
 abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
-	private final Mode mode;
 	private final String scriptName;
 
 	static final String HEADER = Constants.DT_HEADER;
@@ -30,17 +29,22 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private final List<String> transactionNames = Lists.newArrayList();
 
-	AbstractBodyFilePatcher(Mode mode, String scriptName) {
+	AbstractBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
+		super(mode, verbose);
 		this.scriptName = scriptName;
-		this.mode = mode;
 		initialize();
 	}
 
 	protected abstract void initialize();
 
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
-		try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-				PrintWriter writer = new PrintWriter(targetFile)) {
+		try (
+				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+				PrintWriter writer = new PrintWriter(targetFile)
+		) {
+			if(verbose) {
+				System.out.printf("Patching file: %s%n", sourceFile.getAbsolutePath());
+			}
 			FileScanner scanner = new FileScanner(reader);
 			scanner.initialize();
 			parseFile(scanner, writer);
@@ -49,6 +53,9 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	}
 
 	private void parseFile(FileScanner scanner, PrintWriter writer) {
+		if(verbose) {
+			System.out.println("parsing...");
+		}
 		switch (mode) {
 		case INSERT:
 			while (scanner.goToNextInstruction()) {
@@ -62,6 +69,9 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 			break;
 		default:
 			throw new UnsupportedOperationException("Unknown patch mode: " + mode);
+		}
+		if(verbose) {
+			System.out.println("... parsing done");
 		}
 	}
 

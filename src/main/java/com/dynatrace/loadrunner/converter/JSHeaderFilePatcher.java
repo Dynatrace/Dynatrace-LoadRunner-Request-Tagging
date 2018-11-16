@@ -12,8 +12,8 @@ import com.dynatrace.loadrunner.converter.util.ResourceFileReaderUtil;
 
 public class JSHeaderFilePatcher extends AbstractHeaderFilePatcher {
 
-	JSHeaderFilePatcher(Mode mode) {
-		super(mode);
+	JSHeaderFilePatcher(Mode mode, boolean verbose) {
+		super(mode, verbose);
 	}
 
 	@Override protected boolean addHeader(File sourceFile, File targetFile) throws IOException {

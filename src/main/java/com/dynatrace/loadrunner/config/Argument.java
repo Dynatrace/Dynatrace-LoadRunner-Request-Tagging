@@ -6,6 +6,7 @@ public enum Argument {
 	DELETE("delete"),
 	TYPE_JS("-js"),
 	TYPE_C("-c"),
+	VERBOSE("-verbose"),
 	HELP("-help"),
 	SCRIPT_NAME("-lsn", true),
 	BODY("-body", true),
