@@ -25,22 +25,31 @@ public class Main {
 			return;
 		}
 
+		UserConfig userConfig = null;
 		try {
 			if (!isValid(argumentsMap)) {
 				printUsage();
 				return;
 			}
 
-			UserConfig userConfig = UserConfig.from(argumentsMap);
+			userConfig = UserConfig.from(argumentsMap);
 			Technology technology = userConfig.getTechnology();
 			FilesConverter converter = new FilesConverter(userConfig.getMode(), technology,
-					getInputFiles(userConfig, technology), userConfig.getLsn());
+					getInputFiles(userConfig, technology), userConfig.getLsn(), userConfig.isVerbose());
 			converter.convert();
 		} catch (UnsupportedOperationException e) {
-			System.out.println("\nUnexpected error occurred: " + e.getMessage() + "\n");
+			System.err.printf("%nUnexpected error occurred: %s%n", e.getMessage());
+		} catch (Exception e) {
+			if (userConfig != null && userConfig.isVerbose()) {
+				System.err.println("\nUnexpected error occurred (details below)");
+				e.printStackTrace();
+			} else {
+				System.err.printf("%nUnexpected error occurred: %s%n", e.getMessage());
+			}
 		}
+		System.err.flush();
 
-		System.out.println("Conversion complete");
+		System.out.println("\nConversion complete");
 	}
 
 	private static boolean containsHelp(Map<Argument, String> argumentsMap) {
@@ -51,7 +60,7 @@ public class Main {
 		try {
 			ArgumentParser.validate(argumentsMap);
 		} catch (IllegalArgumentException e) {
-			System.out.println("\nValidation error occurred: " + e.getMessage() + "\n");
+			System.err.printf("%nValidation error occurred: %s%n", e.getMessage());
 			return false;
 		}
 		return true;

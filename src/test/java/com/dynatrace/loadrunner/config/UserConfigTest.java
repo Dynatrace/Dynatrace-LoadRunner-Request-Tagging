@@ -3,6 +3,7 @@ package com.dynatrace.loadrunner.config;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class UserConfigTest {
 		arguments.put(Argument.TYPE_JS, null);
 		arguments.put(Argument.SCRIPT_NAME, "scriptName");
 		arguments.put(Argument.PATH, "somePath");
+		arguments.put(Argument.VERBOSE, null);
 
 		UserConfig userConfig = UserConfig.from(arguments);
 
@@ -36,5 +38,6 @@ public class UserConfigTest {
 		assertEquals("somePath", userConfig.getPath());
 		assertNull(userConfig.getBody());
 		assertNull(userConfig.getHeader());
+		assertTrue(userConfig.isVerbose());
 	}
 }

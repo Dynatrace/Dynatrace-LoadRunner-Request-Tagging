@@ -10,3 +10,4 @@ optional parameter:
 	-LSN <value>: sets load script name to value passed after -LSN. If skipped, the script name will be taken from *.usr file
 	-c: sets C as scripting language used (default)
 	-js: sets JavaScript as scripting language -help: prints usage
+	-verbose: prints detailed info while processing files

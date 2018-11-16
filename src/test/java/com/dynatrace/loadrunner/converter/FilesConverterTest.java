@@ -100,7 +100,7 @@ public class FilesConverterTest {
 	}
 
 	private void convertFiles(Mode mode, Technology technology, InputFiles inputFiles) {
-		FilesConverter converter = new FilesConverter(mode, technology, inputFiles, LSN);
+		FilesConverter converter = new FilesConverter(mode, technology, inputFiles, LSN, true);
 		converter.convert();
 	}
 

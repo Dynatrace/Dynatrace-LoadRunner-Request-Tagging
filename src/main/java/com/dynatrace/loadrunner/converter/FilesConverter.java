@@ -16,10 +16,12 @@ public class FilesConverter {
 
 	private final AbstractBodyFilePatcher bodyFilePatcher;
 	private final AbstractHeaderFilePatcher headerFilePatcher;
+	private final boolean verbose;
 
-	public FilesConverter(Mode mode, Technology technology, InputFiles inputFiles, String userScriptName) {
+	public FilesConverter(Mode mode, Technology technology, InputFiles inputFiles, String userScriptName, boolean verbose) {
 		headerFiles = inputFiles.getHeaderFiles();
 		bodyFiles = inputFiles.getBodyFiles();
+		this.verbose = verbose;
 		bodyFilePatcher = getBodyFilePatcher(technology, mode,
 				StringUtils.isBlank(userScriptName) ? inputFiles.getScriptNameFromPath() : userScriptName);
 		headerFilePatcher = getHeaderFilePatcher(technology, mode);
@@ -28,9 +30,9 @@ public class FilesConverter {
 	private AbstractHeaderFilePatcher getHeaderFilePatcher(Technology technology, Mode mode) {
 		switch (technology) {
 		case C:
-			return new CHeaderFilePatcher(mode);
+			return new CHeaderFilePatcher(mode, verbose);
 		case JS:
-			return new JSHeaderFilePatcher(mode);
+			return new JSHeaderFilePatcher(mode, verbose);
 		default:
 			throw new UnsupportedOperationException("Unsupported technology: " + technology);
 		}
@@ -39,9 +41,9 @@ public class FilesConverter {
 	private AbstractBodyFilePatcher getBodyFilePatcher(Technology technology, Mode mode, String scriptName) {
 		switch (technology) {
 		case C:
-			return new CBodyFilePatcher(mode, scriptName);
+			return new CBodyFilePatcher(mode, scriptName, verbose);
 		case JS:
-			return new JSBodyFilePatcher(mode, scriptName);
+			return new JSBodyFilePatcher(mode, scriptName, verbose);
 		default:
 			throw new UnsupportedOperationException("Unsupported technology: " + technology);
 		}

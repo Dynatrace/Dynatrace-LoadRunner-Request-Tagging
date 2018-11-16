@@ -12,8 +12,8 @@ import com.dynatrace.loadrunner.converter.util.ResourceFileReaderUtil;
 
 public class CHeaderFilePatcher extends AbstractHeaderFilePatcher {
 
-	CHeaderFilePatcher(Mode mode) {
-		super(mode);
+	CHeaderFilePatcher(Mode mode, boolean verbose) {
+		super(mode, verbose);
 	}
 
 	@Override

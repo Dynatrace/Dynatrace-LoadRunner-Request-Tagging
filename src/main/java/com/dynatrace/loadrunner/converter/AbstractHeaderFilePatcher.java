@@ -11,10 +11,8 @@ import com.dynatrace.loadrunner.config.Mode;
 
 abstract class AbstractHeaderFilePatcher extends AbstractFilePatcher {
 
-	private final Mode mode;
-
-	AbstractHeaderFilePatcher(Mode mode) {
-		this.mode = mode;
+	AbstractHeaderFilePatcher(Mode mode, boolean verbose) {
+		super(mode, verbose);
 	}
 
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
