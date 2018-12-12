@@ -11,15 +11,15 @@ public class BodyFilePatcherUtilTest {
 
 	@Test
 	public void getInsertPositionTest() {
-		String unmodifiedInstruction = "	web_url(\"xaOI6zd9HW9.js_2\"";
-		String unmodifiedInstructionWithComment = "/*just some test comment*/web_url(\"uhh91198.js\",)";
-		String unmodifiedInstructionWithLineComment = "//web_url(\"uhh91198.js\",)";
-		String unmodifiedInstructionWithoutKeyword = "just some random text without keyword";
+		String instruction = "	web_url(\"xaOI6zd9HW9.js_2\"";
+		String instructionWithComment = "/*just some test comment*/web_url(\"uhh91198.js\",)";
+		String instructionInsideLineComment = "//web_url(\"uhh91198.js\",)";
+		String noInstruction = "just some random text without keyword";
 		String keyword = "web_url";
-		assertEquals(1, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstruction, keyword));
-		assertEquals(26, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithComment, keyword));
-		assertEquals(0, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithLineComment, keyword));
-		assertEquals(0, BodyFilePatcherUtil.getInsertPosition(unmodifiedInstructionWithoutKeyword, keyword));
+		assertEquals(1, BodyFilePatcherUtil.getInsertPosition(instruction, keyword));
+		assertEquals(26, BodyFilePatcherUtil.getInsertPosition(instructionWithComment, keyword));
+		assertEquals(0, BodyFilePatcherUtil.getInsertPosition(instructionInsideLineComment, keyword));
+		assertEquals(0, BodyFilePatcherUtil.getInsertPosition(noInstruction, keyword));
 	}
 
 	@Test
@@ -41,5 +41,4 @@ public class BodyFilePatcherUtilTest {
 		assertEquals(expectedResultJs, BodyFilePatcherUtil.getFirstStringParameter(instructionJs, jsParam));
 		assertEquals(expectedResultC, BodyFilePatcherUtil.getFirstStringParameter(instructionC, cParam));
 	}
-
 }

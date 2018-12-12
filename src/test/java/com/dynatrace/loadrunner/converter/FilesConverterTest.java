@@ -31,7 +31,7 @@ public class FilesConverterTest {
 	@Rule
 	public TemporaryFolder tempFolderRule = new TemporaryFolder();
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "FieldCanBeLocal" })
 	private String testCaseLabel;
 	private InputFiles input;
 	private Mode mode;
@@ -110,6 +110,7 @@ public class FilesConverterTest {
 				new InputStreamReader(new FileInputStream(expectedFile)));
 				BufferedReader actualFileReader = new BufferedReader(
 						new InputStreamReader(new FileInputStream(actualFile)))) {
+			int lineNumber = 0;
 			String expectedLine;
 			while ((expectedLine = expectedFileReader.readLine()) != null) {
 				String actualLine = actualFileReader.readLine();
@@ -117,7 +118,7 @@ public class FilesConverterTest {
 					// assertFail
 					fail("Compared file is empty" + messageSuffix);
 				}
-				assertEquals("Lines do not match" + messageSuffix, expectedLine, actualLine);
+				assertEquals("Lines (L:" + (++lineNumber) + ") do not match" + messageSuffix, expectedLine, actualLine);
 			}
 			if (actualFileReader.readLine() != null)
 				fail("Files do not have the same amount of lines" + messageSuffix);

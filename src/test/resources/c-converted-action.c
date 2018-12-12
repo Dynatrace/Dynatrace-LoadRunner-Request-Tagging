@@ -10,8 +10,13 @@ Action()
 	web_add_cookie("dtSa=-; DOMAIN=localhost");
 
 	web_add_cookie("rxvt=1530536081459|1530534276697; DOMAIN=localhost");
-	
-	addDynatraceHeaderTest("PC=localhost:8079;SI=LoadRunner;LSN=script name;");
+
+    // web_url("WRONG_PARAMETER", "URL=https://something.com/", "TargetFrame=", "Resource=0", "RecContentType=text/html");
+    lr_start_transaction("GlobalTransaction");
+
+    lr_start_transaction("InitialTransaction");
+
+	addDynatraceHeaderTest("TSN=GlobalTransaction - InitialTransaction;PC=localhost:8079;SI=LoadRunner;LSN=script name;");
 	web_url("localhost:8079", 
 		"URL=http://localhost:8079/", 
 		"Resource=0", 
@@ -55,7 +60,7 @@ Action()
 
 	web_set_sockets_option("SSL_VERSION", "2&3");
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction - InitialTransaction;PC=xaOI6zd9HW9.js;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js", 
 		"URL=http://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -65,7 +70,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=xaOI6zd9HW9.js_2;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction - InitialTransaction;PC=xaOI6zd9HW9.js_2;SI=LoadRunner;LSN=script name;");
 	web_url("xaOI6zd9HW9.js_2", 
 		"URL=https://staticxx.facebook.com/connect/xd_arbiter/r/xaOI6zd9HW9.js?version=42", 
 		"Resource=0", 
@@ -75,7 +80,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=fastbutton;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction - InitialTransaction;PC=fastbutton;SI=LoadRunner;LSN=script name;");
 	web_url("fastbutton", 
 		"URL=https://apis.google.com/se/0/_/+1/fastbutton?usegapi=1&origin=http%3A%2F%2Flocalhost%3A8079&url=http%3A%2F%2Fwww.dynatrace.com%2F&gsrc=3p&ic=1&jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.pl.de2wM28ILrc.O%2Fm%3D__features__%2Fam%3DwQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCO5c-Kd6sZuD9hEQyRIuOc1MKFaQA", 
 		"Resource=0", 
@@ -88,7 +93,7 @@ Action()
 	web_add_header("Faces-Request", 
 		"partial/ajax");
 
-	addDynatraceHeaderTest("PC=orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction - InitialTransaction;PC=orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280;SI=LoadRunner;LSN=script name;");
 	web_submit_data("orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280", 
 		"Action=http://localhost:8079/orange.jsf;jsessionid=72EB3CB4C6062B6D52E6E59F8724DFC2.jvmRoute-8280", 
 		"Method=POST", 
@@ -130,7 +135,9 @@ Action()
 		"Name=javax.faces.partial.ajax", "Value=true", ENDITEM, 
 		LAST);
 
-	addDynatraceHeaderTest("PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html;SI=LoadRunner;LSN=script name;");
+    lr_end_transaction("InitialTransaction", 2);
+
+	addDynatraceHeaderTest("TSN=GlobalTransaction;PC=widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html;SI=LoadRunner;LSN=script name;");
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -140,7 +147,7 @@ Action()
 		"Mode=HTML", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction;PC=follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html;SI=LoadRunner;LSN=script name;");
 	web_url("follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"URL=https://platform.twitter.com/widgets/follow_button.bed9e19e565ca3b578705de9e73c29ed.en.html", 
 		"Resource=0", 
@@ -154,7 +161,7 @@ Action()
 
 	web_add_cookie("rxvt=1530536086774|1530534276697; DOMAIN=localhost");
 
-	addDynatraceHeaderTest("PC=rb_1;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction;PC=rb_1;SI=LoadRunner;LSN=script name;");
 	web_custom_request("rb_1", 
 		"URL=http://localhost:8079/rb_1?type=js&session=1%2490732712A19CFE460D187D5D153DF84F&svrid=1&flavor=post&referer=http%3A%2F%2Flocalhost%3A8079%2F&visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN", 
 		"Method=POST", 
@@ -171,7 +178,7 @@ Action()
 		"331%29%5Ep%20%20%20at%20onclick%20%28http%3A%2F%2Flocalhost%3A8079%2F%3A64%3A213%29%7C_stack_%7C-%7C1530534281460%7C1530534281460%7C-1%2C3%7C5%7C4837%7C_ts_%7C-%7C1530534281461%7C1530534281461%7C-1%2C3%7C6%7CC%5EpLogin%7C_useraction_%7C-%7C1530534281461%7C1530534281461%7C-1$PV=1$rId=RID_2418$rpId=1914199235$url=http%3A%2F%2Flocalhost%3A8079%2F$title=easyTravel%20-%20One%20step%20to%20happiness$visitID=IFEDHEFAOHPTKMBFAJCMFLDKJBCJNIBN$fId=534276621_895$v=10150180628221724$time=1530534286774", 
 		LAST);
 
-	addDynatraceHeaderTest("PC=like.php;SI=LoadRunner;LSN=script name;");
+	addDynatraceHeaderTest("TSN=GlobalTransaction;PC=like.php;SI=LoadRunner;LSN=script name;");
 	web_url("like.php", 
 		"URL=https://www.facebook.com/plugins/like.php?app_id=&channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FxaOI6zd9HW9.js%3Fversion%3D42%23cb%3Df190f22b0574fe9%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8079%252Ffa68c3fb208807%26relation%3Dparent.parent&container_width=850&font=arial&href=http%3A%2F%2Flocalhost%3A8079%2Fwww.dynatrace.com&locale=en_US&sdk=joey&send=false&show_faces=false&width=300", 
 		"Resource=0", 
@@ -180,6 +187,8 @@ Action()
 		"Snapshot=t9.inf", 
 		"Mode=HTML", 
 		LAST);
+
+    lr_end_transaction("GlobalTransaction", 2);
 
 	/*Possible OAUTH authorization was detected. It is recommended to correlate the authorization parameters.*/
 
@@ -1418,6 +1427,6 @@ Action()
 		"Snapshot=t92.inf", 
 		"Mode=HTML", 
 		LAST);
-	
+
 	return 0;
 }

@@ -7,6 +7,7 @@ import com.dynatrace.loadrunner.Constants;
 
 class FileScanner {
 
+	private final static char NULL = (char) 0;
 	private final static char EOF = (char) -1;
 
 	private final BufferedReader reader;
@@ -19,7 +20,7 @@ class FileScanner {
 	private char secondChar;
 	private char thirdChar;
 
-	private boolean outsideString = true;
+	private char currentStringDelimiter;
 
 	FileScanner(BufferedReader reader) {
 		this.reader = reader;
@@ -37,17 +38,17 @@ class FileScanner {
 	}
 
 	boolean goToNextInstruction() {
-		if (firstChar == EOF) {
+		if (eof()) {
 			return false;
 		}
 		cleanBuffer();
-		while (firstChar != EOF) {
+		while (!eof()) {
 			if (foundInstruction()) {
 				break;
 			}
-			checkIfStringKeyword();
-			checkIfComment();
-			checkIfWhiteSpace();
+			processStringLiteral();
+			processComment();
+			processWhitespace();
 
 			append(firstChar);
 			getChar();
@@ -58,20 +59,24 @@ class FileScanner {
 		return true;
 	}
 
-	private void checkIfWhiteSpace() {
+	private boolean eof() {
+		return firstChar == EOF;
+	}
+
+	private void processWhitespace() {
 		if (!Character.isWhitespace(firstChar) && whiteSpace.toString().isEmpty()) {
 			whiteSpace.append(newWhiteSpace.toString());
 		}
 	}
 
-	private void checkIfComment() {
-		if (firstChar == Constants.SLASH && outsideString) {
+	private void processComment() {
+		if (firstChar == Constants.SLASH && outsideString()) {
 			getChar();
-			if (firstChar == Constants.ASTERISK && outsideString) {
+			switch (firstChar) {
+			case Constants.ASTERISK:
 				unmodifiedInstruction.append(readBlockComment());
 				return;
-			}
-			if (firstChar == Constants.SLASH && outsideString) {
+			case Constants.SLASH:
 				unmodifiedInstruction.append(readToLineEnd());
 				return;
 			}
@@ -79,15 +84,23 @@ class FileScanner {
 		}
 	}
 
-	private void checkIfStringKeyword() {
+	private void processStringLiteral() {
 		if ((firstChar == Constants.DOUBLE_QUOTE || firstChar == Constants.SINGLE_QUOTE)
 				&& secondChar != Constants.BACKSLASH) {
-			outsideString = !outsideString;
+			if(outsideString()) { // step into String value
+				currentStringDelimiter = firstChar;
+			} else if(currentStringDelimiter == firstChar) { // jump out of String value only when the same delimiter occurs
+				currentStringDelimiter = NULL;
+			}
 		}
 	}
 
+	private boolean outsideString() {
+		return currentStringDelimiter == NULL;
+	}
+
 	private boolean foundInstruction() {
-		return (firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString;
+		return (firstChar == Constants.SEMICOLON || firstChar == Constants.CURLY_RIGHT_BRACE) && outsideString();
 	}
 
 	private void append(char character) {
@@ -105,14 +118,15 @@ class FileScanner {
 		do {
 			getChar();
 			comment.append(firstChar);
-			while (firstChar == Constants.ASTERISK && !endFound) {
+			while (firstChar == Constants.ASTERISK) {
 				getChar();
 				comment.append(firstChar);
 				if (firstChar == Constants.SLASH) {
 					endFound = true;
+					break;
 				}
 			}
-		} while (firstChar != EOF && !endFound);
+		} while (!eof() && !endFound);
 		getChar();
 		return comment.toString();
 	}
@@ -124,12 +138,12 @@ class FileScanner {
 		do {
 			getChar();
 			comment.append(firstChar);
-			if ((firstChar == Constants.LINE_FEED && secondChar != Constants.BACKSLASH)
-					|| (firstChar == Constants.LINE_FEED && secondChar == Constants.CARRIAGE_RETURN
-					&& thirdChar != Constants.BACKSLASH)) {
+			if (firstChar == Constants.LINE_FEED && (
+					(secondChar == Constants.CARRIAGE_RETURN && thirdChar != Constants.BACKSLASH)
+							|| secondChar != Constants.BACKSLASH)) {
 				break;
 			}
-		} while (firstChar != EOF);
+		} while (!eof());
 		getChar();
 		return comment.toString();
 	}
@@ -150,7 +164,7 @@ class FileScanner {
 	}
 
 	void skipWhiteSpaces() {
-		while (firstChar != EOF && Character.isWhitespace(firstChar)) {
+		while (!eof() && Character.isWhitespace(firstChar)) {
 			getChar();
 		}
 	}
@@ -175,5 +189,6 @@ class FileScanner {
 		modifiedInstruction.setLength(0);
 		unmodifiedInstruction.setLength(0);
 		whiteSpace.setLength(0);
+		currentStringDelimiter = NULL;
 	}
 }

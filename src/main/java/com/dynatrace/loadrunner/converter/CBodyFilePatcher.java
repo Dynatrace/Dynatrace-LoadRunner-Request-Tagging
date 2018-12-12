@@ -21,15 +21,12 @@ final class CBodyFilePatcher extends AbstractBodyFilePatcher {
 	private static final Set<String> C_KEYWORDS = Sets.union(C_REQUEST_KEYWORDS, C_CLICK_AND_SCRIPT_KEYWORDS);
 
 	CBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
-		super(mode, scriptName, verbose);
-	}
-
-	protected void initialize() {
-		regex = HEADER + C_REGEX;
-		transactionStart = C_TRANSACTION_START;
-		transactionEnd = C_TRANSACTION_END;
-		param = C_PARAM;
-		keywords = C_KEYWORDS;
-		clickAndScript = C_CLICK_AND_SCRIPT_KEYWORDS;
+		super(mode, scriptName, verbose,
+				HEADER + C_REGEX,
+				C_TRANSACTION_START,
+				C_TRANSACTION_END,
+				C_KEYWORDS,
+				C_CLICK_AND_SCRIPT_KEYWORDS,
+				C_PARAM);
 	}
 }
