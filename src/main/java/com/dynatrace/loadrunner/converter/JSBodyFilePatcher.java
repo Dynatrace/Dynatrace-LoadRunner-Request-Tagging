@@ -22,15 +22,12 @@ final class JSBodyFilePatcher extends AbstractBodyFilePatcher {
 	private static final Set<String> JS_KEYWORDS = Sets.union(JS_CLICK_AND_SCRIPT_KEYWORDS, JS_REQUEST_KEYWORDS);
 
 	JSBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
-		super(mode, scriptName, verbose);
-	}
-
-	protected void initialize() {
-		regex = HEADER + JS_REGEX;
-		transactionStart = JS_TRANSACTION_START;
-		transactionEnd = JS_TRANSACTION_END;
-		param = JS_PARAM;
-		keywords = JS_KEYWORDS;
-		clickAndScript = JS_CLICK_AND_SCRIPT_KEYWORDS;
+		super(mode, scriptName, verbose,
+				HEADER + JS_REGEX,
+				JS_TRANSACTION_START,
+				JS_TRANSACTION_END,
+				JS_KEYWORDS,
+				JS_CLICK_AND_SCRIPT_KEYWORDS,
+				JS_PARAM);
 	}
 }

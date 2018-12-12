@@ -20,40 +20,49 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	private final String scriptName;
 
 	static final String HEADER = Constants.DT_HEADER;
-	String regex;
-	String transactionStart;
-	String transactionEnd;
-	Set<String> keywords;
-	Set<String> clickAndScript;
-	char param;
+	private final String regex;
+	private final String transactionStart;
+	private final String transactionEnd;
+	private final Set<String> keywords;
+	private final Set<String> clickAndScript;
+	private final char param;
 
 	private final List<String> transactionNames = Lists.newArrayList();
+	private String currentTransactionName = "";
 
-	AbstractBodyFilePatcher(Mode mode, String scriptName, boolean verbose) {
+	AbstractBodyFilePatcher(Mode mode, String scriptName, boolean verbose, String regex, String transactionStart,
+			String transactionEnd, Set<String> keywords, Set<String> clickAndScript, char param) {
 		super(mode, verbose);
 		this.scriptName = scriptName;
-		initialize();
+		this.regex = regex;
+		this.transactionStart = transactionStart;
+		this.transactionEnd = transactionEnd;
+		this.keywords = keywords;
+		this.clickAndScript = clickAndScript;
+		this.param = param;
 	}
-
-	protected abstract void initialize();
 
 	protected boolean patch(File sourceFile, File targetFile) throws IOException {
 		try (
 				BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
 				PrintWriter writer = new PrintWriter(targetFile)
 		) {
-			if(verbose) {
+			if (verbose) {
 				System.out.printf("Patching file: %s%n", sourceFile.getAbsolutePath());
 			}
+			transactionNames.clear();
 			FileScanner scanner = new FileScanner(reader);
 			scanner.initialize();
 			parseFile(scanner, writer);
+			if(verbose && !transactionNames.isEmpty()) {
+				System.out.printf("Some transactions possibly left open: %s%n", transactionNames.toString());
+			}
 		}
 		return true;
 	}
 
 	private void parseFile(FileScanner scanner, PrintWriter writer) {
-		if(verbose) {
+		if (verbose) {
 			System.out.println("parsing...");
 		}
 		switch (mode) {
@@ -70,7 +79,7 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 		default:
 			throw new UnsupportedOperationException("Unknown patch mode: " + mode);
 		}
-		if(verbose) {
+		if (verbose) {
 			System.out.println("... parsing done");
 		}
 	}
@@ -78,9 +87,26 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 	private void handleInsert(FileScanner scanner, PrintWriter writer) {
 		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
 		if (scanner.modifiedInstructionContains(transactionStart)) {
-			transactionNames.add(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
+			String transactionName = BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite.substring(instructionToWrite.indexOf(transactionStart)), param).trim();
+			if (StringUtils.isNotBlank(transactionName)) {
+				currentTransactionName = transactionName;
+				transactionNames.add(transactionName);
+			}
 		} else if (scanner.modifiedInstructionContains(transactionEnd)) {
-			transactionNames.remove(BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite, param));
+			String transactionName = BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite.substring(instructionToWrite.indexOf(transactionEnd)), param).trim();
+			if (StringUtils.isNotBlank(transactionName)) {
+				if (verbose && !isCurrentTransaction(transactionName)) {
+					if(currentTransactionName.isEmpty()) {
+						System.out.printf("Invalid '%s', trying to end transaction '%s' which wasn't started yet, or is already closed%n",
+								transactionEnd, transactionName);
+					} else {
+						System.out.printf("Invalid '%s', trying to end transaction '%s' while current transaction is '%s'%n",
+								transactionEnd, transactionName, currentTransactionName);
+					}
+				}
+				transactionNames.remove(transactionName);
+				currentTransactionName = transactionNames.isEmpty() ? "" : transactionNames.get(transactionNames.size() - 1);
+			}
 		} else {
 			String keyword = processKeywords(scanner.getModifiedInstruction().toString());
 			if (StringUtils.isNotBlank(keyword)) {
@@ -91,6 +117,10 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 			}
 		}
 		writer.write(instructionToWrite);
+	}
+
+	private boolean isCurrentTransaction(String transactionName) {
+		return currentTransactionName.equalsIgnoreCase(transactionName);
 	}
 
 	private void handleDelete(FileScanner scanner, PrintWriter writer) {

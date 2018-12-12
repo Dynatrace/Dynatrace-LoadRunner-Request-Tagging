@@ -47,6 +47,19 @@ public class FileScannerTest {
 	}
 
 	@Test
+	public void skipBlockCommentWithLineCommentInsideTest() {
+		String expectedModifiedString = "Testingreadingaline;";
+		String skipCommentString = "Testing/*\n* this\n* should\n* be\n* skipped\n//including line comment nested*/ reading a line;";
+		Reader inputString = new StringReader(skipCommentString);
+		BufferedReader reader = new BufferedReader(inputString);
+		FileScanner scanner = new FileScanner(reader);
+		scanner.initialize();
+		scanner.goToNextInstruction();
+		assertEquals(expectedModifiedString, scanner.getModifiedInstruction().toString());
+		assertEquals(skipCommentString, scanner.getUnmodifiedInstruction().toString());
+	}
+
+	@Test
 	public void skipLineCommentTest() {
 		String expectedModifiedString = "ThiswilltestNewline;";
 		String lineCommentString = "This will test //line comment\nNew line;";

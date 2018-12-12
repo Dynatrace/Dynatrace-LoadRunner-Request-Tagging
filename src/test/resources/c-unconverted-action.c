@@ -10,7 +10,12 @@ Action()
 	web_add_cookie("dtSa=-; DOMAIN=localhost");
 
 	web_add_cookie("rxvt=1530536081459|1530534276697; DOMAIN=localhost");
-	
+
+    // web_url("WRONG_PARAMETER", "URL=https://something.com/", "TargetFrame=", "Resource=0", "RecContentType=text/html");
+    lr_start_transaction("GlobalTransaction");
+
+    lr_start_transaction("InitialTransaction");
+
 	web_url("localhost:8079", 
 		"URL=http://localhost:8079/", 
 		"Resource=0", 
@@ -125,6 +130,8 @@ Action()
 		"Name=javax.faces.partial.ajax", "Value=true", ENDITEM, 
 		LAST);
 
+    lr_end_transaction("InitialTransaction", 2);
+
 	web_url("widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html", 
 		"URL=https://platform.twitter.com/widgets/widget_iframe.bed9e19e565ca3b578705de9e73c29ed.html?origin=http%3A%2F%2Flocalhost%3A8079&settingsEndpoint=https%3A%2F%2Fsyndication.twitter.com%2Fsettings", 
 		"Resource=0", 
@@ -171,6 +178,8 @@ Action()
 		"Snapshot=t9.inf", 
 		"Mode=HTML", 
 		LAST);
+
+    lr_end_transaction("GlobalTransaction", 2);
 
 	/*Possible OAUTH authorization was detected. It is recommended to correlate the authorization parameters.*/
 
@@ -1326,6 +1335,6 @@ Action()
 		"Snapshot=t92.inf", 
 		"Mode=HTML", 
 		LAST);
-	
+
 	return 0;
 }

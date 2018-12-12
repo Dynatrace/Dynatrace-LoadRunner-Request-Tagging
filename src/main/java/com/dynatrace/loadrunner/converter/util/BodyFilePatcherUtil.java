@@ -84,14 +84,14 @@ public class BodyFilePatcherUtil {
 		return index;
 	}
 
-	public static String getFirstStringParameter(String instruction, char stringParameter) {
+	public static String getFirstStringParameter(String instruction, char stringDelimiter) {
 		StringBuilder builder = new StringBuilder();
-		int i = instruction.indexOf(stringParameter) + 1;
+		int i = instruction.indexOf(stringDelimiter) + 1;
 		if (i == 0)
 			return "";
-		char ch = instruction.charAt(i++), old = stringParameter;
+		char ch = instruction.charAt(i++), old = stringDelimiter;
 		while (i < instruction.length()) {
-			if (ch == stringParameter && old != Constants.BACKSLASH)
+			if (ch == stringDelimiter && old != Constants.BACKSLASH)
 				break;
 			builder.append(ch);
 			old = ch;
