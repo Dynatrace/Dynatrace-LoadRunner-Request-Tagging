@@ -58,6 +58,7 @@ see also <a href="https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagg
 
 |Version|Description                            |
 |:------|:--------------------------------------|
+|[1.1.3](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.2)  |Fixing reported issues|
 |[1.1.2](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.2)  |Fixing reported issues|
 |[1.1.1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.1)  |`-verbose` option added<br/>Fixing reported issues|
 |[1.1.0](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.0)  |Covering full JavaScript support<br/>Cleaning up the source code<br/>Fixing reported issues|
