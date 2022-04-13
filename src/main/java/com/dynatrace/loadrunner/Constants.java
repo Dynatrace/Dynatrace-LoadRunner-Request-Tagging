@@ -1,5 +1,8 @@
 package com.dynatrace.loadrunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Constants {
 
 	public static final String DT_HEADER = "addDynatraceHeaderTest";
@@ -22,6 +25,19 @@ public final class Constants {
 	public static final char WHITESPACE = ' ';
 	public static final char TAB = '\t';
 	public static final char HASH = '#';
+
+	public static final List<Character> ESCAPE_SEQUENCES = new ArrayList();
+
+	static {
+		ESCAPE_SEQUENCES.add(BACKSLASH);
+		ESCAPE_SEQUENCES.add(DOUBLE_QUOTE);
+		ESCAPE_SEQUENCES.add(SINGLE_QUOTE);
+		ESCAPE_SEQUENCES.add('t');
+		ESCAPE_SEQUENCES.add('b');
+		ESCAPE_SEQUENCES.add('n');
+		ESCAPE_SEQUENCES.add('r');
+		ESCAPE_SEQUENCES.add('f');
+	}
 
 	private Constants() {
 		// prevent creation
