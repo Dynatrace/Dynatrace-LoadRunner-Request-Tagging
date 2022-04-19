@@ -21,7 +21,6 @@ class FileScanner {
 	private char thirdChar;
 
 	private char currentStringDelimiter;
-	private boolean backSlashState = false;
 
 	FileScanner(BufferedReader reader) {
 		this.reader = reader;
@@ -47,7 +46,7 @@ class FileScanner {
 			if (foundInstruction()) {
 				break;
 			}
-			handleEscapeSeq();
+			skipEscapeSequence();
 			processStringLiteral();
 			processComment();
 			processWhitespace();
@@ -65,15 +64,13 @@ class FileScanner {
 		return firstChar == EOF;
 	}
 
-	private void handleEscapeSeq() {
-		if(!backSlashState) {
-			if(firstChar == Constants.BACKSLASH) {
-				backSlashState = true;
-			}
-		} else {
-			if(Constants.ESCAPE_SEQUENCES.contains(firstChar)) {
-				backSlashState = false;
-			}
+	private void skipEscapeSequence() {
+		if (firstChar == Constants.BACKSLASH) {
+			append(firstChar);
+			getChar();
+			append(firstChar);
+			getChar();
+			skipEscapeSequence();
 		}
 	}
 
@@ -99,8 +96,7 @@ class FileScanner {
 	}
 
 	private void processStringLiteral() {
-		if ((firstChar == Constants.DOUBLE_QUOTE || firstChar == Constants.SINGLE_QUOTE)
-				&& !backSlashState) {
+		if ((firstChar == Constants.DOUBLE_QUOTE || firstChar == Constants.SINGLE_QUOTE)) {
 			if(outsideString()) { // step into String value
 				currentStringDelimiter = firstChar;
 			} else if(currentStringDelimiter == firstChar) { // jump out of String value only when the same delimiter occurs

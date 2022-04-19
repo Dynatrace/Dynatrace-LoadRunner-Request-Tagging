@@ -58,6 +58,7 @@ see also <a href="https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagg
 
 |Version|Description                            |
 |:------|:--------------------------------------|
+|[1.1.4](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.4)  |Fix related to escape sequences occurring in series|
 |[1.1.3](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.3)  |Fixing header not being added due to escape characters|
 |[1.1.2](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.2)  |Fixing reported issues|
 |[1.1.1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.1)  |`-verbose` option added<br/>Fixing reported issues|
