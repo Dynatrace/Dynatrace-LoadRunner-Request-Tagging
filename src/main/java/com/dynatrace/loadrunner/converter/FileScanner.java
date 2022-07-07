@@ -13,6 +13,8 @@ class FileScanner {
 	private final BufferedReader reader;
 	private final StringBuilder modifiedInstruction;
 	private final StringBuilder unmodifiedInstruction;
+
+	private final StringBuilder unmodifiedInstructionWithoutComments;
 	private final StringBuilder whiteSpace;
 	private final StringBuilder newWhiteSpace;
 
@@ -26,6 +28,7 @@ class FileScanner {
 		this.reader = reader;
 		modifiedInstruction = new StringBuilder();
 		unmodifiedInstruction = new StringBuilder();
+		unmodifiedInstructionWithoutComments = new StringBuilder();
 		whiteSpace = new StringBuilder();
 		newWhiteSpace = new StringBuilder();
 	}
@@ -118,6 +121,7 @@ class FileScanner {
 			modifiedInstruction.append(character);
 		}
 		unmodifiedInstruction.append(character);
+		unmodifiedInstructionWithoutComments.append(character);
 	}
 
 	private String readBlockComment() {
@@ -195,9 +199,12 @@ class FileScanner {
 		return unmodifiedInstruction;
 	}
 
+	StringBuilder getUnmodifiedInstructionWithoutComments() { return unmodifiedInstructionWithoutComments; }
+
 	private void cleanBuffer() {
 		modifiedInstruction.setLength(0);
 		unmodifiedInstruction.setLength(0);
+		unmodifiedInstructionWithoutComments.setLength(0);
 		whiteSpace.setLength(0);
 		currentStringDelimiter = NULL;
 	}

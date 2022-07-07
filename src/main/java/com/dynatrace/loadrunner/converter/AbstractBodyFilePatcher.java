@@ -86,14 +86,15 @@ abstract class AbstractBodyFilePatcher extends AbstractFilePatcher {
 
 	private void handleInsert(FileScanner scanner, PrintWriter writer) {
 		String instructionToWrite = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstruction().toString());
+		String instructionsWithoutComments = BodyFilePatcherUtil.removeEOF(scanner.getUnmodifiedInstructionWithoutComments().toString());
 		if (scanner.modifiedInstructionContains(transactionStart)) {
-			String transactionName = BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite.substring(instructionToWrite.indexOf(transactionStart)), param).trim();
+			String transactionName = BodyFilePatcherUtil.getFirstStringParameter(instructionsWithoutComments.substring(instructionsWithoutComments.indexOf(transactionStart)), param).trim();
 			if (StringUtils.isNotBlank(transactionName)) {
 				currentTransactionName = transactionName;
 				transactionNames.add(transactionName);
 			}
 		} else if (scanner.modifiedInstructionContains(transactionEnd)) {
-			String transactionName = BodyFilePatcherUtil.getFirstStringParameter(instructionToWrite.substring(instructionToWrite.indexOf(transactionEnd)), param).trim();
+			String transactionName = BodyFilePatcherUtil.getFirstStringParameter(instructionsWithoutComments.substring(instructionsWithoutComments.indexOf(transactionEnd)), param).trim();
 			if (StringUtils.isNotBlank(transactionName)) {
 				if (verbose && !isCurrentTransaction(transactionName)) {
 					if(currentTransactionName.isEmpty()) {

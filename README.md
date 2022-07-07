@@ -56,11 +56,12 @@ SLAs apply according to the customer's support level.
 
 see also <a href="https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases" target="_blank">all the available releases</a>
 
-|Version|Description                            |
-|:------|:--------------------------------------|
-|[1.1.4](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.4)  |Fix related to escape sequences occurring in series|
-|[1.1.3](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.3)  |Fixing header not being added due to escape characters|
-|[1.1.2](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.2)  |Fixing reported issues|
-|[1.1.1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.1)  |`-verbose` option added<br/>Fixing reported issues|
-|[1.1.0](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.0)  |Covering full JavaScript support<br/>Cleaning up the source code<br/>Fixing reported issues|
-|[pre release 1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/pre-release-1)|Initial release|
+| Version                                                                                                       | Description                                                                                 |
+|:--------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------|
+| [1.1.5](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.5)                | Transaction names being appended when inside comment                                        |
+| [1.1.4](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.4)                | Fix related to escape sequences occurring in series                                         |
+| [1.1.3](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.3)                | Fixing header not being added due to escape characters                                      |
+| [1.1.2](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.2)                 | Fixing reported issues                                                                      |
+| [1.1.1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.1)                 | `-verbose` option added<br/>Fixing reported issues                                          |
+| [1.1.0](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/1.1.0)                 | Covering full JavaScript support<br/>Cleaning up the source code<br/>Fixing reported issues |
+| [pre release 1](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/pre-release-1) | Initial release                                                                             |
