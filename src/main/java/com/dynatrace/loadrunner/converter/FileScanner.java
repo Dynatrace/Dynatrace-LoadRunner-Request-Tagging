@@ -89,9 +89,11 @@ class FileScanner {
 			switch (firstChar) {
 			case Constants.ASTERISK:
 				unmodifiedInstruction.append(readBlockComment());
+				processComment();
 				return;
 			case Constants.SLASH:
 				unmodifiedInstruction.append(readToLineEnd());
+				processComment();
 				return;
 			}
 			append(secondChar);
