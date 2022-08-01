@@ -58,6 +58,7 @@ see also <a href="https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagg
 
 | Version                                                                                                       | Description                                                                                 |
 |:--------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------|
+| [1.1.6](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.6)                | Transaction names being appended when inside comment. Handling line comments series.        |
 | [1.1.5](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.5)                | Transaction names being appended when inside comment                                        |
 | [1.1.4](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.4)                | Fix related to escape sequences occurring in series                                         |
 | [1.1.3](https://github.com/Dynatrace/Dynatrace-LoadRunner-Request-Tagging/releases/tag/v1.1.3)                | Fixing header not being added due to escape characters                                      |
